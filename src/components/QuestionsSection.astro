@@ -1,0 +1,19 @@
+---
+const questions = [
+	'Why do institutions struggle to support caregivers?',
+	'What happens when AI automates judgment instead of labor?',
+	'Why are communities getting harder to build?',
+	'What kinds of technical systems help people flourish?',
+];
+---
+
+<section class="reveal mb-20 rounded-md border border-border bg-peach/25 px-6 py-10 md:mb-28 md:px-10 md:py-14">
+	<h2 class="mb-8">Questions I'm Exploring</h2>
+	<div class="mx-auto max-w-3xl space-y-6">
+		{
+			questions.map((question) => (
+				<p class="font-serif text-lg leading-relaxed md:text-xl">{question}</p>
+			))
+		}
+	</div>
+</section>

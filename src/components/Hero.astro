@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Button from './Button.astro';
+import NavLink from './NavLink.astro';
+import headshot from '../assets/headshot-cropped.jpg';
+---
+
+<section class="mb-12 grid gap-6 md:mb-28 md:grid-cols-2 md:items-center md:gap-12 lg:gap-16">
+	<div class="hero-fade-up">
+		<div class="mb-4 flex items-start gap-4 md:mb-0">
+			<Image
+				src={headshot}
+				alt=""
+				class="h-20 w-20 shrink-0 rounded-md border border-peach/40 object-cover md:hidden"
+				width={2046}
+				height={2046}
+				loading="eager"
+				aria-hidden="true"
+			/>
+			<div>
+				<h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">Hi, I'm Becca.</h1>
+				<p
+					class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-snug text-text md:mb-6 md:text-2xl"
+				>
+					I write about technology, community, and the systems that shape everyday life.
+				</p>
+			</div>
+		</div>
+		<p class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-8 text-text-muted">
+			I'm a software engineer, writer, and former music teacher living in Seattle. After a decade
+			building web platforms, design systems, developer tools, and AI-enabled products, I'm
+			increasingly interested in how the systems we build shape the people who live inside them.
+		</p>
+		<div
+			class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6"
+		>
+			<Button href="/writing">Read my writing</Button>
+			<NavLink href="/working" context="body" class="font-sans text-base no-underline hover:underline">
+				See my work
+			</NavLink>
+		</div>
+	</div>
+
+	<div
+		class="hero-fade-up hero-fade-up-delay-3 relative hidden aspect-square w-80 justify-self-end md:block lg:w-96"
+	>
+		<div class="absolute -inset-1.5 -z-10 rounded-md bg-peach/20" aria-hidden="true"></div>
+		<Image
+			src={headshot}
+			alt="Headshot of Becca Bailey"
+			class="relative h-full w-full rounded-md border border-peach/40 object-cover"
+			width={2046}
+			height={2046}
+			loading="eager"
+		/>
+	</div>
+</section>

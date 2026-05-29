@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import { formatDate, getPublishedProjects } from '@/lib/content';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const projects = await getPublishedProjects('making');
+	return projects.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+interface Props {
+	entry: Awaited<ReturnType<typeof getPublishedProjects>>[number];
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, featuredImage, pubDate } = entry.data;
+---
+
+<ProseLayout
+	title={`${title} — Becca Bailey`}
+	description={description}
+	backHref="/making-things"
+	backLabel="Making things"
+>
+	<header slot="header" class="mb-8">
+		<Image
+			src={featuredImage}
+			alt=""
+			class="mb-6 aspect-[16/10] w-full rounded-md border border-border object-cover"
+			width={960}
+			height={600}
+		/>
+		{
+			pubDate && (
+				<time datetime={pubDate.toISOString()} class="mb-2 block font-sans text-sm text-text-muted">
+					{formatDate(pubDate)}
+				</time>
+			)
+		}
+		<h1 class="mb-2">{title}</h1>
+		<p class="text-text-muted">{description}</p>
+	</header>
+	<Content />
+</ProseLayout>

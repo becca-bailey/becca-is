@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import { getPublishedProjects } from '@/lib/content';
+
+const projects = await getPublishedProjects('making');
+---
+
+<Layout
+	title="Making Things — Becca Bailey"
+	description="Knitting, upholstery, gardening, illustration, and other attempts to leave the world a little more beautiful."
+>
+	<h1 class="mb-4">Making Things</h1>
+	<p class="reveal mb-10 max-w-prose text-text-muted">
+		Knitting, upholstery, gardening, illustration, and other attempts to leave the world a little
+		more beautiful than I found it.
+	</p>
+
+	{
+		projects.length > 0 ? (
+			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
+				{projects.map((entry) => (
+					<ProjectCard entry={entry} />
+				))}
+			</div>
+		) : (
+			<p class="text-text-muted">No projects published yet.</p>
+		)
+	}
+	<RevealScript />
+</Layout>

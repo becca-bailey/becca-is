@@ -1,0 +1,17 @@
+---
+import { cn } from '@/lib/utils';
+import { navLinkVariants } from '@/lib/variants';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
+	href: string;
+	context?: 'header' | 'mobile' | 'body';
+	class?: string;
+}
+
+const { href, context = 'body', class: className, ...rest } = Astro.props;
+---
+
+<a href={href} class={cn(navLinkVariants({ context }), className)} {...rest}>
+	<slot />
+</a>

@@ -1,0 +1,31 @@
+---
+import Layout from './Layout.astro';
+import RevealScript from '../components/RevealScript.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	backHref: string;
+	backLabel: string;
+}
+
+const { title, description, backHref, backLabel } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+	<article class="max-w-prose">
+		<p class="mb-6">
+			<a
+				href={backHref}
+				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+			>
+				&larr; {backLabel}
+			</a>
+		</p>
+		<slot name="header" />
+		<div class="prose">
+			<slot />
+		</div>
+	</article>
+	<RevealScript />
+</Layout>

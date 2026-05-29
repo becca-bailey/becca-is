@@ -1,0 +1,25 @@
+---
+import EssayCard from './EssayCard.astro';
+import { getFeaturedWriting } from '@/lib/content';
+
+const essays = await getFeaturedWriting(3);
+---
+
+<section class="reveal mb-12 md:mb-28">
+	<h2 class="mb-4">Featured Writing</h2>
+	<p class="editorial-prose mb-10 text-text-muted">
+		Essays about technology, work, care, community, and the systems that shape ordinary life.
+	</p>
+
+	{
+		essays.length > 0 ? (
+			<div class="reveal-stagger grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{essays.map((entry) => (
+					<EssayCard entry={entry} />
+				))}
+			</div>
+		) : (
+			<p class="text-text-muted">Featured essays coming soon.</p>
+		)
+	}
+</section>

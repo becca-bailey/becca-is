@@ -1,0 +1,22 @@
+---
+import { formatDate, type WritingEntry } from '@/lib/content';
+
+interface Props {
+	entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { title, description, pubDate } = entry.data;
+---
+
+<article class="rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20">
+	<time datetime={pubDate.toISOString()} class="mb-2 block font-sans text-sm text-text-muted">
+		{formatDate(pubDate)}
+	</time>
+	<h3 class="mb-2">
+		<a href={`/writing/${entry.id}`} class="text-text no-underline hover:underline">
+			{title}
+		</a>
+	</h3>
+	<p class="text-text-muted">{description}</p>
+</article>

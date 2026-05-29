@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WritingCard from '../../components/WritingCard.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import { getPublishedWriting } from '@/lib/content';
+
+const posts = await getPublishedWriting();
+---
+
+<Layout
+	title="Writing — Becca Bailey"
+	description="Essays about technology, work, community, and the systems that shape everyday life."
+>
+	<h1 class="mb-4">Writing</h1>
+	<p class="reveal mb-10 max-w-prose text-text-muted">
+		Essays about technology, work, community, and the systems that shape everyday life.
+	</p>
+
+	{
+		posts.length > 0 ? (
+			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
+				{posts.map((entry) => (
+					<WritingCard entry={entry} />
+				))}
+			</div>
+		) : (
+			<p class="text-text-muted">No essays published yet.</p>
+		)
+	}
+	<RevealScript />
+</Layout>

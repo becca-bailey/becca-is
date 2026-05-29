@@ -1,0 +1,31 @@
+---
+import { type WritingEntry } from '@/lib/content';
+
+interface Props {
+	entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { title, description, category } = entry.data;
+const href = `/writing/${entry.id}`;
+---
+
+<article class="group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20">
+	{
+		category && (
+			<p class="mb-3 font-sans text-sm font-medium text-text-muted">{category}</p>
+		)
+	}
+	<h3 class="mb-3">
+		<a href={href} class="text-text no-underline group-hover:underline">
+			{title}
+		</a>
+	</h3>
+	<p class="mb-6 flex-1 text-text-muted">{description}</p>
+	<a
+		href={href}
+		class="font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+	>
+		Read essay &rarr;
+	</a>
+</article>

@@ -1,0 +1,18 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	href: string;
+	linkLabel: string;
+}
+
+const { title, description, href, linkLabel } = Astro.props;
+---
+
+<section class="reveal mb-16">
+	<h2 class="mb-3">{title}</h2>
+	<p class="mb-4 max-w-prose text-text-muted">{description}</p>
+	<Button variant="text" href={href}>{linkLabel} &rarr;</Button>
+</section>

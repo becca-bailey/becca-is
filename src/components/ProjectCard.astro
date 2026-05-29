@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import { projectUrl, type ProjectEntry } from '@/lib/content';
+
+interface Props {
+	entry: ProjectEntry;
+}
+
+const { entry } = Astro.props;
+const { title, description, category, featuredImage } = entry.data;
+const href = projectUrl(category, entry.id);
+---
+
+<article class="overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-peach/20">
+	<a href={href} class="block no-underline">
+		<Image
+			src={featuredImage}
+			alt=""
+			class="aspect-[16/10] w-full object-cover"
+			width={640}
+			height={400}
+		/>
+		<div class="p-6">
+			<h3 class="mb-2 text-text">{title}</h3>
+			<p class="text-text-muted">{description}</p>
+		</div>
+	</a>
+</article>

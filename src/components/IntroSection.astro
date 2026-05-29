@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import coffee from '../assets/coffee.png';
+---
+
+<section class="reveal mb-16">
+	<div class="flex flex-col items-center gap-8 md:flex-row md:items-center md:gap-10">
+		<Image
+			src={coffee}
+			alt=""
+			class="doodle-image w-28 shrink-0 md:w-32 lg:w-36"
+			width={160}
+			height={160}
+		/>
+		<div class="max-w-prose space-y-4">
+			<p>
+				Over the last decade I've built web applications, design systems, developer platforms,
+				and AI-enabled products. Along the way I've become increasingly interested in a different
+				set of questions:
+			</p>
+			<ul class="list-inside list-disc space-y-2 pl-2">
+				<li>How do systems shape human behavior?</li>
+				<li>Why do some communities thrive while others struggle?</li>
+				<li>What kinds of work help people flourish?</li>
+			</ul>
+			<p>
+				Those questions show up everywhere—in software teams, workplaces, churches, neighborhoods,
+				families, and the technologies we build.
+			</p>
+			<p>
+				This site is a home for my writing, technical work, and creative projects. You'll find
+				essays about technology and society, notes on engineering leadership, experiments in making
+				things by hand, and occasional reflections on parenthood, community, and the messy process
+				of figuring out how to live well.
+			</p>
+		</div>
+	</div>
+</section>
