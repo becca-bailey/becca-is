@@ -2,31 +2,22 @@
 import { Image } from 'astro:assets';
 import Button from './Button.astro';
 import NavLink from './NavLink.astro';
-import headshot from '../assets/headshot-cropped.jpg';
+import headshot from '../assets/headshot.jpg';
 ---
 
-<section class="mb-12 grid gap-6 md:mb-28 md:grid-cols-2 md:items-center md:gap-12 lg:gap-16">
+<section
+	class="mb-10 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-start md:gap-10 lg:gap-12"
+>
 	<div class="hero-fade-up">
-		<div class="mb-4 flex items-start gap-4 md:mb-0">
-			<Image
-				src={headshot}
-				alt=""
-				class="h-20 w-20 shrink-0 rounded-md border border-peach/40 object-cover md:hidden"
-				width={2046}
-				height={2046}
-				loading="eager"
-				aria-hidden="true"
-			/>
-			<div>
-				<h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">Hi, I'm Becca.</h1>
-				<p
-					class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-snug text-text md:mb-6 md:text-2xl"
-				>
-					I write about technology, community, and the systems that shape everyday life.
-				</p>
-			</div>
-		</div>
-		<p class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-8 text-text-muted">
+		<h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">Hi, I'm Becca.</h1>
+		<p
+			class="hero-fade-up hero-fade-up-delay-2 editorial-prose mb-4 font-sans text-lg font-medium leading-relaxed text-text md:text-xl"
+		>
+			I write about technology, community, and the systems that shape everyday life.
+		</p>
+		<p
+			class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
+		>
 			I'm a software engineer, writer, and former music teacher living in Seattle. After a decade
 			building web platforms, design systems, developer tools, and AI-enabled products, I'm
 			increasingly interested in how the systems we build shape the people who live inside them.
@@ -42,15 +33,15 @@ import headshot from '../assets/headshot-cropped.jpg';
 	</div>
 
 	<div
-		class="hero-fade-up hero-fade-up-delay-3 relative hidden aspect-square w-80 justify-self-end md:block lg:w-96"
+		class="hero-fade-up hero-fade-up-delay-3 relative mx-auto aspect-[4/5] w-full max-w-[14rem] self-start sm:max-w-[16rem] md:mx-0 md:w-72 md:max-w-none md:justify-self-end"
 	>
 		<div class="absolute -inset-1.5 -z-10 rounded-md bg-peach/20" aria-hidden="true"></div>
 		<Image
 			src={headshot}
 			alt="Headshot of Becca Bailey"
-			class="relative h-full w-full rounded-md border border-peach/40 object-cover"
-			width={2046}
-			height={2046}
+			class="relative h-full w-full rounded-md border border-peach/40 object-cover object-[center_35%]"
+			width={800}
+			height={1000}
 			loading="eager"
 		/>
 	</div>
