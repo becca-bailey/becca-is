@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { date } = Astro.props;
-const label = date ? `note · ${date}` : 'note';
+const label = date ? `Author\'s note · ${date}` : 'Author\'s note';
 ---
 
 <aside class="margin-note" aria-label={label}>
