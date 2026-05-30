@@ -159,6 +159,10 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply overflow-hidden rounded-md border border-blue/40;
 }
 
+.section-doodle {
+	@apply shrink-0 rounded-full object-contain p-1;
+}
+
 .editorial-prose {
 	max-width: 42rem;
 }
@@ -229,12 +233,32 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .margin-note {
-	@apply my-6 rounded-md border border-border/80 bg-background px-4 py-3 text-sm leading-relaxed;
+	@apply my-6 rounded-md border border-border/80 bg-peach/10 px-4 py-3;
+}
+
+.margin-note-label {
+	@apply mb-2;
+}
+
+.margin-note-body {
+	@apply font-sans text-sm leading-relaxed;
+}
+
+.margin-note-body > :first-child {
+	margin-top: 0;
+}
+
+.margin-note-body ul {
+	@apply my-3 list-outside list-disc space-y-2 pl-4;
+}
+
+.margin-note-body p + ul {
+	@apply mt-2;
 }
 
 @media (min-width: 1024px) {
 	.essay-prose .margin-note {
-		@apply float-right clear-right -mr-4 mb-4 ml-6 max-w-[11rem] border-peach bg-peach/15;
+		@apply float-right clear-right -mr-4 mb-4 ml-6 max-w-[14rem] rounded-none border-0 border-l-2 border-peach bg-transparent py-1 pl-4;
 	}
 }
 
@@ -243,7 +267,12 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .essay-figure-credit {
-	@apply mt-2;
+	@apply mt-2 text-center;
+}
+
+.essay-figure-credit p {
+	display: inline;
+	margin: 0;
 }
 
 .essay-figure-credit a {
@@ -255,7 +284,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .essay-dek {
-	@apply text-lg leading-[1.75] text-text;
+	@apply mt-5 font-sans text-lg leading-[1.75] text-text-muted;
 }
 
 .essay-divider {

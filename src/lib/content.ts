@@ -98,7 +98,9 @@ function sortProjectsByDate(entries: ProjectEntry[]) {
 	});
 }
 
-export async function getPublishedProjects(category?: 'technical' | 'making') {
+export async function getPublishedProjects(
+	category?: 'technical' | 'making' | 'digital-illustration',
+) {
 	const entries = await getCollection('projects');
 	return sortProjectsByDate(
 		entries

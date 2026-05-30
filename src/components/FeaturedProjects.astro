@@ -1,22 +1,24 @@
 ---
 import ProjectCard from './ProjectCard.astro';
+import SectionHeader from './SectionHeader.astro';
+import lucy from '../assets/lucy.png';
 import { getFeaturedProjects } from '@/lib/content';
 
 const projects = await getFeaturedProjects(3);
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<h2 class="mb-4">Projects</h2>
-	<p class="editorial-prose mb-10 text-text-muted">
-		Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them
-		reflect things I care about: thoughtful design, careful execution, and making things that last.
-	</p>
+	<SectionHeader
+		title="Projects"
+		intro="Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them reflect things I care about: thoughtful design, careful execution, and making things that last."
+		image={lucy}
+	/>
 
 	{
 		projects.length > 0 ? (
 			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
 				{projects.map((entry) => (
-					<ProjectCard entry={entry} />
+					<ProjectCard entry={entry} variant="featured" />
 				))}
 			</div>
 		) : (

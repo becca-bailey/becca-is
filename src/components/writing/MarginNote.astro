@@ -4,14 +4,13 @@ interface Props {
 }
 
 const { date } = Astro.props;
+const label = date ? `note · ${date}` : 'note';
 ---
 
-<aside class="margin-note" aria-label={date ? `Margin note, ${date}` : 'Margin note'}>
-	{date && (
-		<p class="margin-note-label font-sans text-xs font-medium tracking-wide uppercase text-text-muted">
-			Margin note · {date}
-		</p>
-	)}
+<aside class="margin-note" aria-label={label}>
+	<p class="margin-note-label font-sans text-xs font-medium tracking-wide uppercase text-text-muted">
+		{label}
+	</p>
 	<div class="margin-note-body text-text-muted">
 		<slot />
 	</div>

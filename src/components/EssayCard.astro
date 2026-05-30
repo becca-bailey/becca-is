@@ -3,7 +3,7 @@ import { formatDate, getDisplayDate, truncateExcerpt, type WritingEntry } from '
 
 interface Props {
 	entry: WritingEntry;
-	variant?: 'card' | 'list';
+	variant?: 'card' | 'list' | 'cover';
 }
 
 const { entry, variant = 'card' } = Astro.props;
@@ -16,6 +16,10 @@ const listClasses =
 	'group flex flex-col gap-2 border-b border-border pb-6 last:border-b-0 last:pb-0';
 const cardClasses =
 	'group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20';
+const coverClasses =
+	'group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20 md:p-8';
+const readLinkClasses =
+	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 {
@@ -32,6 +36,25 @@ const cardClasses =
 			{subtitle && <p class="font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
 			<p class="text-text-muted">{description}</p>
 		</article>
+	) : variant === 'cover' ? (
+		<article class={coverClasses}>
+			<time datetime={displayDate.toISOString()} class="mb-6 block font-sans text-sm text-text-muted">
+				{formatDate(displayDate)}
+			</time>
+			<div class="flex flex-1 flex-col justify-center">
+				<h3 class="mb-3 leading-snug">
+					<a href={href} class="text-text no-underline group-hover:underline">
+						{title}
+					</a>
+				</h3>
+				{subtitle && (
+					<p class="font-sans text-sm font-medium tracking-wide text-text-muted">{subtitle}</p>
+				)}
+			</div>
+			<a href={href} class={`mt-8 ${readLinkClasses}`}>
+				Read essay &rarr;
+			</a>
+		</article>
 	) : (
 		<article class={cardClasses}>
 			<time datetime={displayDate.toISOString()} class="mb-3 block font-sans text-sm text-text-muted">
@@ -44,10 +67,7 @@ const cardClasses =
 			</h3>
 			{subtitle && <p class="mb-2 font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
 			<p class="mb-6 flex-1 text-text-muted">{cardExcerpt}</p>
-			<a
-				href={href}
-				class="font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
-			>
+			<a href={href} class={readLinkClasses}>
 				Read essay &rarr;
 			</a>
 		</article>
