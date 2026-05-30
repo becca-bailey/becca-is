@@ -1,7 +1,7 @@
 ---
 title: "Resilience Is a Systems Problem"
 subtitle: "Why grit isn't enough"
-description: "After a project failed during the chaos of 2020, I went looking for personal explanations and found something else: decades of resilience research that treats hardship as expected, not exceptional. This essay traces what protective factors are, why workplaces keep outsourcing disruption to individuals, and what ants, maintenance, and leaving music education taught me about adaptation versus grit. The question that interests me now is not how we become tough enough to endure any hardship — it is how we build communities where no one is asked to endure hardship alone."
+description: "After a project failed during the chaos of 2020, I went looking for personal explanations and found something else: decades of resilience research that treats hardship as expected, not exceptional. This essay traces what protective factors are, why workplaces keep outsourcing disruption to individuals, and what ants, mutual aid networks, and leaving music education taught me about adaptation versus grit."
 originalDate: 2022-11-15
 revisedDate: 2026-05-29
 status: revised
@@ -10,8 +10,6 @@ readingPaths:
 themes:
   - resilience
   - burnout
-  - institutions
-  - maintenance
 featured: true
 influences:
   - title: "Psychosocial Resilience and Protective Mechanisms"
@@ -36,19 +34,19 @@ import EssayFigure from "@/components/writing/EssayFigure.astro";
 import MarginNote from "@/components/writing/MarginNote.astro";
 import antsOnRock from "./ants-on-rock.png";
 
-In the beginning of 2020, I was working on a consulting team building a data dashboard for a large philanthropic organization. It was exciting work — deeply connected to global health initiatives, used by decision-makers trying to determine which interventions had the greatest chance of success. I was new to Seattle. A new city, a new job, and an interesting technical challenge had me feeling good about my life.
+In the beginning of 2020, I was working on a consulting team building a data dashboard for a large philanthropic organization. It was exciting work — deeply connected to global health initiatives, designed to be used by decision-makers trying to determine which interventions had the greatest chance of success. I was new to Seattle. A new city, a new job, and an interesting technical challenge had me feeling good about my work.
 
 Then things started to change.
 
 First, there was turnover in team leadership, leaving us with a much less experienced product lead. Then a global pandemic arrived, and everything about work changed. We went from traveling to different offices and working together several days a week to working remotely, juggling home life and childcare and worrying about the people we loved.
 
-And then in the middle of 2020, while we were still navigating a large and unfamiliar organization, the backend engineer who had been consulting on the project died unexpectedly. He left behind a wife, three children, and dependent parents. He also left behind a deployment process that no one else understood.
+And then in the middle of 2020, while we were still trying to get our bearings dealing with the enterprise software of a large organization, the backend engineer who had been consulting on the project died unexpectedly. He left behind a wife, three children, and dependent parents. He also left behind a deployment process that no one else understood.
 
 I was the tech lead. I found myself helping the team piece together the lost knowledge while also trying to process the grief of losing a colleague in the middle of an already chaotic year. His death exposed just how much of the system depended on one person.
 
 ---
 
-If you've spent time in the tech industry, you probably know how this story is supposed to end. The team digs deep, rallies together, works nights and weekends, overcomes every obstacle, delivers a successful product. Maybe writes a conference talk about it afterward.
+If you've spent time in the tech industry, you probably know how this story is supposed to end. The team rallies together, works nights and weekends, overcomes every obstacle, delivers a successful product. Maybe writes a conference talk about it afterward.
 
 That's not what happened. Eventually the team disbanded, and to my knowledge the product never shipped. At the time, I saw this as a personal failure. As the tech lead, I felt responsible.
 
@@ -58,29 +56,13 @@ That's what led me to start asking questions about resilience.
 
 ## The wrong question
 
-For a while, I was looking for personal explanations. Why had our team struggled so much? Why did it feel like everyone around me was exhausted? Why did so many of us feel like we were failing at things that had once seemed manageable?
+For a while, I was looking for personal explanations. Why had our team struggled so much? Why did it feel like everyone around me was burned out? Why did so many of us feel like we were failing at things that had once seemed manageable?
 
 Everywhere I looked, people were talking about resilience. Employers wanted resilient workers. Leaders wanted resilient teams. Articles promised ways to become more resilient through mindfulness, self-care, and stress management.
 
 But the more I read, the more I felt like we were asking the wrong question.
 
 My team hadn't failed because we lacked character. We had spent months working hard, adapting, pushing through difficult circumstances. The question wasn't why individuals weren't resilient enough. The question was whether we were expecting individuals to absorb challenges that no one could reasonably absorb alone.
-
-<MarginNote>
-
-One of the biggest discoveries to come out of my research on community resilience is the concept of resilience as a process, not an individual character trait. Dr. Michael Rutter made that point in his [1990 special report on psychosocial resilience and protective mechanisms](https://doi.org/10.1111/j.1939-0025.1987.tb03541.x).
-
-</MarginNote>
-
-## Protective factors
-
-One concept kept appearing across the resilience research: _protective factors_.
-
-Protective factors are what a person, group, or community puts in place before a crisis occurs. They don't prevent bad things from happening. They reduce the harm when bad things inevitably do.
-
-We understand this intuitively in other domains. Airplanes carry oxygen masks and flotation devices. Cities build levees and earthquake-resistant buildings. Families maintain emergency savings accounts.
-
-Protective factors are a recognition that adversity is not an exception. It is an inevitability. The goal is to make sure that when hardship arrives, no single person is forced to absorb the entire impact alone.
 
 <MarginNote>
 
@@ -94,7 +76,21 @@ In the past several years these definitions have been summarized as "positive ad
 
 </MarginNote>
 
+## Protective factors
+
+One concept kept appearing across the resilience research: _protective factors_.
+
+Protective factors are just a fancy term for harm reduction that is put in place before a crisis occurs. They don't prevent bad things from happening. They reduce the harm when bad things inevitably do. Airplanes carry oxygen masks and flotation devices. Cities build levees and earthquake-resistant buildings. Families maintain emergency savings accounts.
+
+**Protective factors are a recognition that adversity an inevitability, not an exception**. The goal is to make sure that when bad things happen, there is a plan for making things less bad.
+
 This framing felt very different from the resilience I encountered in the workplace — which almost always focused on individuals. _Can you manage stress? Can you stay productive under pressure? Can you push through without burning out?_
+
+<MarginNote>
+
+One of the biggest discoveries to come out of my research on community resilience is the concept of resilience as a process, not an individual character trait. Dr. Michael Rutter made that point in his [1990 special report on psychosocial resilience and protective mechanisms](https://doi.org/10.1111/j.1939-0025.1987.tb03541.x).
+
+</MarginNote>
 
 Protective factors ask a different set of questions.
 
@@ -102,7 +98,7 @@ _When a team loses a key employee, is there enough shared knowledge for the work
 _When someone takes parental leave, is there enough capacity for others to cover their responsibilities?_
 _When priorities change unexpectedly, does the team have enough flexibility to adapt?_
 
-These are not questions about individual strength. They are questions about the structure of the system itself.
+These are not questions about individual merit. They are questions about the structure of the system itself.
 
 ## The surplus workforce
 
@@ -110,8 +106,10 @@ These are not questions about individual strength. They are questions about the 
   src={antsOnRock}
   alt="A top-down photo of black ants crawling across a light, textured rock surface"
 >
-  Photo by <a href="https://unsplash.com/@sfkopstein">shraga kopstein</a> on{' '}
-  <a href="https://unsplash.com/photos/a-group-of-black-bugs-crawling-on-a-rock-8oht0WoqD8g">Unsplash</a>
+  Photo by <a href="https://unsplash.com/@sfkopstein">shraga kopstein</a> on{" "}
+  <a href="https://unsplash.com/photos/a-group-of-black-bugs-crawling-on-a-rock-8oht0WoqD8g">
+    Unsplash
+  </a>
 </EssayFigure>
 
 One of my favorite examples comes from an unlikely source: ants.
@@ -120,19 +118,19 @@ Biologist [Deborah Gordon](https://www.ted.com/talks/deborah_gordon_the_emergent
 
 This is why "take time off if you need it" so often fails in practice.
 
-When we tell people to take time off without providing meaningful coverage for their responsibilities, we aren't actually reducing stress. We're often increasing it. The work still exists. Someone still needs to do it. If employees are expected to prepare detailed handoff plans, monitor messages while away, and return to weeks of accumulated work, the system has not absorbed the disruption. The individual has.
+When we tell people to take time off without providing meaningful coverage for their responsibilities, we aren't actually reducing stress. We're often increasing it. The work still exists. Someone still needs to do it. If employees are expected to prepare detailed handoff plans, monitor messages while away, and return to weeks of accumulated work, that is not a resilient system. That is a stressed-out person.
 
 Looking back at my own project, I can see exactly where the protective factors were missing. We had ambitious goals but very little slack. We relied on specialized knowledge held by a small number of people. We were already operating near our limits before the pandemic arrived. When disruption came, there wasn't much room for the system to bend without breaking.
 
 ## Moving in the wrong direction
 
-When I first gave this talk in 2022, I wanted to know how to build more resilient teams. I still care about that question. Since then, I've led more projects, become an engineering manager, and spent years thinking about what allows people and organizations to weather difficult circumstances.
+I gave a talk about this in 2022, and at the time, I wanted to know how to build more resilient teams. I still care about that question. Since then, I've led more projects, become an engineering manager, and spent years thinking about what allows people and organizations to weather difficult circumstances.
 
-What I've come to believe is that many of our institutions are moving in the opposite direction.
+**What I've come to believe is that many of our institutions are moving in the opposite direction.**
 
-Every year, teams are asked to do more with less. We celebrate efficiency, optimization, and productivity while quietly eliminating the slack, redundancy, and support systems that make resilience possible. We tell people to practice self-care while simultaneously increasing the amount of adversity they are expected to absorb alone.
+Every year, teams are asked to do more with less. We celebrate efficiency, optimization, and productivity while quietly eliminating the slack, redundancy, and support systems that make resilience possible. We tell people to practice self-care while simultaneously making their jobs more difficult every year.
 
-This pressure has only intensified in the AI era. Shared documentation, mentorship, overlapping knowledge, spare capacity — these appear inefficient when viewed through the lens of optimization. But they are exactly the protective factors that allow people and teams to survive disruption. When we optimize them away, we don't become more efficient. We become more brittle.
+This has only intensified in the AI era. Shared documentation, mentorship, overlapping knowledge, spare capacity — these appear inefficient when viewed through the lens of idealistic AI-driven optimization. But they are exactly the protective factors that allow people and teams to survive disruption. When we optimize them away, we don't become more efficient. We become easier to break.
 
 The result is that many of us feel like we are failing when we are actually encountering the limits of systems that were never designed to withstand this much disruption.
 
@@ -146,14 +144,14 @@ I have a degree in Music Education. I spent five years trying to become a music 
 
 Looking back, many of the most important turning points in my life were not acts of persistence. They were acts of adaptation.
 
-The same is true for communities. Resilient groups don't simply endure disruption — they learn from it, reorganize around it, and change course when circumstances demand it. Knowing when to adapt rather than persist is not a failure of resilience. It may be the most sophisticated form of it.
+The same is true for communities. Resilient groups don't simply endure disruption — they learn from it, reorganize around it, and change course when circumstances demand it. Knowing when to change course rather than persist is not a failure of resilience. It is an expression of it.
 
 ## What resilience actually is
 
 The research changed how I think about these problems. It taught me that resilience is not the same as grit. It is not a personality trait. It is something that emerges from relationships, trust, shared resources, and communities that invest in protective factors _before_ a crisis occurs.
 
-The irony is that some of the most important protective factors in my own life have never come from an employer. They've come from friends, family, neighbors, childcare providers, mutual aid networks, and communities that keep showing up for one another even when larger institutions fall short.
+The irony is that some of the most important protective factors in my own life have never come from an employer. They've come from friends, family, neighbors, childcare providers, mutual aid networks, and communities that keep showing up for one another even when larger institutions fall short. (That doesn't mean that the support I received or didn't receive in the workplace didn't have a big impact on my well-being. It absoluteluy does.)
 
 Looking back, that's what was missing from the project that first led me to these questions. Too much depended on too few people. When disruption came, there was nowhere for the burden to go.
 
-The question that interests me now is not how we can become resilient enough to endure any hardship. It is how we can create communities where no one is asked to endure hardship alone.
+The question that interests me now is not how we can become resilient enough to push through any hardship. It is how we can create communities where no one is asked to figure it out alone.

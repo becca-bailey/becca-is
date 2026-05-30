@@ -1,5 +1,6 @@
 ---
 import Button from './Button.astro';
+import { mailto, site } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -18,5 +19,5 @@ const { class: className } = Astro.props;
 		I'm open to freelance projects, fractional technical leadership, writing, speaking, and
 		thoughtful conversations about what you're building.
 	</p>
-	<Button href="mailto:hello@becca.is">Send an email</Button>
+	<Button href={mailto()}>Send an email</Button>
 </section>

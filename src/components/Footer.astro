@@ -1,4 +1,6 @@
 ---
+import { mailto, site } from '@/lib/site';
+
 const year = new Date().getFullYear();
 ---
 
@@ -6,18 +8,18 @@ const year = new Date().getFullYear();
 	<div class="mx-auto max-w-6xl px-4 py-8 md:px-8">
 		<div class="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
 			<div>
-				<p class="font-sans text-sm text-text">Becca Bailey</p>
-				<p class="text-sm text-text-muted">Software Engineer & Writer</p>
+				<p class="font-sans text-sm text-text">{site.name}</p>
+				<p class="text-sm text-text-muted">{site.tagline}</p>
 			</div>
 			<nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Footer navigation">
 				<a
-					href="mailto:hello@becca.is"
+					href={mailto()}
 					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
 				>
-					hello@becca.is
+					{site.email}
 				</a>
 				<a
-					href="https://linkedin.com/in/beccamakesthings"
+					href={site.links.linkedin}
 					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -25,7 +27,7 @@ const year = new Date().getFullYear();
 					LinkedIn
 				</a>
 				<a
-					href="https://github.com/becca-bailey"
+					href={site.links.github}
 					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -35,7 +37,7 @@ const year = new Date().getFullYear();
 			</nav>
 		</div>
 		<p class="mt-6 text-center text-sm text-text-muted md:text-left">
-			&copy; {year} Becca Bailey. All rights reserved.
+			&copy; {year} {site.name}. All rights reserved.
 		</p>
 	</div>
 </footer>
