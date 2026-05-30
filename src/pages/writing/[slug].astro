@@ -1,6 +1,6 @@
 ---
-import ProseLayout from '../../layouts/ProseLayout.astro';
-import { formatDate, getPublishedWriting } from '@/lib/content';
+import EssayLayout from '../../components/writing/EssayLayout.astro';
+import { getPublishedWriting } from '@/lib/content';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -17,21 +17,13 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, description, pubDate } = entry.data;
+const { title, description } = entry.data;
 ---
 
-<ProseLayout
+<EssayLayout
+	entry={entry}
 	title={`${title} — Becca Bailey`}
 	description={description}
-	backHref="/writing"
-	backLabel="Writing"
 >
-	<header slot="header" class="mb-8">
-		<time datetime={pubDate.toISOString()} class="mb-2 block font-sans text-sm text-text-muted">
-			{formatDate(pubDate)}
-		</time>
-		<h1 class="mb-2">{title}</h1>
-		<p class="text-text-muted">{description}</p>
-	</header>
 	<Content />
-</ProseLayout>
+</EssayLayout>

@@ -26,15 +26,32 @@ export const navLinkVariants = cva(
 	{
 		variants: {
 			context: {
-				header:
-					'rounded-md px-3 py-1.5 text-base text-text-muted no-underline hover:bg-peach hover:text-text active:bg-peach/80',
+				header: 'rounded-md px-3 py-1.5 text-base no-underline hover:bg-peach hover:text-text active:bg-peach/80',
 				mobile:
-					'block rounded-md px-3 py-2.5 text-lg text-text no-underline hover:bg-peach hover:text-[#3D3832] active:bg-peach/80',
+					'block rounded-md px-3 py-2.5 text-lg no-underline hover:bg-peach hover:text-text active:bg-peach/80',
 				body: 'font-normal text-text underline hover:text-[#3D3832]',
 			},
+			active: {
+				true: '',
+				false: '',
+			},
 		},
+		compoundVariants: [
+			{
+				context: ['header', 'mobile'],
+				active: false,
+				class: 'text-text-muted',
+			},
+			{
+				context: ['header', 'mobile'],
+				active: true,
+				class:
+					'text-text underline decoration-blue underline-offset-4 hover:bg-transparent',
+			},
+		],
 		defaultVariants: {
 			context: 'body',
+			active: false,
 		},
 	},
 );

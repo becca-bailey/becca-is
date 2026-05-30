@@ -1,0 +1,34 @@
+---
+import { formatDate, getDisplayDate, type WritingEntry } from '@/lib/content';
+
+interface Props {
+	entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { title, subtitle, description, substackUrl } = entry.data;
+const displayDate = getDisplayDate(entry);
+---
+
+<header class="essay-meta">
+	<time datetime={displayDate.toISOString()} class="mb-3 block font-sans text-sm text-text-muted">
+		{formatDate(displayDate)}
+	</time>
+	<h1 class="mb-2">{title}</h1>
+	{subtitle && <p class="mb-3 font-sans text-lg font-medium text-text-muted">{subtitle}</p>}
+	{description && <p class="essay-dek">{description}</p>}
+	{
+		substackUrl && (
+			<p class="mt-4 font-sans text-sm text-text-muted">
+				Also published on{' '}
+				<a
+					href={substackUrl}
+					class="text-text underline underline-offset-4 transition-colors hover:text-[#3D3832]"
+				>
+					Substack
+				</a>
+				.
+			</p>
+		)
+	}
+</header>

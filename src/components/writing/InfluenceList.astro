@@ -1,0 +1,56 @@
+---
+import type { Influence } from '@/lib/content';
+
+interface Props {
+	items: Influence[];
+	heading?: string;
+}
+
+const { items, heading = 'Further reading' } = Astro.props;
+
+const typeLabels: Record<NonNullable<Influence['type']>, string> = {
+	book: 'Book',
+	paper: 'Paper',
+	article: 'Article',
+	essay: 'Essay',
+	talk: 'Talk',
+};
+---
+
+{
+	items.length > 0 && (
+		<section class="influence-list">
+			<h2 class="mb-4 font-sans text-lg font-medium tracking-tight">{heading}</h2>
+			<ul class="space-y-3">
+				{items.map((item) => (
+					<li class="text-text">
+						{item.url ? (
+							<a
+								href={item.url}
+								class="font-medium text-text underline underline-offset-4 transition-colors hover:text-[#3D3832]"
+							>
+								{item.title}
+							</a>
+						) : (
+							<span class="font-medium">{item.title}</span>
+						)}
+						{(item.author || item.year || item.type) && (
+							<span class="text-text-muted">
+								{' '}
+								—
+								{item.author && ` ${item.author}`}
+								{item.year && ` (${item.year})`}
+								{item.type && (
+									<span class="font-sans text-xs uppercase tracking-wide">
+										{' '}
+										· {typeLabels[item.type]}
+									</span>
+								)}
+							</span>
+						)}
+					</li>
+				))}
+			</ul>
+		</section>
+	)
+}

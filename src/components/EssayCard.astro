@@ -1,31 +1,55 @@
 ---
-import { type WritingEntry } from '@/lib/content';
+import { formatDate, getDisplayDate, truncateExcerpt, type WritingEntry } from '@/lib/content';
 
 interface Props {
 	entry: WritingEntry;
+	variant?: 'card' | 'list';
 }
 
-const { entry } = Astro.props;
-const { title, description, category } = entry.data;
+const { entry, variant = 'card' } = Astro.props;
+const { title, subtitle, description } = entry.data;
+const displayDate = getDisplayDate(entry);
 const href = `/writing/${entry.id}`;
+const cardExcerpt = truncateExcerpt(description);
+
+const listClasses =
+	'group flex flex-col gap-2 border-b border-border pb-6 last:border-b-0 last:pb-0';
+const cardClasses =
+	'group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20';
 ---
 
-<article class="group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20">
-	{
-		category && (
-			<p class="mb-3 font-sans text-sm font-medium text-text-muted">{category}</p>
-		)
-	}
-	<h3 class="mb-3">
-		<a href={href} class="text-text no-underline group-hover:underline">
-			{title}
-		</a>
-	</h3>
-	<p class="mb-6 flex-1 text-text-muted">{description}</p>
-	<a
-		href={href}
-		class="font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
-	>
-		Read essay &rarr;
-	</a>
-</article>
+{
+	variant === 'list' ? (
+		<article class={listClasses}>
+			<time datetime={displayDate.toISOString()} class="font-sans text-sm text-text-muted">
+				{formatDate(displayDate)}
+			</time>
+			<h3 class="font-sans text-xl font-medium">
+				<a href={href} class="text-text no-underline group-hover:underline">
+					{title}
+				</a>
+			</h3>
+			{subtitle && <p class="font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
+			<p class="text-text-muted">{description}</p>
+		</article>
+	) : (
+		<article class={cardClasses}>
+			<time datetime={displayDate.toISOString()} class="mb-3 block font-sans text-sm text-text-muted">
+				{formatDate(displayDate)}
+			</time>
+			<h3 class="mb-2">
+				<a href={href} class="text-text no-underline group-hover:underline">
+					{title}
+				</a>
+			</h3>
+			{subtitle && <p class="mb-2 font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
+			<p class="mb-6 flex-1 text-text-muted">{cardExcerpt}</p>
+			<a
+				href={href}
+				class="font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+			>
+				Read essay &rarr;
+			</a>
+		</article>
+	)
+}

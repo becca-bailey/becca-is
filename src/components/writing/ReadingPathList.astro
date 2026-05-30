@@ -1,0 +1,23 @@
+---
+import { getWritingForPath, type ReadingPathEntry } from '@/lib/content';
+import ReadingPathCard from './ReadingPathCard.astro';
+
+interface Props {
+	paths: ReadingPathEntry[];
+}
+
+const { paths } = Astro.props;
+
+const pathsWithCounts = await Promise.all(
+	paths.map(async (path) => ({
+		path,
+		essayCount: (await getWritingForPath(path)).length,
+	})),
+);
+---
+
+<div class="grid gap-6 md:grid-cols-2">
+	{pathsWithCounts.map(({ path, essayCount }) => (
+		<ReadingPathCard path={path} essayCount={essayCount} />
+	))}
+</div>

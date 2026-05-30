@@ -13,7 +13,7 @@ const essays = await getFeaturedWriting(3);
 
 	{
 		essays.length > 0 ? (
-			<div class="reveal-stagger grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
 				{essays.map((entry) => (
 					<EssayCard entry={entry} />
 				))}

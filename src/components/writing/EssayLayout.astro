@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import RevealScript from '../RevealScript.astro';
+import EssayMeta from './EssayMeta.astro';
+import InfluenceList from './InfluenceList.astro';
+import ReadingPathCard from './ReadingPathCard.astro';
+import RelatedEssays from './RelatedEssays.astro';
+import {
+	getReadingPathBySlug,
+	resolveRelatedWriting,
+	type ReadingPathEntry,
+	type WritingEntry,
+} from '@/lib/content';
+
+interface Props {
+	entry: WritingEntry;
+	title: string;
+	description?: string;
+}
+
+const { entry, title, description } = Astro.props;
+
+const related = await resolveRelatedWriting(entry.data.related);
+const readingPathEntries: ReadingPathEntry[] = [];
+for (const slug of entry.data.readingPaths) {
+	const path = await getReadingPathBySlug(slug);
+	if (path) readingPathEntries.push(path);
+}
+---
+
+<Layout title={title} description={description}>
+	<article class="essay-layout mx-auto max-w-prose">
+		<p class="mb-6">
+			<a
+				href="/writing"
+				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+			>
+				&larr; Writing
+			</a>
+		</p>
+
+		<EssayMeta entry={entry} />
+
+		<hr class="essay-divider" aria-hidden="true" />
+
+		<div class="prose essay-prose">
+			<slot />
+		</div>
+
+		{
+			readingPathEntries.length > 0 && (
+				<aside class="essay-aside mt-12 border-t border-border pt-10">
+					<h2 class="mb-4 font-sans text-lg font-medium tracking-tight">Reading paths</h2>
+					<div class="space-y-4">
+						{readingPathEntries.map((path) => (
+							<ReadingPathCard path={path} />
+						))}
+					</div>
+				</aside>
+			)
+		}
+
+		{
+			entry.data.influences.length > 0 && (
+				<aside class="essay-aside mt-12 border-t border-border pt-10">
+					<InfluenceList items={entry.data.influences} />
+				</aside>
+			)
+		}
+
+		{
+			related.length > 0 && (
+				<aside class="essay-aside mt-12 border-t border-border pt-10">
+					<RelatedEssays entries={related} />
+				</aside>
+			)
+		}
+	</article>
+	<RevealScript />
+</Layout>

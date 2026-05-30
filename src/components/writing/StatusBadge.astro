@@ -1,0 +1,20 @@
+---
+import type { EssayStatus } from '@/lib/content';
+
+interface Props {
+	status: EssayStatus;
+}
+
+const { status } = Astro.props;
+
+const labels: Record<EssayStatus, string> = {
+	original: 'Original',
+	revised: 'Revised',
+	expanded: 'Expanded',
+	archive: 'Archive',
+};
+---
+
+<span class="status-badge font-sans text-xs font-medium tracking-wide uppercase">
+	{labels[status]}
+</span>

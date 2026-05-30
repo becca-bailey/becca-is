@@ -1,4 +1,10 @@
-<script>
+<script is:inline>
+	function isInViewport(el) {
+		const rect = el.getBoundingClientRect();
+		const vh = window.innerHeight || document.documentElement.clientHeight;
+		return rect.top < vh && rect.bottom > 0;
+	}
+
 	function setupReveal() {
 		const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
 
@@ -11,6 +17,12 @@
 			return;
 		}
 
+		const showIfVisible = (el) => {
+			if (isInViewport(el)) {
+				el.classList.add('is-visible');
+			}
+		};
+
 		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
@@ -20,12 +32,31 @@
 					}
 				});
 			},
-			{ threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+			{ threshold: 0.05, rootMargin: '0px' },
 		);
 
-		revealElements.forEach((el) => observer.observe(el));
+		revealElements.forEach((el) => {
+			showIfVisible(el);
+			if (!el.classList.contains('is-visible')) {
+				observer.observe(el);
+			}
+		});
+
+		requestAnimationFrame(() => {
+			revealElements.forEach(showIfVisible);
+		});
 	}
 
-	setupReveal();
-	document.addEventListener('astro:page-load', setupReveal);
+	function initReveal() {
+		document.documentElement.classList.add('reveal-ready');
+		setupReveal();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initReveal);
+	} else {
+		initReveal();
+	}
+
+	document.addEventListener('astro:page-load', initReveal);
 </script>

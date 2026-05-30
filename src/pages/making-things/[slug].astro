@@ -5,7 +5,7 @@ import { formatDate, getPublishedProjects } from '@/lib/content';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
-	const projects = await getPublishedProjects('making');
+	const projects = await getPublishedProjects();
 	return projects.map((entry) => ({
 		params: { slug: entry.id },
 		props: { entry },
@@ -25,13 +25,13 @@ const { title, description, featuredImage, pubDate } = entry.data;
 	title={`${title} — Becca Bailey`}
 	description={description}
 	backHref="/making-things"
-	backLabel="Making things"
+	backLabel="Projects"
 >
 	<header slot="header" class="mb-8">
 		<Image
 			src={featuredImage}
 			alt=""
-			class="mb-6 aspect-[16/10] w-full rounded-md border border-border object-cover"
+			class="mb-6 aspect-[16/10] w-full image-outline object-cover"
 			width={960}
 			height={600}
 		/>

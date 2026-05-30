@@ -7,8 +7,8 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, description, category, featuredImage } = entry.data;
-const href = projectUrl(category, entry.id);
+const { title, description, featuredImage } = entry.data;
+const href = projectUrl(entry.id);
 ---
 
 <article class="overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-peach/20">
@@ -16,7 +16,7 @@ const href = projectUrl(category, entry.id);
 		<Image
 			src={featuredImage}
 			alt=""
-			class="aspect-[16/10] w-full object-cover"
+			class="aspect-[16/10] w-full object-cover ring-2 ring-inset ring-blue/35"
 			width={640}
 			height={400}
 		/>

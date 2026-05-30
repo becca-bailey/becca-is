@@ -1,0 +1,33 @@
+---
+import type { ReadingPathEntry } from '@/lib/content';
+
+interface Props {
+	path: ReadingPathEntry;
+	essayCount?: number;
+}
+
+const { path, essayCount } = Astro.props;
+const { title, description, slug } = path.data;
+---
+
+<article class="reading-path-card rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20">
+	<h3 class="mb-2 font-sans text-xl font-medium">
+		<a href={`/paths/${slug}`} class="text-text no-underline hover:underline">
+			{title}
+		</a>
+	</h3>
+	<p class="mb-4 text-text-muted">{description}</p>
+	{
+		essayCount !== undefined && essayCount > 0 && (
+			<p class="font-sans text-sm text-text-muted">
+				{essayCount} {essayCount === 1 ? 'essay' : 'essays'}
+			</p>
+		)
+	}
+	<a
+		href={`/paths/${slug}`}
+		class="mt-4 inline-block font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+	>
+		View path &rarr;
+	</a>
+</article>

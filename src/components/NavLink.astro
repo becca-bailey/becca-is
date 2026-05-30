@@ -1,5 +1,5 @@
 ---
-import { cn } from '@/lib/utils';
+import { cn, isNavActive } from '@/lib/utils';
 import { navLinkVariants } from '@/lib/variants';
 import type { HTMLAttributes } from 'astro/types';
 
@@ -10,8 +10,16 @@ interface Props extends HTMLAttributes<'a'> {
 }
 
 const { href, context = 'body', class: className, ...rest } = Astro.props;
+
+const isNavContext = context === 'header' || context === 'mobile';
+const active = isNavContext && isNavActive(href, Astro.url.pathname);
 ---
 
-<a href={href} class={cn(navLinkVariants({ context }), className)} {...rest}>
+<a
+	href={href}
+	class={cn(navLinkVariants({ context, active }), className)}
+	aria-current={active ? 'page' : undefined}
+	{...rest}
+>
 	<slot />
 </a>

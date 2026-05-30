@@ -1,0 +1,149 @@
+---
+import { getWritingByTheme, type WritingEntry } from '@/lib/content';
+
+interface Props {
+	themes: string[];
+	writing: WritingEntry[];
+}
+
+const { themes, writing } = Astro.props;
+
+const themePanels = themes
+	.map((theme) => ({
+		theme,
+		entries: getWritingByTheme(writing, theme),
+	}))
+	.filter((panel) => panel.entries.length > 0);
+
+const defaultTheme = themePanels[0]?.theme ?? '';
+---
+
+{
+	themePanels.length > 0 && (
+		<div class="theme-tabs" data-theme-tabs>
+			<div
+				class="mb-8 flex flex-wrap gap-2"
+				role="tablist"
+				aria-label="Essay themes"
+			>
+				{themePanels.map(({ theme }) => (
+					<button
+						type="button"
+						role="tab"
+						id={`tab-${theme}`}
+						class:list={[
+							'theme-tab rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-peach/20',
+							{ 'theme-tab-active': theme === defaultTheme },
+						]}
+						aria-selected={theme === defaultTheme ? 'true' : 'false'}
+						aria-controls={`panel-${theme}`}
+						data-theme-tab={theme}
+					>
+						{theme}
+					</button>
+				))}
+			</div>
+
+			{themePanels.map(({ theme, entries }) => (
+				<div
+					id={`panel-${theme}`}
+					role="tabpanel"
+					aria-labelledby={`tab-${theme}`}
+					class="theme-panel border-t border-border pt-8"
+					data-theme-panel={theme}
+					hidden={theme !== defaultTheme}
+				>
+					<ul class="space-y-4">
+						{entries.map((entry) => (
+							<li>
+								<a
+									href={`/writing/${entry.id}`}
+									class="font-sans text-lg font-medium text-text no-underline hover:underline"
+								>
+									{entry.data.title}
+								</a>
+								{entry.data.subtitle && (
+									<p class="text-sm text-text-muted">{entry.data.subtitle}</p>
+								)}
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	)
+}
+
+<script is:inline>
+	function activateThemeTab(root, theme) {
+		const tabs = root.querySelectorAll('[data-theme-tab]');
+		const panels = root.querySelectorAll('[data-theme-panel]');
+
+		tabs.forEach((tab) => {
+			const isActive = tab.getAttribute('data-theme-tab') === theme;
+			tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+			tab.classList.toggle('theme-tab-active', isActive);
+		});
+
+		panels.forEach((panel) => {
+			const isActive = panel.getAttribute('data-theme-panel') === theme;
+			panel.hidden = !isActive;
+		});
+	}
+
+	function themeFromHash() {
+		const hash = window.location.hash.replace(/^#/, '');
+		if (!hash.startsWith('theme-')) return null;
+		return hash.slice('theme-'.length);
+	}
+
+	function setupThemeTabs() {
+		document.querySelectorAll('[data-theme-tabs]').forEach((root) => {
+			const tabs = root.querySelectorAll('[data-theme-tab]');
+			if (!tabs.length) return;
+
+			const validThemes = new Set(
+				[...tabs].map((tab) => tab.getAttribute('data-theme-tab')),
+			);
+
+			const hashTheme = themeFromHash();
+			const initial =
+				hashTheme && validThemes.has(hashTheme)
+					? hashTheme
+					: tabs[0].getAttribute('data-theme-tab');
+
+			activateThemeTab(root, initial);
+
+			tabs.forEach((tab) => {
+				if (tab.dataset.themeTabsBound === 'true') return;
+				tab.dataset.themeTabsBound = 'true';
+				tab.addEventListener('click', () => {
+					const theme = tab.getAttribute('data-theme-tab');
+					if (!theme) return;
+					activateThemeTab(root, theme);
+					history.replaceState(null, '', `#theme-${theme}`);
+				});
+			});
+		});
+	}
+
+	function initThemeTabs() {
+		setupThemeTabs();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initThemeTabs);
+	} else {
+		initThemeTabs();
+	}
+
+	document.addEventListener('astro:page-load', initThemeTabs);
+	window.addEventListener('hashchange', setupThemeTabs);
+</script>
+
+<style>
+	.theme-tab-active {
+		background-color: color-mix(in srgb, var(--color-peach) 35%, var(--color-background));
+		border-color: var(--color-peach);
+	}
+</style>

@@ -1,10 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import WritingCard from '../../components/WritingCard.astro';
+import EssayCard from '../../components/EssayCard.astro';
+import ReadingPathList from '../../components/writing/ReadingPathList.astro';
+import ThemeTabs from '../../components/writing/ThemeTabs.astro';
 import RevealScript from '../../components/RevealScript.astro';
-import { getPublishedWriting } from '@/lib/content';
+import {
+	getAllThemes,
+	getFeaturedWriting,
+	getPublishedReadingPaths,
+	getPublishedWriting,
+} from '@/lib/content';
 
-const posts = await getPublishedWriting();
+const allWriting = await getPublishedWriting();
+const featured = await getFeaturedWriting();
+const paths = await getPublishedReadingPaths();
+const featuredIds = new Set(featured.map((e) => e.id));
+const recent = allWriting.filter((e) => !featuredIds.has(e.id));
+const themes = getAllThemes(allWriting, paths);
 ---
 
 <Layout
@@ -13,19 +25,66 @@ const posts = await getPublishedWriting();
 >
 	<h1 class="mb-4">Writing</h1>
 	<p class="reveal mb-10 max-w-prose text-text-muted">
-		Essays about technology, work, community, and the systems that shape everyday life.
+		A curated archive of essays — collected over time, revised when ideas shift, and arranged so you
+		can read by theme or follow a path through related work.
 	</p>
 
 	{
-		posts.length > 0 ? (
-			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-				{posts.map((entry) => (
-					<WritingCard entry={entry} />
-				))}
-			</div>
-		) : (
+		featured.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Cornerstone essays</h2>
+				<div class="reveal-stagger grid gap-6 md:grid-cols-2">
+					{featured.map((entry) => (
+						<EssayCard entry={entry} />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		paths.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">Reading paths</h2>
+				<p class="mb-8 max-w-prose text-text-muted">
+					Conceptual threads that connect essays across time — read in suggested order or dip in
+					where you like.
+				</p>
+				<ReadingPathList paths={paths} />
+			</section>
+		)
+	}
+
+	{
+		recent.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Recent essays</h2>
+				<div class="space-y-6">
+					{recent.map((entry) => (
+						<EssayCard entry={entry} variant="list" />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		themes.length > 0 && (
+			<section id="themes" class="reveal scroll-mt-8">
+				<h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">Themes</h2>
+				<p class="mb-8 max-w-prose text-text-muted">
+					Select a topic to see essays tagged with that theme.
+				</p>
+				<ThemeTabs themes={themes} writing={allWriting} />
+			</section>
+		)
+	}
+
+	{
+		allWriting.length === 0 && (
 			<p class="text-text-muted">No essays published yet.</p>
 		)
 	}
+
 	<RevealScript />
 </Layout>

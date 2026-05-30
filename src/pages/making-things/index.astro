@@ -4,17 +4,17 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import RevealScript from '../../components/RevealScript.astro';
 import { getPublishedProjects } from '@/lib/content';
 
-const projects = await getPublishedProjects('making');
+const projects = await getPublishedProjects();
 ---
 
 <Layout
-	title="Making Things — Becca Bailey"
-	description="Knitting, upholstery, gardening, illustration, and other attempts to leave the world a little more beautiful."
+	title="Projects — Becca Bailey"
+	description="Software, systems, and hands-on work — technical projects and creative experiments."
 >
-	<h1 class="mb-4">Making Things</h1>
+	<h1 class="mb-4">Projects</h1>
 	<p class="reveal mb-10 max-w-prose text-text-muted">
-		Knitting, upholstery, gardening, illustration, and other attempts to leave the world a little
-		more beautiful than I found it.
+		Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them
+		reflect things I care about: thoughtful design, careful execution, and making things that last.
 	</p>
 
 	{

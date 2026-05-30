@@ -7,23 +7,59 @@ function contentId(entry: string) {
 	return withoutExt.endsWith('/index') ? withoutExt.slice(0, -'/index'.length) : withoutExt;
 }
 
+const essayStatus = z.enum(['original', 'revised', 'expanded', 'archive']);
+
+const influence = z.object({
+	title: z.string(),
+	author: z.string().optional(),
+	year: z.coerce.number().optional(),
+	type: z.enum(['book', 'paper', 'article', 'essay', 'talk']).optional(),
+	url: z.string().url().optional(),
+});
+
 const writing = defineCollection({
-	loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/writing' }),
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: 'src/content/writing',
+		generateId: ({ entry }) => contentId(entry),
+	}),
 	schema: z.object({
 		title: z.string(),
+		subtitle: z.string().optional(),
 		description: z.string(),
-		pubDate: z.coerce.date(),
-		tags: z.array(z.string()).optional(),
-		category: z.string().optional(),
+		originalDate: z.coerce.date(),
+		revisedDate: z.coerce.date().optional(),
+		status: essayStatus.default('original'),
+		substackUrl: z.string().url().optional(),
+		readingPaths: z.array(z.string()).optional().default([]),
+		themes: z.array(z.string()).optional().default([]),
+		influences: z.array(influence).optional().default([]),
+		related: z.array(z.string()).optional().default([]),
 		featured: z.boolean().optional().default(false),
 		draft: z.boolean().optional().default(false),
+	}),
+});
+
+const readingPaths = defineCollection({
+	loader: glob({
+		pattern: '**/*.md',
+		base: 'src/content/reading-paths',
+		generateId: ({ entry }) => contentId(entry),
+	}),
+	schema: z.object({
+		title: z.string(),
+		slug: z.string(),
+		description: z.string(),
+		essays: z.array(z.string()).default([]),
+		themes: z.array(z.string()).optional().default([]),
+		externalReading: z.array(influence).optional().default([]),
 	}),
 });
 
 const projects = defineCollection({
 	loader: glob({
 		pattern: '**/*.{md,mdx}',
-		base: './src/content/projects',
+		base: 'src/content/projects',
 		generateId: ({ entry }) => contentId(entry),
 	}),
 	schema: ({ image }) =>
@@ -33,8 +69,9 @@ const projects = defineCollection({
 			category: z.enum(['technical', 'making']),
 			featuredImage: image(),
 			pubDate: z.coerce.date().optional(),
+			featured: z.boolean().optional().default(false),
 			draft: z.boolean().optional().default(false),
 		}),
 });
 
-export const collections = { writing, projects };
+export const collections = { writing, readingPaths, projects };

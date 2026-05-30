@@ -1,0 +1,26 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { getFeaturedProjects } from '@/lib/content';
+
+const projects = await getFeaturedProjects(3);
+---
+
+<section class="reveal mb-12 md:mb-28">
+	<h2 class="mb-4">Projects</h2>
+	<p class="editorial-prose mb-10 text-text-muted">
+		Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them
+		reflect things I care about: thoughtful design, careful execution, and making things that last.
+	</p>
+
+	{
+		projects.length > 0 ? (
+			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
+				{projects.map((entry) => (
+					<ProjectCard entry={entry} />
+				))}
+			</div>
+		) : (
+			<p class="text-text-muted">Featured projects coming soon.</p>
+		)
+	}
+</section>

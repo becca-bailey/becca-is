@@ -103,11 +103,16 @@
 }
 
 .reveal {
-	opacity: 0;
-	transform: translateY(12px);
+	opacity: 1;
+	transform: none;
 	transition:
 		opacity 0.5s ease-out,
 		transform 0.5s ease-out;
+}
+
+html.reveal-ready .reveal:not(.is-visible) {
+	opacity: 0;
+	transform: translateY(12px);
 }
 
 .reveal.is-visible {
@@ -116,11 +121,16 @@
 }
 
 .reveal-stagger > * {
-	opacity: 0;
-	transform: translateY(12px);
+	opacity: 1;
+	transform: none;
 	transition:
 		opacity 0.5s ease-out,
 		transform 0.5s ease-out;
+}
+
+html.reveal-ready .reveal-stagger:not(.is-visible) > * {
+	opacity: 0;
+	transform: translateY(12px);
 }
 
 .reveal-stagger.is-visible > * {
@@ -140,8 +150,13 @@
 	transition-delay: 120ms;
 }
 
+/* Subtle blue border — pairs with active nav underline (decoration-blue) */
+.image-outline {
+	@apply rounded-md border border-blue/40;
+}
+
 .doodle-image {
-	@apply overflow-hidden rounded-md border border-border;
+	@apply overflow-hidden rounded-md border border-blue/40;
 }
 
 .editorial-prose {
@@ -193,6 +208,62 @@
 	@apply font-semibold;
 }
 
+.prose hr {
+	@apply my-10 border-0 border-t border-border;
+}
+
+.status-badge {
+	@apply rounded-sm border border-border bg-peach/30 px-2 py-0.5 text-text-muted;
+}
+
+.author-note {
+	@apply my-8 rounded-md border border-border bg-peach/25 px-5 py-4;
+}
+
+.author-note-label {
+	@apply mb-3;
+}
+
+.author-note-body > :first-child {
+	margin-top: 0;
+}
+
+.margin-note {
+	@apply my-6 rounded-md border border-border/80 bg-background px-4 py-3 text-sm leading-relaxed;
+}
+
+@media (min-width: 1024px) {
+	.essay-prose .margin-note {
+		@apply float-right clear-right -mr-4 mb-4 ml-6 max-w-[11rem] border-peach bg-peach/15;
+	}
+}
+
+.essay-figure {
+	@apply my-8;
+}
+
+.essay-figure-credit {
+	@apply mt-2;
+}
+
+.essay-figure-credit a {
+	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
+}
+
+.influence-list a {
+	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
+}
+
+.essay-dek {
+	@apply text-lg leading-[1.75] text-text;
+}
+
+.essay-divider {
+	margin: 2.5rem 0;
+	border: 0;
+	border-top: 1px solid var(--color-border);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.hero-fade-up,
 	.hero-fade-up-delay-1,
@@ -208,8 +279,14 @@
 
 	.reveal,
 	.reveal-stagger > * {
-		opacity: 1;
-		transform: none;
+		opacity: 1 !important;
+		transform: none !important;
 		transition: none;
+	}
+
+	html.reveal-ready .reveal:not(.is-visible),
+	html.reveal-ready .reveal-stagger:not(.is-visible) > * {
+		opacity: 1 !important;
+		transform: none !important;
 	}
 }
