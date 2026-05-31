@@ -82,13 +82,41 @@ const navItems = [
 
 		if (!toggle || !closeBtn || !nav || !backdrop) return;
 
+		let usingKeyboard = false;
+
+		window.addEventListener(
+			'keydown',
+			(event) => {
+				if (event.key === 'Tab' || event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
+					usingKeyboard = true;
+				}
+			},
+			{ capture: true },
+		);
+
+		window.addEventListener(
+			'pointerdown',
+			() => {
+				usingKeyboard = false;
+			},
+			{ capture: true },
+		);
+
+		const moveFocus = (element: HTMLElement) => {
+			if (usingKeyboard) {
+				element.focus();
+			} else {
+				element.focus({ focusVisible: false });
+			}
+		};
+
 		const openMenu = () => {
 			nav.classList.remove('hidden');
 			nav.setAttribute('aria-hidden', 'false');
 			toggle.setAttribute('aria-expanded', 'true');
 			document.body.style.overflow = 'hidden';
 			const firstLink = nav.querySelector('a');
-			if (firstLink instanceof HTMLElement) firstLink.focus();
+			if (firstLink instanceof HTMLElement) moveFocus(firstLink);
 		};
 
 		const closeMenu = () => {
@@ -96,7 +124,13 @@ const navItems = [
 			nav.setAttribute('aria-hidden', 'true');
 			toggle.setAttribute('aria-expanded', 'false');
 			document.body.style.overflow = '';
-			if (toggle instanceof HTMLElement) toggle.focus();
+			if (toggle instanceof HTMLElement) {
+				if (usingKeyboard) {
+					toggle.focus();
+				} else {
+					toggle.blur();
+				}
+			}
 		};
 
 		toggle.addEventListener('click', openMenu);
