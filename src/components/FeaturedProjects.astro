@@ -3,6 +3,7 @@ import ProjectCard from './ProjectCard.astro';
 import SectionHeader from './SectionHeader.astro';
 import lucy from '../assets/lucy.png';
 import { getFeaturedProjects } from '@/lib/content';
+import { site } from '@/lib/site';
 
 const projects = await getFeaturedProjects(3);
 ---
@@ -10,7 +11,7 @@ const projects = await getFeaturedProjects(3);
 <section class="reveal mb-12 md:mb-28">
 	<SectionHeader
 		title="Projects"
-		intro="Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them reflect things I care about: thoughtful design, careful execution, and making things that last."
+		intro={site.projectsIntro}
 		image={lucy}
 	/>
 

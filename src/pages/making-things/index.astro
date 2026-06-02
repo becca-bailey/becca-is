@@ -3,18 +3,18 @@ import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import RevealScript from '../../components/RevealScript.astro';
 import { getPublishedProjects } from '@/lib/content';
+import { site } from '@/lib/site';
 
 const projects = await getPublishedProjects();
 ---
 
 <Layout
 	title="Projects — Becca Bailey"
-	description="Software, systems, and hands-on work — technical projects and creative experiments."
+	description={site.projectsDescription}
 >
 	<h1 class="mb-4">Projects</h1>
 	<p class="reveal mb-10 max-w-prose text-text-muted">
-		Some of these projects involve software. Some involve fabric, yarn, or a staple gun. All of them
-		reflect things I care about: thoughtful design, careful execution, and making things that last.
+		{site.projectsIntro}
 	</p>
 
 	{
