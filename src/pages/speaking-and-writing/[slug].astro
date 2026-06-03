@@ -38,7 +38,7 @@ const hasBody = (entry.body ?? '').trim().length > 0;
 const secondaryLinks = getTechnicalLinks(entry);
 const related = await resolveRelatedTechnical(entry.data.related);
 const pageDescription = description ?? summary;
-const pageTitle = `${title} — Speaking and Technical Writing — Becca Bailey`;
+const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -48,7 +48,7 @@ const pageTitle = `${title} — Speaking and Technical Writing — Becca Bailey`
 				href={technicalIndexUrl()}
 				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
 			>
-				&larr; Speaking and technical writing
+				&larr; Speaking & Technical Writing
 			</a>
 		</p>
 
