@@ -8,6 +8,8 @@ interface Props extends HTMLAttributes<'a'>, HTMLAttributes<'button'> {
 	size?: 'default' | 'sm';
 	href?: string;
 	disabled?: boolean;
+	/** Show trailing arrow. Defaults to true for primary and secondary. */
+	arrow?: boolean;
 	class?: string;
 }
 
@@ -16,21 +18,25 @@ const {
 	size = 'default',
 	href,
 	disabled = false,
+	arrow,
 	class: className,
 	...rest
 } = Astro.props;
 
 const classes = cn(buttonVariants({ variant, size }), className);
+const showArrow = arrow ?? (variant === 'primary' || variant === 'secondary');
 ---
 
 {
 	href && !disabled ? (
 		<a class={classes} href={href} {...rest}>
 			<slot />
+			{showArrow && <span aria-hidden="true">&rarr;</span>}
 		</a>
 	) : (
 		<button class={classes} disabled={disabled} type="button" {...rest}>
 			<slot />
+			{showArrow && <span aria-hidden="true">&rarr;</span>}
 		</button>
 	)
 }

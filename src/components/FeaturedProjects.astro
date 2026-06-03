@@ -1,4 +1,5 @@
 ---
+import HomePageLink from './HomePageLink.astro';
 import ProjectCard from './ProjectCard.astro';
 import SectionHeader from './SectionHeader.astro';
 import lucy from '../assets/lucy.png';
@@ -7,8 +8,6 @@ import { site } from '@/lib/site';
 
 const projects = await getFeaturedProjects(3);
 const projectsIndexUrl = '/making-things';
-const viewAllClasses =
-	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 <section class="reveal mb-12 md:mb-28">
@@ -22,11 +21,9 @@ const viewAllClasses =
 						<ProjectCard entry={entry} variant="featured" />
 					))}
 				</div>
-				<p class="mt-8">
-					<a href={projectsIndexUrl} class={viewAllClasses}>
-						View all projects &rarr;
-					</a>
-				</p>
+				<div class="mt-8 flex flex-col items-start gap-2">
+					<HomePageLink href={projectsIndexUrl}>View all projects</HomePageLink>
+				</div>
 			</>
 		) : (
 			<p class="text-text-muted">Featured projects coming soon.</p>

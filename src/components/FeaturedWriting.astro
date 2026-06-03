@@ -1,13 +1,12 @@
 ---
 import EssayCard from './EssayCard.astro';
+import HomePageLink from './HomePageLink.astro';
 import SectionHeader from './SectionHeader.astro';
 import coffee from '../assets/coffee.png';
 import { getFeaturedWriting } from '@/lib/content';
 import { site } from '@/lib/site';
 
 const essays = await getFeaturedWriting(3);
-const linkClasses =
-	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 <section class="reveal mb-12 md:mb-28">
@@ -27,17 +26,10 @@ const linkClasses =
 					))}
 				</div>
 				<div class="flex flex-col items-start gap-2">
-					<a href="/writing" class={linkClasses}>
-						View all essays &rarr;
-					</a>
-					<a
-						href={site.links.substack}
-						target="_blank"
-						rel="noopener noreferrer"
-						class={linkClasses}
-					>
-						Subscribe on Substack &rarr;
-					</a>
+					<HomePageLink href="/writing">View all essays</HomePageLink>
+					<HomePageLink href={site.links.substack} external>
+						Subscribe on Substack
+					</HomePageLink>
 				</div>
 			</>
 		) : (

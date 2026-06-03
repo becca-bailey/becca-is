@@ -1,4 +1,5 @@
 ---
+import HomePageLink from './HomePageLink.astro';
 import TechnicalCard from './technical/TechnicalCard.astro';
 import SectionHeader from './SectionHeader.astro';
 import becca from '../assets/becca.png';
@@ -7,8 +8,6 @@ import { site } from '@/lib/site';
 
 const entries = await getFeaturedTechnical(4);
 const indexUrl = technicalIndexUrl();
-const viewAllClasses =
-	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 <section class="reveal mb-12 md:mb-28">
@@ -22,11 +21,9 @@ const viewAllClasses =
 						<TechnicalCard entry={entry} variant="compact" />
 					))}
 				</div>
-				<p>
-					<a href={indexUrl} class={viewAllClasses}>
-						View all &rarr;
-					</a>
-				</p>
+				<div class="flex flex-col items-start gap-2">
+					<HomePageLink href={indexUrl}>View all</HomePageLink>
+				</div>
 			</>
 		) : (
 			<p class="text-text-muted">Featured speaking and writing coming soon.</p>

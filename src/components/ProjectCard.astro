@@ -16,21 +16,18 @@ const meta = [medium, year].filter(Boolean).join(' · ');
 const blurb = isFeatured ? truncateExcerpt(description, 140) : description;
 const linkClasses =
 	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
+const previewWidth = 640;
+const previewHeight = 400;
 ---
 
 <article class="flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-peach/20">
-	<a href={href} class="block shrink-0 no-underline" tabindex="-1" aria-hidden="true">
+	<a href={href} class="block shrink-0 overflow-hidden no-underline" tabindex="-1" aria-hidden="true">
 		<Image
 			src={featuredImage}
 			alt=""
-			class:list={[
-				'w-full',
-				isFeatured
-					? 'aspect-[5/4] bg-stone-brown/5 object-contain p-3'
-					: 'aspect-[16/10] object-cover',
-			]}
-			width={640}
-			height={isFeatured ? 512 : 400}
+			class="project-preview-image"
+			width={previewWidth}
+			height={previewHeight}
 		/>
 	</a>
 	<div class="flex flex-1 flex-col p-6">

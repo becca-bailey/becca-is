@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Button from './Button.astro';
-import NavLink from './NavLink.astro';
+import HomePageLink from './HomePageLink.astro';
 import headshot from '../assets/headshot.jpg';
 ---
 
@@ -41,34 +41,22 @@ import headshot from '../assets/headshot.jpg';
 			systems shape institutions, how AI affects communities, and what makes people and organizations
 			resilient when circumstances change.
 		</p>
-		<div
-			class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6"
-		>
+		<div class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4">
 			<Button href="/writing">Read my essays</Button>
-			<NavLink
-				href="/speaking-and-writing"
-				context="body"
-				class="font-sans text-base no-underline hover:underline"
-			>
-				Speaking and technical writing
-			</NavLink>
-			<NavLink
-				href="/making-things"
-				context="body"
-				class="font-sans text-base no-underline hover:underline"
-			>
-				Browse projects
-			</NavLink>
+			<div class="flex flex-col items-start gap-2">
+				<HomePageLink href="/speaking-and-writing">Speaking and technical writing</HomePageLink>
+				<HomePageLink href="/making-things">Browse projects</HomePageLink>
+			</div>
 		</div>
 	</div>
 
 	<div
-		class="hero-fade-up hero-fade-up-delay-3 relative hidden aspect-square w-80 justify-self-end md:block lg:w-96"
+		class="hero-fade-up hero-fade-up-delay-3 relative hidden w-80 justify-self-end md:block lg:w-96"
 	>
 		<Image
 			src={headshot}
 			alt="Headshot of Becca Bailey"
-			class="relative h-full w-full rounded-lg border border-blue/50 object-cover object-[center_30%]"
+			class="h-auto w-full rounded-lg border border-blue/50"
 			width={2048}
 			height={3072}
 			loading="eager"

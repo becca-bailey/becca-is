@@ -164,6 +164,14 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply shrink-0 rounded-full object-contain p-1;
 }
 
+.project-preview-image {
+	@apply aspect-[16/10] w-full object-cover object-left-top;
+}
+
+.project-preview-image--framed {
+	@apply rounded-md border border-border;
+}
+
 .editorial-prose {
 	max-width: 42rem;
 }
