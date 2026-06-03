@@ -8,10 +8,24 @@ interface Props {
 }
 
 const { src, alt } = Astro.props;
+const isGif = src.format === 'gif';
 ---
 
 <figure class="essay-figure">
-	<Image src={src} alt={alt} class="image-outline w-full" />
+	{
+		isGif ? (
+			<img
+				src={src.src}
+				alt={alt}
+				width={src.width}
+				height={src.height}
+				class="image-outline w-full"
+				loading="lazy"
+			/>
+		) : (
+			<Image src={src} alt={alt} class="image-outline w-full" />
+		)
+	}
 	{
 		Astro.slots.has('default') && (
 			<figcaption class="essay-figure-credit font-sans text-sm text-text-muted">

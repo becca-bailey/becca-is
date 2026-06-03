@@ -1,0 +1,80 @@
+---
+const filters = [
+	{ id: 'all', label: 'All' },
+	{ id: 'blog', label: 'Blog' },
+	{ id: 'talk', label: 'Talk' },
+	{ id: 'podcast', label: 'Podcast' },
+] as const;
+---
+
+<div class="type-filters mb-10" data-type-filters>
+	<div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter by type">
+		{
+			filters.map((filter, index) => (
+				<button
+					type="button"
+					role="tab"
+					class:list={[
+						'type-filter-tab',
+						{ 'type-filter-tab-active': index === 0 },
+					]}
+					aria-selected={index === 0 ? 'true' : 'false'}
+					data-type-filter={filter.id}
+				>
+					{filter.label}
+				</button>
+			))
+		}
+	</div>
+</div>
+
+<script is:inline>
+	function applyTypeFilter(root, filter) {
+		const tabs = root.querySelectorAll('[data-type-filter]');
+		const entries = document.querySelectorAll('[data-timeline-entry]');
+
+		tabs.forEach((tab) => {
+			const active = tab.getAttribute('data-type-filter') === filter;
+			tab.classList.toggle('type-filter-tab-active', active);
+			tab.setAttribute('aria-selected', active ? 'true' : 'false');
+		});
+
+		entries.forEach((entry) => {
+			const type = entry.getAttribute('data-type');
+			const show = filter === 'all' || type === filter;
+			entry.hidden = !show;
+		});
+	}
+
+	function setupTypeFilters() {
+		document.querySelectorAll('[data-type-filters]').forEach((root) => {
+			const tabs = root.querySelectorAll('[data-type-filter]');
+			if (!tabs.length) return;
+
+			const initial = tabs[0].getAttribute('data-type-filter') ?? 'all';
+			applyTypeFilter(root, initial);
+
+			tabs.forEach((tab) => {
+				if (tab.dataset.typeFiltersBound === 'true') return;
+				tab.dataset.typeFiltersBound = 'true';
+				tab.addEventListener('click', () => {
+					const filter = tab.getAttribute('data-type-filter');
+					if (!filter) return;
+					applyTypeFilter(root, filter);
+				});
+			});
+		});
+	}
+
+	function initTypeFilters() {
+		setupTypeFilters();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initTypeFilters);
+	} else {
+		initTypeFilters();
+	}
+
+	document.addEventListener('astro:page-load', initTypeFilters);
+</script>

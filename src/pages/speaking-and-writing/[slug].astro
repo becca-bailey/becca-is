@@ -1,0 +1,129 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import Button from '../../components/Button.astro';
+import TechnicalTypeBadge from '../../components/technical/TechnicalTypeBadge.astro';
+import {
+	externalLinkLabel,
+	formatDate,
+	getTechnicalLinks,
+	resolveRelatedTechnical,
+	technicalIndexUrl,
+	technicalUrl,
+	getPublishedTechnical,
+} from '@/lib/content';
+
+export async function getStaticPaths() {
+	const entries = await getPublishedTechnical();
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const {
+	title,
+	summary,
+	description,
+	pubDate,
+	externalUrl,
+	venue,
+	host,
+} = entry.data;
+
+const { Content } = await render(entry);
+const hasBody = (entry.body ?? '').trim().length > 0;
+const secondaryLinks = getTechnicalLinks(entry);
+const related = await resolveRelatedTechnical(entry.data.related);
+const pageDescription = description ?? summary;
+const pageTitle = `${title} — Speaking and Technical Writing — Becca Bailey`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<article class="max-w-prose">
+		<p class="mb-6">
+			<a
+				href={technicalIndexUrl()}
+				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+			>
+				&larr; Speaking and technical writing
+			</a>
+		</p>
+
+		<header class="mb-8">
+			<div class="mb-3 flex flex-wrap items-center gap-2">
+				<TechnicalTypeBadge type={entry.data.type} />
+				<time class="font-sans text-sm text-text-muted" datetime={pubDate.toISOString()}>
+					{formatDate(pubDate)}
+				</time>
+			</div>
+			<h1 class="mb-2">{title}</h1>
+			{(venue || host) && <p class="font-sans text-sm text-text-muted">{venue ?? host}</p>}
+		</header>
+
+		<aside class="technical-summary editorial-prose">
+			<p class="technical-summary-label">Summary</p>
+			<p class="mb-0 leading-[1.75] text-text-muted">{summary}</p>
+		</aside>
+
+		{
+			externalUrl && (
+				<div class="my-8 flex flex-wrap gap-4">
+					<Button href={externalUrl} target="_blank" rel="noopener noreferrer">
+						{externalLinkLabel(entry)}
+					</Button>
+				</div>
+			)
+		}
+
+		{
+			secondaryLinks.length > 0 && (
+				<ul class="mb-8 flex flex-wrap gap-x-4 gap-y-2 font-sans text-sm">
+					{secondaryLinks.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+							>
+								{link.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+
+		{
+			hasBody && (
+				<div class="prose technical-prose">
+					<Content />
+				</div>
+			)
+		}
+
+		{
+			related.length > 0 && (
+				<aside class="mt-12 border-t border-border pt-8">
+					<h2 class="mb-4 font-sans text-lg font-medium">Related</h2>
+					<ul class="space-y-2">
+						{related.map((item) => (
+							<li>
+								<a
+									href={technicalUrl(item.id)}
+									class="font-sans text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+								>
+									{item.data.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				</aside>
+			)
+		}
+	</article>
+	<RevealScript />
+</Layout>

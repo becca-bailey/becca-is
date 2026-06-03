@@ -13,6 +13,14 @@ export default defineConfig({
 
   integrations: [mdx(), react()],
 
+  markdown: {
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      theme: 'github-light',
+      wrap: true,
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },

@@ -1,0 +1,47 @@
+---
+type: blog
+title: Calibrated Code Reviews
+pubDate: 2020-12-10
+venue: Formidable Blog
+republished: true
+externalUrl: https://web.archive.org/web/20230321021042/https://formidable.com/blog/2020/code-reviews/
+summary: >-
+  Originally published on the Formidable blog, this piece is about reviewing code
+  with intention—framing feedback as risk, asking calibrated questions, and building
+  trust on the team. Still how I think about mentorship and PRs.
+featured: true
+---
+
+Reviewing code is an important part of the average developer's job, but in my experience, it's an area where many of us don't give enough thought. We learn early on how to write code that other people can use and understand, but the process of reviewing code and providing good feedback can also help us to grow as engineers and communicate better with our team.
+
+Approaching our code reviews from a place of intentionality can help us build better relationships with our teammates, inspire more thoughtful conversations, and improve the quality of the work we are putting out into the world.
+
+## Identify risks
+
+As a code reviewer, our number one priority should be identifying risks. For example, if we see a code path that could create an infinite loop and take down the production database, we should definitely call it out. Even if we aren't talking about taking down production, we wouldn't care about smaller issues if there wasn't some level of risk associated. Perhaps adding additional arguments to this class could make it less flexible for a future use case, or adding a layer of abstraction could confuse other developers and lead to more bugs. Framing feedback in terms of risks helps us to communicate what is important to us as a reviewer and why.
+
+In our feedback, we should communicate clearly about the level of risk we are pointing out, and how important it is for the reviewer to act on our feedback. Personally, I like to use the phrase "not a blocker" when I'm commenting on things that could be considered differences in opinion, and I know some teams develop specific language for labeling code comments depending on the perceived level of importance. When the risks are large, it's absolutely acceptable to block code from being merged until the risks have been addressed, but when the risks are truly small, we should trust the author enough to let them choose when and how to act on our advice.
+
+## Set an intention
+
+What is your relationship to the author? Are you their manager, mentor, teammate, or none of the above? Do you have a long-standing relationship, or are you just getting to know them? These factors can all influence the intention we set for this code review.
+
+For example, if the author is a junior developer whom I am mentoring, my intention might be to teach them about best practices and point them to resources that can help them understand programming concepts. If the author is a long-standing contributor to a project I'm less familiar with, my intention might be to learn about the existing code structure while only calling out major risks and making non-blocking suggestions. If I were to comment on the code of an experienced contributor with a link to a beginner-friendly article about JavaScript classes, my comment would seem pretty tone-deaf.
+
+## Ask calibrated questions
+
+Asking questions rather than making statements can be a great strategy for better code reviews. However, it also helps to ask the right kind of questions.
+
+In the book _Never Split the Difference_, author Chris Voss uses his experience as an FBI hostage negotiator to share strategies for everyday negotiations at work. While I would hope that a pull request is different from a hostage negotiation, I think he makes a great point when he talks about using calibrated questions to fuel a conversation. Questions that start with "why" often make the other party defensive. However, questions that start with "how" or "what" invite them to respond in a more open-ended way. For example, asking a question like "why didn't you handle that error case?" may only elicit a shrug emoji in response, while "how might we better guard against unexpected arguments?" opens up a conversation. "How" questions lead to more thoughtful responses and encourage collaboration rather than defensiveness.
+
+If your questions lead to a larger discussion, think about getting in the same room (or a Zoom or Slack call) and having a face-to-face conversation. Not only is this often faster, but it encourages more thoughtful conversation than you can have in a flurry of typing comments. If maintaining documentation is important, leave another comment after the conversation to document what you discussed in the call and your plan of action moving forward.
+
+## Do your homework
+
+If you're reviewing code that is written in a language or framework less familiar to you, it can be challenging to get past the unfamiliar syntax and figure out what is going on. Especially if you're a junior developer or newer to the codebase, there's nothing wrong with asking clarifying questions or asking for help to figure out what an unfamiliar piece of code is doing. If you can't understand this code, there's a very good chance that someone else would also struggle, and the code might benefit from more descriptive variable names, smaller functions, descriptive comments, or more straightforward syntax.
+
+However, if most of these boxes have been checked and you're still confused about what a React component is and why you need to use specific syntax to create one, there comes a point where you need to use your expert Googling skills. While you don't need to be an expert in the language or framework you are reviewing to provide good feedback, it's usually best if you try to answer your own beginner-level questions before asking the author of the pull request to answer them for you. At least from the perspective of a pull request author, it can be challenging to address real feedback while also taking time to point the reviewer to documentation about basic syntax or language conventions.
+
+## Be kind
+
+I know this one should go without saying, but being a thoughtful and empathetic reviewer can make a big difference in another person's experience, whether it's on your team at work, on an open-source project, or in a learning environment. Even as a manager, a mentor, or a more senior engineer, the best gift we can give to another person is a willingness to learn and respect for their experience. When we practice giving and receiving thoughtful feedback, we are not only learning to be a better engineer, but also a better human.

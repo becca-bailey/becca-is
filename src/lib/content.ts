@@ -114,8 +114,96 @@ export async function getFeaturedProjects(limit = 3) {
 	return entries.filter((entry) => entry.data.featured).slice(0, limit);
 }
 
+export function technicalUrl(slug: string) {
+	return `/speaking-and-writing/${slug}`;
+}
+
+export function technicalIndexUrl() {
+	return '/speaking-and-writing';
+}
+
+export type TechnicalType = TechnicalEntry['data']['type'];
+
+export function technicalTypeLabel(type: TechnicalType) {
+	switch (type) {
+		case 'blog':
+			return 'Blog';
+		case 'talk':
+			return 'Talk';
+		case 'podcast':
+			return 'Podcast';
+	}
+}
+
+export function externalLinkLabel(entry: TechnicalEntry) {
+	const { type, externalUrl, republished } = entry.data;
+	if (!externalUrl) return 'Learn more';
+	if (republished || externalUrl.includes('web.archive.org')) {
+		return 'View archived original';
+	}
+	if (type === 'podcast') return 'Listen to episode';
+	if (type === 'talk') {
+		if (externalUrl.includes('noti.st')) return 'View slides';
+		if (externalUrl.includes('github.com')) return 'View on GitHub';
+		if (externalUrl.includes('slides.com')) return 'View slides';
+		if (externalUrl.includes('youtube.com') || externalUrl.includes('youtu.be')) {
+			return 'Watch talk';
+		}
+		return 'View talk';
+	}
+	return 'Read article';
+}
+
+export type TechnicalLink = { href: string; label: string };
+
+export function getTechnicalLinks(entry: TechnicalEntry): TechnicalLink[] {
+	const links: TechnicalLink[] = [];
+	const { recordingUrl, resources } = entry.data;
+
+	if (recordingUrl) {
+		links.push({ href: recordingUrl, label: 'Watch recording' });
+	}
+
+	for (const resource of resources) {
+		links.push({ href: resource.url, label: resource.label });
+	}
+
+	return links;
+}
+
+export async function getPublishedTechnical() {
+	const entries = await getCollection('technical');
+	return entries
+		.filter((entry) => !entry.data.draft)
+		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+}
+
+export async function getTechnicalBySlug(slug: string) {
+	const entries = await getPublishedTechnical();
+	return entries.find((entry) => entry.id === slug);
+}
+
+export async function resolveRelatedTechnical(slugs: string[]) {
+	const published = await getPublishedTechnical();
+	const byId = new Map(published.map((entry) => [entry.id, entry]));
+	return slugs.map((slug) => byId.get(slug)).filter((entry): entry is TechnicalEntry => entry != null);
+}
+
+export async function getFeaturedTechnical(limit = 3) {
+	const entries = await getPublishedTechnical();
+	return entries.filter((entry) => entry.data.featured).slice(0, limit);
+}
+
+export function getTechnicalMeta(entry: TechnicalEntry) {
+	const { venue, host, pubDate } = entry.data;
+	const date = formatDate(pubDate);
+	const place = venue ?? host;
+	return place ? `${place} · ${date}` : date;
+}
+
 export type WritingEntry = CollectionEntry<'writing'>;
 export type ReadingPathEntry = CollectionEntry<'readingPaths'>;
 export type ProjectEntry = CollectionEntry<'projects'>;
+export type TechnicalEntry = CollectionEntry<'technical'>;
 export type EssayStatus = WritingEntry['data']['status'];
 export type Influence = WritingEntry['data']['influences'][number];

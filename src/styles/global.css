@@ -294,6 +294,119 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	border-top: 1px solid var(--color-border);
 }
 
+.technical-prose :not(pre) > code {
+	@apply rounded-sm bg-stone-brown/10 px-1.5 py-0.5 font-mono text-[0.9em];
+}
+
+.technical-prose pre {
+	@apply my-6 overflow-x-auto rounded-md border border-border bg-stone-brown/5 p-4 text-sm leading-relaxed;
+	tab-size: 2;
+}
+
+.technical-prose pre code {
+	@apply bg-transparent p-0 text-[inherit];
+}
+
+.technical-summary {
+	@apply mb-10 rounded-md border border-border bg-peach/15 px-5 py-4;
+}
+
+.technical-summary-label {
+	@apply mb-2 font-sans text-xs font-medium tracking-wide text-text-muted uppercase;
+}
+
+.technical-type-badge {
+	@apply inline-block rounded-sm border border-border bg-peach/30 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
+}
+
+.timeline {
+	@apply relative pl-8 md:pl-10;
+}
+
+.timeline-track {
+	@apply pointer-events-none absolute top-0 bottom-0 left-3 w-px bg-border md:left-4;
+}
+
+.timeline-progress {
+	@apply absolute top-0 left-0 w-full origin-top bg-blue;
+	height: 100%;
+	transform: scaleY(var(--timeline-progress, 0));
+}
+
+.timeline-entry {
+	@apply relative pb-14 last:pb-0;
+}
+
+.timeline-marker {
+	@apply absolute top-2 left-3 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-background bg-blue md:left-4;
+}
+
+.type-filter-tab {
+	@apply rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-peach/20;
+}
+
+.type-filter-tab-active {
+	@apply border-blue/40 bg-peach/30 text-text;
+}
+
+.technical-placeholder-thumb {
+	@apply block aspect-[16/10] w-full overflow-hidden rounded-md border border-border no-underline transition-colors hover:border-blue/40;
+}
+
+.technical-placeholder-thumb-inner {
+	@apply flex h-full flex-col justify-between p-5 md:p-6;
+}
+
+.technical-placeholder-thumb--blog {
+	background: linear-gradient(
+		145deg,
+		color-mix(in srgb, var(--color-peach) 55%, var(--color-background)) 0%,
+		var(--color-background) 70%
+	);
+}
+
+.technical-placeholder-thumb--talk {
+	background: linear-gradient(
+		145deg,
+		color-mix(in srgb, var(--color-blue) 28%, var(--color-background)) 0%,
+		var(--color-background) 72%
+	);
+}
+
+.technical-placeholder-thumb--podcast {
+	background: linear-gradient(
+		145deg,
+		color-mix(in srgb, var(--color-pink) 35%, var(--color-background)) 0%,
+		var(--color-background) 70%
+	);
+}
+
+.technical-placeholder-thumb-type {
+	@apply self-start rounded-sm border border-border/80 bg-background/70 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
+}
+
+.technical-placeholder-thumb-title {
+	@apply mb-0 line-clamp-4 font-sans text-lg font-medium leading-snug tracking-tight text-text md:text-xl;
+}
+
+.technical-placeholder-thumb-meta {
+	@apply mb-0 font-sans text-xs font-medium text-text-muted md:text-sm;
+}
+
+.technical-figure-grid {
+	@apply my-8 grid gap-6 sm:grid-cols-2;
+}
+
+.technical-figure-grid .essay-figure {
+	@apply my-0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.timeline-progress {
+		transform: scaleY(1);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.hero-fade-up,
 	.hero-fade-up-delay-1,

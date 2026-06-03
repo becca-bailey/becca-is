@@ -1,0 +1,11 @@
+---
+import { technicalTypeLabel, type TechnicalType } from '@/lib/content';
+
+interface Props {
+	type: TechnicalType;
+}
+
+const { type } = Astro.props;
+---
+
+<span class="technical-type-badge">{technicalTypeLabel(type)}</span>

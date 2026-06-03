@@ -1,0 +1,31 @@
+---
+import { formatDate, technicalTypeLabel, type TechnicalType } from '@/lib/content';
+
+interface Props {
+	title: string;
+	type: TechnicalType;
+	pubDate: Date;
+	venue?: string;
+	host?: string;
+	href?: string;
+}
+
+const { title, type, pubDate, venue, host, href } = Astro.props;
+const subtitle = venue ?? host ?? formatDate(pubDate);
+const year = pubDate.getFullYear();
+const metaLine = venue || host ? `${subtitle} · ${year}` : subtitle;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+	href={href}
+	class:list={['technical-placeholder-thumb', `technical-placeholder-thumb--${type}`]}
+	tabindex={href ? -1 : undefined}
+	aria-hidden={href ? 'true' : undefined}
+>
+	<div class="technical-placeholder-thumb-inner">
+		<span class="technical-placeholder-thumb-type">{technicalTypeLabel(type)}</span>
+		<p class="technical-placeholder-thumb-title">{title}</p>
+		<p class="technical-placeholder-thumb-meta">{metaLine}</p>
+	</div>
+</Tag>

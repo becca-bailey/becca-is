@@ -75,4 +75,49 @@ const projects = defineCollection({
 		}),
 });
 
-export const collections = { writing, readingPaths, projects };
+const technicalResource = z.object({
+	url: z.string().url(),
+	label: z.string(),
+});
+
+const technicalType = z.enum(['blog', 'talk', 'podcast']);
+
+const technical = defineCollection({
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: 'src/content/technical',
+		generateId: ({ entry }) => contentId(entry),
+	}),
+	schema: ({ image }) =>
+		z
+			.object({
+				type: technicalType,
+				title: z.string(),
+				pubDate: z.coerce.date(),
+				summary: z.string(),
+				description: z.string().optional(),
+				externalUrl: z.string().url().optional(),
+				recordingUrl: z.string().url().optional(),
+				resources: z.array(technicalResource).optional().default([]),
+				thumbnail: image().optional(),
+				venue: z.string().optional(),
+				host: z.string().optional(),
+				republished: z.boolean().optional().default(false),
+				featured: z.boolean().optional().default(false),
+				draft: z.boolean().optional().default(false),
+				related: z.array(z.string()).optional().default([]),
+			})
+			.superRefine((data, ctx) => {
+				if (data.type === 'talk' || data.type === 'podcast') {
+					if (!data.externalUrl) {
+						ctx.addIssue({
+							code: z.ZodIssueCode.custom,
+							message: `${data.type} entries require externalUrl`,
+							path: ['externalUrl'],
+						});
+					}
+				}
+			}),
+});
+
+export const collections = { writing, readingPaths, projects, technical };

@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import {
+	formatDate,
+	getTechnicalMeta,
+	technicalUrl,
+	truncateExcerpt,
+	type TechnicalEntry,
+} from '@/lib/content';
+import TechnicalTypeBadge from './TechnicalTypeBadge.astro';
+import TechnicalPlaceholderThumb from './TechnicalPlaceholderThumb.astro';
+
+interface Props {
+	entry: TechnicalEntry;
+}
+
+const { entry } = Astro.props;
+const { title, summary, pubDate, thumbnail, venue, host, type } = entry.data;
+const href = technicalUrl(entry.id);
+const excerpt = truncateExcerpt(summary, 200);
+const meta = getTechnicalMeta(entry);
+---
+
+<article class="timeline-entry reveal" data-timeline-entry data-type={entry.data.type}>
+	<div class="timeline-marker" aria-hidden="true"></div>
+	<div class="grid gap-6 md:grid-cols-2 md:gap-10">
+		{
+			thumbnail ? (
+				<a href={href} class="block shrink-0 no-underline" tabindex="-1" aria-hidden="true">
+					<Image
+						src={thumbnail}
+						alt=""
+						class="aspect-[16/10] w-full rounded-md border border-border object-cover"
+						width={640}
+						height={400}
+					/>
+				</a>
+			) : (
+				<TechnicalPlaceholderThumb
+					title={title}
+					type={type}
+					pubDate={pubDate}
+					venue={venue}
+					host={host}
+					href={href}
+				/>
+			)
+		}
+		<div class="min-w-0">
+			<div class="mb-2 flex flex-wrap items-center gap-2">
+				<TechnicalTypeBadge type={entry.data.type} />
+				<time class="font-sans text-sm text-text-muted" datetime={pubDate.toISOString()}>
+					{formatDate(pubDate)}
+				</time>
+			</div>
+			<h2 class="mb-2 font-sans text-xl font-medium md:text-2xl">
+				<a href={href} class="text-text no-underline hover:underline">
+					{title}
+				</a>
+			</h2>
+			{meta && <p class="mb-3 font-sans text-sm text-text-muted">{meta}</p>}
+			<p class="mb-4 text-text-muted">{excerpt}</p>
+			<a
+				href={href}
+				class="font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+			>
+				Read more &rarr;
+			</a>
+		</div>
+	</div>
+</article>
