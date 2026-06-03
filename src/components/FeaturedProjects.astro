@@ -6,22 +6,28 @@ import { getFeaturedProjects } from '@/lib/content';
 import { site } from '@/lib/site';
 
 const projects = await getFeaturedProjects(3);
+const projectsIndexUrl = '/making-things';
+const viewAllClasses =
+	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<SectionHeader
-		title="Projects"
-		intro={site.projectsIntro}
-		image={lucy}
-	/>
+	<SectionHeader title="Projects" intro={site.homeProjectsIntro} image={lucy} />
 
 	{
 		projects.length > 0 ? (
-			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-				{projects.map((entry) => (
-					<ProjectCard entry={entry} variant="featured" />
-				))}
-			</div>
+			<>
+				<div class="reveal-stagger grid gap-6 md:grid-cols-2">
+					{projects.map((entry) => (
+						<ProjectCard entry={entry} variant="featured" />
+					))}
+				</div>
+				<p class="mt-8">
+					<a href={projectsIndexUrl} class={viewAllClasses}>
+						View all projects &rarr;
+					</a>
+				</p>
+			</>
 		) : (
 			<p class="text-text-muted">Featured projects coming soon.</p>
 		)

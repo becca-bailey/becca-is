@@ -9,7 +9,6 @@ const year = new Date().getFullYear();
 		<div class="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
 			<div>
 				<p class="font-sans text-sm text-text">{site.name}</p>
-				<p class="text-sm text-text-muted">{site.tagline}</p>
 			</div>
 			<nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Footer navigation">
 				<a
@@ -33,6 +32,14 @@ const year = new Date().getFullYear();
 					rel="noopener noreferrer"
 				>
 					GitHub
+				</a>
+				<a
+					href={site.links.substack}
+					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Performance Anxiety
 				</a>
 			</nav>
 		</div>

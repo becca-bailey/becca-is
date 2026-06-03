@@ -1,0 +1,35 @@
+---
+import TechnicalCard from './technical/TechnicalCard.astro';
+import SectionHeader from './SectionHeader.astro';
+import becca from '../assets/becca.png';
+import { getFeaturedTechnical, technicalIndexUrl } from '@/lib/content';
+import { site } from '@/lib/site';
+
+const entries = await getFeaturedTechnical(4);
+const indexUrl = technicalIndexUrl();
+const viewAllClasses =
+	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
+---
+
+<section class="reveal mb-12 md:mb-28">
+	<SectionHeader title="Speaking and Technical Writing" intro={site.homeSpeakingIntro} image={becca} />
+
+	{
+		entries.length > 0 ? (
+			<>
+				<div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
+					{entries.map((entry) => (
+						<TechnicalCard entry={entry} variant="compact" />
+					))}
+				</div>
+				<p>
+					<a href={indexUrl} class={viewAllClasses}>
+						View all &rarr;
+					</a>
+				</p>
+			</>
+		) : (
+			<p class="text-text-muted">Featured speaking and writing coming soon.</p>
+		)
+	}
+</section>

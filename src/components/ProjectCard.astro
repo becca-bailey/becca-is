@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { projectUrl, type ProjectEntry } from '@/lib/content';
+import { projectUrl, truncateExcerpt, type ProjectEntry } from '@/lib/content';
 
 interface Props {
 	entry: ProjectEntry;
@@ -13,6 +13,7 @@ const href = projectUrl(entry.id);
 const isFeatured = variant === 'featured';
 const year = pubDate?.getFullYear();
 const meta = [medium, year].filter(Boolean).join(' · ');
+const blurb = isFeatured ? truncateExcerpt(description, 140) : description;
 const linkClasses =
 	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
@@ -38,7 +39,9 @@ const linkClasses =
 				{title}
 			</a>
 		</h3>
-		<p class="mb-4 flex-1 text-text-muted">{description}</p>
+		<p class:list={['mb-4 flex-1 text-text-muted', isFeatured && 'line-clamp-3 text-sm leading-relaxed']}>
+			{blurb}
+		</p>
 		{meta && <p class="mb-4 font-sans text-sm text-text-muted">{meta}</p>}
 		<a href={href} class={linkClasses}>
 			View project &rarr;

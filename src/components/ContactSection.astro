@@ -14,10 +14,7 @@ const { class: className } = Astro.props;
 	id="contact"
 	class={cn('reveal rounded-md border border-border bg-peach/30 p-8 text-left', className)}
 >
-	<h2 class="mb-3">Get In Touch</h2>
-	<p class="mb-6 text-text-muted">
-		I'm open to freelance projects, fractional technical leadership, writing, speaking, and
-		thoughtful conversations about what you're building.
-	</p>
+	<h2 class="mb-3">{site.contactHeading}</h2>
+	<p class="mb-6 text-text-muted">{site.contactIntro}</p>
 	<Button href={mailto()}>Send an email</Button>
 </section>

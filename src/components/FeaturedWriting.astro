@@ -3,24 +3,43 @@ import EssayCard from './EssayCard.astro';
 import SectionHeader from './SectionHeader.astro';
 import coffee from '../assets/coffee.png';
 import { getFeaturedWriting } from '@/lib/content';
+import { site } from '@/lib/site';
 
 const essays = await getFeaturedWriting(3);
+const linkClasses =
+	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<SectionHeader
-		title="Featured Writing"
-		intro="Essays about technology, work, care, community, and the systems that shape ordinary life."
-		image={coffee}
-	/>
+	<SectionHeader title="Featured Essays" image={coffee}>
+		<p slot="intro" class="m-0">
+			Essays from <em>Performance Anxiety</em>, an ongoing writing project about technology, work,
+			community, care, and the systems that shape ordinary life.
+		</p>
+	</SectionHeader>
 
 	{
 		essays.length > 0 ? (
-			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-				{essays.map((entry) => (
-					<EssayCard entry={entry} variant="cover" />
-				))}
-			</div>
+			<>
+				<div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
+					{essays.map((entry) => (
+						<EssayCard entry={entry} variant="cover" />
+					))}
+				</div>
+				<div class="flex flex-col items-start gap-2">
+					<a href="/writing" class={linkClasses}>
+						View all essays &rarr;
+					</a>
+					<a
+						href={site.links.substack}
+						target="_blank"
+						rel="noopener noreferrer"
+						class={linkClasses}
+					>
+						Subscribe on Substack &rarr;
+					</a>
+				</div>
+			</>
 		) : (
 			<p class="text-text-muted">Featured essays coming soon.</p>
 		)

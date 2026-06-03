@@ -11,6 +11,12 @@ export default defineConfig({
   site: 'https://becca.is',
   output: 'static',
 
+  redirects: {
+    '/working': '/about',
+    '/talks': '/speaking-and-writing',
+    '/talks/[slug]': '/speaking-and-writing/[slug]',
+  },
+
   integrations: [mdx(), react()],
 
   markdown: {

@@ -16,6 +16,13 @@ export function formatDate(date: Date) {
 	});
 }
 
+export function formatMonthYear(date: Date) {
+	return date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+	});
+}
+
 /** Card excerpts — full description still used on essay pages. */
 export const CARD_EXCERPT_MAX_LENGTH = 360;
 
@@ -109,8 +116,11 @@ export async function getPublishedProjects(
 	);
 }
 
-export async function getFeaturedProjects(limit = 3) {
-	const entries = await getPublishedProjects();
+export async function getFeaturedProjects(
+	limit = 3,
+	category?: 'technical' | 'making' | 'digital-illustration',
+) {
+	const entries = await getPublishedProjects(category);
 	return entries.filter((entry) => entry.data.featured).slice(0, limit);
 }
 
@@ -120,6 +130,12 @@ export function technicalUrl(slug: string) {
 
 export function technicalIndexUrl() {
 	return '/speaking-and-writing';
+}
+
+export function getTechnicalCardMeta(entry: TechnicalEntry) {
+	const { venue, host, pubDate } = entry.data;
+	const place = venue ?? host;
+	return place ? `${place} · ${formatMonthYear(pubDate)}` : formatMonthYear(pubDate);
 }
 
 export type TechnicalType = TechnicalEntry['data']['type'];

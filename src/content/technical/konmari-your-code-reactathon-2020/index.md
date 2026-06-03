@@ -14,5 +14,5 @@ description: >-
   testing behavior not implementation details, and making incremental improvements
   part of daily work.
 externalUrl: https://noti.st/beccabailey/EDZack/konmari-your-code-finding-joy-in-refactoring
-featured: true
+featured: false
 ---
