@@ -2,7 +2,7 @@
 type: talk
 title: The State of React State in 2019
 pubDate: 2019-10-24
-venue: React Conf
+venue: React Conf · Las Vegas, NV
 thumbnail: ./thumbnail.png
 summary: >-
   I gave this talk at React Conf in 2019 about state management when hooks, Context,

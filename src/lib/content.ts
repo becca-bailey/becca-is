@@ -151,6 +151,40 @@ export function technicalTypeLabel(type: TechnicalType) {
 	}
 }
 
+export function getTechnicalPreviewAlt(entry: TechnicalEntry) {
+	const { title, type } = entry.data;
+	switch (type) {
+		case 'talk':
+			return `Slide preview for the talk “${title}”`;
+		case 'podcast':
+			return `Cover image for the podcast episode “${title}”`;
+		default:
+			return `Cover image for “${title}”`;
+	}
+}
+
+export function getTechnicalPreviewCaption(entry: TechnicalEntry) {
+	switch (entry.data.type) {
+		case 'talk':
+			return 'Slide preview';
+		case 'podcast':
+			return 'Episode artwork';
+		default:
+			return 'Cover image';
+	}
+}
+
+export function getTechnicalActionsLabel(type: TechnicalType) {
+	switch (type) {
+		case 'talk':
+			return 'Watch and resource links';
+		case 'podcast':
+			return 'Listen and resource links';
+		default:
+			return 'Article links';
+	}
+}
+
 export function externalLinkLabel(entry: TechnicalEntry) {
 	const { type, externalUrl, republished } = entry.data;
 	if (!externalUrl) return 'Learn more';

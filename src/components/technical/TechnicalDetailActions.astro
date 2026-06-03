@@ -1,0 +1,52 @@
+---
+import Button from '../Button.astro';
+import {
+	externalLinkLabel,
+	getTechnicalActionsLabel,
+	getTechnicalLinks,
+	type TechnicalEntry,
+} from '@/lib/content';
+
+interface Props {
+	entry: TechnicalEntry;
+}
+
+const { entry } = Astro.props;
+const { externalUrl, type } = entry.data;
+const secondaryLinks = getTechnicalLinks(entry);
+const hasActions = Boolean(externalUrl) || secondaryLinks.length > 0;
+---
+
+{
+	hasActions && (
+		<section class="technical-actions mb-8" aria-label={getTechnicalActionsLabel(type)}>
+			{
+				externalUrl && (
+					<div class={secondaryLinks.length > 0 ? 'mb-4' : ''}>
+						<Button href={externalUrl} target="_blank" rel="noopener noreferrer">
+							{externalLinkLabel(entry)}
+						</Button>
+					</div>
+				)
+			}
+			{
+				secondaryLinks.length > 0 && (
+					<ul class="flex flex-wrap gap-x-4 gap-y-2 font-sans text-sm">
+						{secondaryLinks.map((link) => (
+							<li>
+								<a
+									href={link.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+								>
+									{link.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</section>
+	)
+}

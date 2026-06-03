@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import {
 	formatDate,
 	getTechnicalMeta,
+	getTechnicalPreviewAlt,
 	technicalUrl,
 	truncateExcerpt,
 	type TechnicalEntry,
@@ -29,8 +30,8 @@ const meta = getTechnicalMeta(entry);
 				<a href={href} class="block shrink-0 no-underline" tabindex="-1" aria-hidden="true">
 					<Image
 						src={thumbnail}
-						alt=""
-						class="aspect-[16/10] w-full rounded-md border border-border object-cover"
+						alt={getTechnicalPreviewAlt(entry)}
+						class="aspect-[16/10] w-full rounded-md border border-border object-cover object-left-top"
 						width={640}
 						height={400}
 					/>

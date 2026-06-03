@@ -2,12 +2,13 @@
 import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import RevealScript from '../../components/RevealScript.astro';
-import Button from '../../components/Button.astro';
+import TechnicalDetailActions from '../../components/technical/TechnicalDetailActions.astro';
+import TechnicalPreviewFigure from '../../components/technical/TechnicalPreviewFigure.astro';
 import TechnicalTypeBadge from '../../components/technical/TechnicalTypeBadge.astro';
 import {
-	externalLinkLabel,
 	formatDate,
-	getTechnicalLinks,
+	getTechnicalPreviewAlt,
+	getTechnicalPreviewCaption,
 	resolveRelatedTechnical,
 	technicalIndexUrl,
 	technicalUrl,
@@ -28,14 +29,15 @@ const {
 	summary,
 	description,
 	pubDate,
-	externalUrl,
 	venue,
 	host,
+	thumbnail,
+	type,
+	republished,
 } = entry.data;
 
 const { Content } = await render(entry);
 const hasBody = (entry.body ?? '').trim().length > 0;
-const secondaryLinks = getTechnicalLinks(entry);
 const related = await resolveRelatedTechnical(entry.data.related);
 const pageDescription = description ?? summary;
 const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
@@ -43,18 +45,23 @@ const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
 
 <Layout title={pageTitle} description={pageDescription}>
 	<article class="max-w-prose">
-		<p class="mb-6">
+		<nav class="mb-6" aria-label="Breadcrumb">
 			<a
 				href={technicalIndexUrl()}
 				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
 			>
 				&larr; Speaking & Technical Writing
 			</a>
-		</p>
+		</nav>
 
 		<header class="mb-8">
 			<div class="mb-3 flex flex-wrap items-center gap-2">
-				<TechnicalTypeBadge type={entry.data.type} />
+				<TechnicalTypeBadge type={type} />
+				{
+					republished && (
+						<span class="technical-republished-badge">Republished</span>
+					)
+				}
 				<time class="font-sans text-sm text-text-muted" datetime={pubDate.toISOString()}>
 					{formatDate(pubDate)}
 				</time>
@@ -63,52 +70,38 @@ const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
 			{(venue || host) && <p class="font-sans text-sm text-text-muted">{venue ?? host}</p>}
 		</header>
 
-		<aside class="technical-summary editorial-prose">
-			<p class="technical-summary-label">Summary</p>
+		{
+			thumbnail && (
+				<TechnicalPreviewFigure
+					src={thumbnail}
+					alt={getTechnicalPreviewAlt(entry)}
+					caption={getTechnicalPreviewCaption(entry)}
+				/>
+			)
+		}
+
+		<aside class="technical-summary editorial-prose" aria-labelledby="summary-heading">
+			<h2 id="summary-heading" class="technical-summary-label">Summary</h2>
 			<p class="mb-0 leading-[1.75] text-text-muted">{summary}</p>
 		</aside>
 
-		{
-			externalUrl && (
-				<div class="my-8 flex flex-wrap gap-4">
-					<Button href={externalUrl} target="_blank" rel="noopener noreferrer">
-						{externalLinkLabel(entry)}
-					</Button>
-				</div>
-			)
-		}
-
-		{
-			secondaryLinks.length > 0 && (
-				<ul class="mb-8 flex flex-wrap gap-x-4 gap-y-2 font-sans text-sm">
-					{secondaryLinks.map((link) => (
-						<li>
-							<a
-								href={link.href}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
-							>
-								{link.label}
-							</a>
-						</li>
-					))}
-				</ul>
-			)
-		}
+		<TechnicalDetailActions entry={entry} />
 
 		{
 			hasBody && (
-				<div class="prose technical-prose">
-					<Content />
-				</div>
+				<section class="technical-article mt-10" aria-labelledby="article-heading">
+					<h2 id="article-heading" class="sr-only">Article</h2>
+					<div class="prose technical-prose">
+						<Content />
+					</div>
+				</section>
 			)
 		}
 
 		{
 			related.length > 0 && (
-				<aside class="mt-12 border-t border-border pt-8">
-					<h2 class="mb-4 font-sans text-lg font-medium">Related</h2>
+				<aside class="mt-12 border-t border-border pt-8" aria-labelledby="related-heading">
+					<h2 id="related-heading" class="mb-4 font-sans text-lg font-medium">Related</h2>
 					<ul class="space-y-2">
 						{related.map((item) => (
 							<li>

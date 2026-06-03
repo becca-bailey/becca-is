@@ -2,24 +2,33 @@
 import { mailto, site } from '@/lib/site';
 
 const year = new Date().getFullYear();
+
+const footerLinkClasses =
+	'inline-block rounded-sm font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue py-2 md:py-0';
 ---
 
 <footer class="mt-16 border-t border-border bg-background">
-	<div class="mx-auto max-w-6xl px-4 py-8 md:px-8">
-		<div class="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
-			<div>
-				<p class="font-sans text-sm text-text">{site.name}</p>
+	<div class="mx-auto max-w-6xl px-4 py-10 md:px-8 md:py-8">
+		<div
+			class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-6"
+		>
+			<div class="min-w-0">
+				<p class="font-sans text-sm font-medium text-text">{site.name}</p>
+				<p class="mt-2 font-sans text-sm text-text-muted">
+					&copy; {year} {site.name}. All rights reserved.
+				</p>
 			</div>
-			<nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Footer navigation">
-				<a
-					href={mailto()}
-					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
-				>
+
+			<nav
+				class="flex flex-col items-start gap-1 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2"
+				aria-label="Footer navigation"
+			>
+				<a href={mailto()} class={footerLinkClasses}>
 					{site.email}
 				</a>
 				<a
 					href={site.links.linkedin}
-					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+					class={footerLinkClasses}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
@@ -27,7 +36,7 @@ const year = new Date().getFullYear();
 				</a>
 				<a
 					href={site.links.github}
-					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+					class={footerLinkClasses}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
@@ -35,7 +44,7 @@ const year = new Date().getFullYear();
 				</a>
 				<a
 					href={site.links.substack}
-					class="text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+					class={footerLinkClasses}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
@@ -43,8 +52,5 @@ const year = new Date().getFullYear();
 				</a>
 			</nav>
 		</div>
-		<p class="mt-6 text-center text-sm text-text-muted md:text-left">
-			&copy; {year} {site.name}. All rights reserved.
-		</p>
 	</div>
 </footer>
