@@ -10,5 +10,5 @@ summary: >-
   factors, and what teams actually need. It's the technical-leadership side of the
   story I tell in my writing on burnout and labor.
 externalUrl: https://noti.st/beccabailey/eOn5DK/bouncing-back-but-not-back-to-normal
-featured: true
+featured: false
 ---

@@ -108,14 +108,12 @@ const technical = defineCollection({
 				related: z.array(z.string()).optional().default([]),
 			})
 			.superRefine((data, ctx) => {
-				if (data.type === 'talk' || data.type === 'podcast') {
-					if (!data.externalUrl) {
-						ctx.addIssue({
-							code: z.ZodIssueCode.custom,
-							message: `${data.type} entries require externalUrl`,
-							path: ['externalUrl'],
-						});
-					}
+				if (data.type === 'podcast' && !data.externalUrl) {
+					ctx.addIssue({
+						code: z.ZodIssueCode.custom,
+						message: 'podcast entries require externalUrl',
+						path: ['externalUrl'],
+					});
 				}
 			}),
 });
