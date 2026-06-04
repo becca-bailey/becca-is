@@ -209,6 +209,15 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply list-decimal;
 }
 
+.resume-prose ul,
+.resume-prose ol {
+	@apply list-outside pl-6;
+}
+
+.resume-prose li {
+	@apply pl-0.5;
+}
+
 .prose a {
 	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
 }
@@ -452,5 +461,21 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 		opacity: 1 !important;
 		transform: none !important;
+	}
+}
+
+@media print {
+	header,
+	footer {
+		display: none !important;
+	}
+
+	main {
+		max-width: none;
+		padding: 0;
+	}
+
+	.resume-prose hr {
+		border-color: #ccc;
 	}
 }

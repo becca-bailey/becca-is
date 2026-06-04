@@ -1,0 +1,25 @@
+---
+import ResumeLayout from '../../layouts/ResumeLayout.astro';
+import { getPublishedResumes } from '@/lib/content';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const resumes = await getPublishedResumes();
+	return resumes.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+interface Props {
+	entry: Awaited<ReturnType<typeof getPublishedResumes>>[number];
+}
+
+const { entry } = Astro.props;
+const { title, role, description } = entry.data;
+const { Content } = await render(entry);
+---
+
+<ResumeLayout title={title} role={role} description={description}>
+	<Content />
+</ResumeLayout>

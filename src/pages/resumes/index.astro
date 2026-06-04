@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getPublishedResumes, resumeUrl } from '@/lib/content';
+
+const resumes = await getPublishedResumes();
+
+if (resumes.length === 1) {
+	return Astro.redirect(resumeUrl(resumes[0]!.id));
+}
+---
+
+<Layout title="Resumes — Becca Bailey" description="Resume variants by Becca Bailey.">
+	<h1 class="mb-8">Resumes</h1>
+
+	{
+		resumes.length === 0 ? (
+			<p class="text-text-muted">No resumes published yet.</p>
+		) : (
+			<ul class="max-w-prose space-y-6">
+				{resumes.map((entry) => (
+					<li>
+						<a
+							href={resumeUrl(entry.id)}
+							class="group block rounded-md border border-border p-6 no-underline transition-colors hover:border-blue/40 hover:bg-peach/20"
+						>
+							<h2 class="mb-1 font-sans text-xl font-medium text-text group-hover:text-[#3D3832]">
+								{entry.data.title}
+							</h2>
+							<p class="font-sans text-sm text-text-muted">{entry.data.role}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</Layout>

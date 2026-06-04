@@ -118,4 +118,19 @@ const technical = defineCollection({
 			}),
 });
 
-export const collections = { writing, readingPaths, projects, technical };
+const resumes = defineCollection({
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: 'src/content/resumes',
+		generateId: ({ entry }) => contentId(entry),
+	}),
+	schema: z.object({
+		title: z.string(),
+		role: z.string(),
+		description: z.string().optional(),
+		default: z.boolean().optional().default(false),
+		draft: z.boolean().optional().default(false),
+	}),
+});
+
+export const collections = { writing, readingPaths, projects, technical, resumes };
