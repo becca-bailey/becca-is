@@ -1,64 +1,77 @@
 ---
-import { Image } from 'astro:assets';
-import Button from './Button.astro';
-import HomePageLink from './HomePageLink.astro';
-import headshot from '../assets/headshot.jpg';
+import {Image} from "astro:assets";
+import Button from "./Button.astro";
+import HomePageLink from "./HomePageLink.astro";
+import headshot from "../assets/headshot.jpg";
 ---
 
 <section
-	class="mb-10 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
+  class="mb-10 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
 >
-	<div class="hero-fade-up">
-		<div class="mb-4 flex items-start gap-4">
-			<Image
-				src={headshot}
-				alt=""
-				class="h-20 w-20 shrink-0 rounded-lg border border-blue/50 object-cover object-[center_30%] md:hidden"
-				width={2048}
-				height={3072}
-				loading="eager"
-				aria-hidden="true"
-			/>
-			<div class="min-w-0">
-				<h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">Hi, I'm Becca.</h1>
-				<p
-					class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-relaxed text-text md:mb-4 md:text-xl"
-				>
-					I speak and write about technology, community, and systems.
-				</p>
-			</div>
-		</div>
-		<p
-			class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
-		>
-			Over the last decade I've built developer tools, design systems, data visualization platforms,
-			and other software that people rely on every day. Along the way I've led teams, mentored engineers,
-			spoken at conferences, and learned that the hardest problems are rarely purely technical.
-		</p>
-		<p class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted">
-			These days I'm increasingly interested in what happens after we build things: how technical
-			systems shape institutions, how AI affects communities, and what makes people and organizations
-			resilient when circumstances change.
-		</p>
-		<div class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4">
-			<Button href="/writing">Read my essays</Button>
-			<div class="flex flex-col items-start gap-2">
-				<HomePageLink href="/speaking-and-writing">Speaking & Technical Writing</HomePageLink>
-				<HomePageLink href="/making-things">Browse projects</HomePageLink>
-			</div>
-		</div>
-	</div>
+  <div class="hero-fade-up">
+    <div class="mb-4 flex items-start gap-4">
+      <Image
+        src={headshot}
+        alt=""
+        class="h-20 w-20 shrink-0 rounded-lg border border-blue/50 object-cover object-[center_30%] md:hidden"
+        width={2048}
+        height={3072}
+        loading="eager"
+        aria-hidden="true"
+      />
+      <div class="min-w-0">
+        <h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">
+          Hi, I'm Becca.
+        </h1>
+        <p
+          class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-relaxed text-text md:mb-4 md:text-xl"
+        >
+          I speak and write about technology, community, and systems.
+        </p>
+      </div>
+    </div>
+    <p
+      class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
+    >
+      Over the last decade I've built developer tools, design systems, data
+      visualization platforms, and other software that people rely on every day.
+      Along the way I've led teams, mentored engineers, spoken at conferences,
+      and learned that the hardest problems are rarely purely technical.
+    </p>
+    <p
+      class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
+    >
+      These days, I'm increasingly interested in the intersection of technology
+      and social science. How do people feel about work, and why? How is work
+      changing in the AI era? For more on this, check out my most recent
+      project: <a
+        href="/making-things/language-of-work"
+        class="underline hover:text-text">The Language of Work</a
+      >.
+    </p>
+    <div
+      class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4"
+    >
+      <Button href="/writing">Read my essays</Button>
+      <div class="flex flex-col items-start gap-2">
+        <HomePageLink href="/speaking-and-writing"
+          >Speaking & Technical Writing</HomePageLink
+        >
+        <HomePageLink href="/making-things">Browse projects</HomePageLink>
+      </div>
+    </div>
+  </div>
 
-	<div
-		class="hero-fade-up hero-fade-up-delay-3 relative hidden w-80 justify-self-end md:block lg:w-96"
-	>
-		<Image
-			src={headshot}
-			alt="Headshot of Becca Bailey"
-			class="h-auto w-full rounded-lg border border-blue/50"
-			width={2048}
-			height={3072}
-			loading="eager"
-		/>
-	</div>
+  <div
+    class="hero-fade-up hero-fade-up-delay-3 relative hidden w-80 justify-self-end md:block lg:w-96"
+  >
+    <Image
+      src={headshot}
+      alt="Headshot of Becca Bailey"
+      class="h-auto w-full rounded-lg border border-blue/50"
+      width={2048}
+      height={3072}
+      loading="eager"
+    />
+  </div>
 </section>
