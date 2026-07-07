@@ -29,7 +29,7 @@ Published as interactive data stories (Astro + React + visx). The part I'm most 
 
 ## Read it
 
-- [The Language of Work — interactive data stories](https://languageofwork.netlify.app/)
+- [The Language of Work — interactive data stories](https://languageofwork.dev)
 - [Source on GitHub](https://github.com/becca-bailey/language-of-work)
 
 ## Related writing
