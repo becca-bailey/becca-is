@@ -12,10 +12,18 @@
  *        node scripts/import-substack.mjs dark-places a-team-not-a-family
  *        node scripts/import-substack.mjs https://beccabailey.substack.com/p/dark-places
  *
+ *   3. Discovery — walk the archive and import everything not already here.
+ *      This is what the scheduled sync workflow runs, so new posts arrive as a
+ *      pull request instead of a copy-paste:
+ *        node scripts/import-substack.mjs --all
+ *
  * Common flags:
+ *   --all              import every archive post missing from src/content/writing
+ *   --since <date>     with --all, ignore posts published before this date
+ *   --limit <n>        with --all, stop after scanning n archive entries
  *   --path <slug>      add a readingPaths entry (repeatable)
  *   --theme <name>     add a themes entry (repeatable)
- *   --only <slug,...>  with --export, import just these slugs
+ *   --only <slug,...>  with --export or --all, import just these slugs
  *   --publication <s>  publication subdomain (default: beccabailey)
  *   --no-images        skip downloading images
  *   --force            overwrite an essay directory that already exists
@@ -40,6 +48,9 @@ function parseArgs(argv) {
 		themes: [],
 		only: null,
 		exportDir: null,
+		all: false,
+		since: null,
+		limit: 200,
 		publication: 'beccabailey',
 		images: true,
 		force: false,
@@ -52,6 +63,23 @@ function parseArgs(argv) {
 			case '--export':
 				opts.exportDir = argv[++i];
 				break;
+			case '--all':
+				opts.all = true;
+				break;
+			case '--since': {
+				const value = argv[++i];
+				if (!isoDate(value)) throw new Error(`--since needs a parseable date, got "${value}"`);
+				opts.since = isoDate(value);
+				break;
+			}
+			case '--limit': {
+				const value = Number(argv[++i]);
+				if (!Number.isInteger(value) || value < 1) {
+					throw new Error('--limit needs a positive integer');
+				}
+				opts.limit = value;
+				break;
+			}
 			case '--path':
 				opts.readingPaths.push(argv[++i]);
 				break;
@@ -175,9 +203,13 @@ function parseAttrs(raw) {
 	return attrs;
 }
 
-/** Escape the characters that would otherwise be read as markdown syntax. */
+/**
+ * Escape the characters that would otherwise be read as markdown syntax — plus
+ * the braces MDX would compile as a JSX expression, which turns prose like
+ * "the set {x}" into a build-time ReferenceError.
+ */
 function escapeInline(text) {
-	return text.replace(/([\\`*_[\]<>])/g, '\\$1');
+	return text.replace(/([\\`*_[\]<>{}])/g, '\\$1');
 }
 
 function collapse(text) {
@@ -480,6 +512,54 @@ async function fetchPost(slug, publication) {
 	};
 }
 
+/**
+ * Walk the public archive newest-first and return one entry per post. The
+ * archive listing carries metadata but no body, so each slug still goes
+ * through fetchPost — this only answers "what is published?".
+ */
+async function listArchive(publication, { limit, since }) {
+	const headers = { accept: 'application/json' };
+	if (process.env.SUBSTACK_SID) headers.cookie = `substack.sid=${process.env.SUBSTACK_SID}`;
+
+	const pageSize = 50;
+	const entries = [];
+
+	for (let offset = 0; offset < limit; offset += pageSize) {
+		const endpoint =
+			`https://${publication}.substack.com/api/v1/archive` +
+			`?sort=new&limit=${Math.min(pageSize, limit - offset)}&offset=${offset}`;
+
+		const response = await fetch(endpoint, { headers });
+		if (!response.ok) throw new Error(`${endpoint} responded ${response.status}`);
+
+		const page = await response.json();
+		if (!Array.isArray(page) || !page.length) break;
+
+		for (const post of page) {
+			if (!post.slug) continue;
+			const date = isoDate(post.post_date);
+			// The archive is newest-first, so the first post older than --since
+			// means every remaining post is older too.
+			if (since && date && date < since) return entries;
+			entries.push({ slug: post.slug, title: post.title ?? post.slug, date });
+		}
+
+		if (page.length < pageSize) break;
+	}
+
+	return entries;
+}
+
+/** Slugs already imported, so a sync run only fetches what is genuinely new. */
+async function existingSlugs() {
+	try {
+		const dirents = await readdir(WRITING_DIR, { withFileTypes: true });
+		return new Set(dirents.filter((d) => d.isDirectory()).map((d) => d.name));
+	} catch {
+		return new Set();
+	}
+}
+
 /** Split a CSV row, honouring quoted fields and doubled quotes. */
 function splitCsvRow(row) {
 	const cells = [];
@@ -589,6 +669,31 @@ async function main() {
 	if (opts.exportDir) {
 		posts = await readExport(opts.exportDir, opts.publication);
 		if (opts.only) posts = posts.filter((post) => opts.only.has(post.slug));
+	} else if (opts.all) {
+		const archive = await listArchive(opts.publication, opts);
+		const have = opts.force ? new Set() : await existingSlugs();
+		const missing = archive.filter(
+			(entry) => !have.has(entry.slug) && (!opts.only || opts.only.has(entry.slug)),
+		);
+
+		console.log(
+			`Archive: ${archive.length} post(s), ${archive.length - missing.length} already imported.`,
+		);
+		if (!missing.length) {
+			console.log('Nothing new to import.');
+			return;
+		}
+
+		posts = [];
+		for (const entry of missing) {
+			try {
+				posts.push(await fetchPost(entry.slug, opts.publication));
+			} catch (error) {
+				// A paywalled post has no public body — report it, keep going, and
+				// let the rest of the sync succeed.
+				console.warn(`  ${entry.slug}: ${error.message}`);
+			}
+		}
 	} else if (opts.slugs.length) {
 		posts = [];
 		for (const input of opts.slugs) {
@@ -600,7 +705,7 @@ async function main() {
 			}
 		}
 	} else {
-		console.error('Nothing to import. Pass post slugs/URLs, or --export <dir>.');
+		console.error('Nothing to import. Pass post slugs/URLs, --all, or --export <dir>.');
 		console.error('See the comment at the top of this file for examples.');
 		process.exitCode = 1;
 		return;
