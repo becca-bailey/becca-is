@@ -234,22 +234,6 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply my-10 border-0 border-t border-border;
 }
 
-.status-badge {
-	@apply rounded-sm border border-border bg-peach/30 px-2 py-0.5 text-text-muted;
-}
-
-.author-note {
-	@apply my-8 rounded-md border border-border bg-peach/25 px-5 py-4;
-}
-
-.author-note-label {
-	@apply mb-3;
-}
-
-.author-note-body > :first-child {
-	margin-top: 0;
-}
-
 .margin-note {
 	@apply my-6 rounded-md border border-border/80 bg-peach/10 px-4 py-3;
 }

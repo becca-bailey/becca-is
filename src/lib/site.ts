@@ -21,10 +21,6 @@ export const site = {
 		'Talks, podcast appearances, and technical writing by Becca Bailey.',
 	aboutDescription:
 		'Software engineer, writer, and researcher in Seattle—how a decade of building software turned into writing about why work works the way it does.',
-	credibility: {
-		conferences: ['React Conf', 'DevReach', 'Full Stack', 'Reactathon'],
-		publications: ['Formidable', '8th Light', 'Cisco'],
-	},
 	newsletterUrl: 'https://beccabailey.substack.com/?utm_source=becca.is&utm_campaign=homepage',
 	newsletterCta: 'Subscribe on Substack',
 	contactHeading: 'Work With Me',

@@ -267,5 +267,4 @@ export type WritingEntry = CollectionEntry<'writing'>;
 export type ReadingPathEntry = CollectionEntry<'readingPaths'>;
 export type ProjectEntry = CollectionEntry<'projects'>;
 export type TechnicalEntry = CollectionEntry<'technical'>;
-export type EssayStatus = WritingEntry['data']['status'];
 export type Influence = WritingEntry['data']['influences'][number];
