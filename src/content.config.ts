@@ -7,8 +7,6 @@ function contentId(entry: string) {
 	return withoutExt.endsWith('/index') ? withoutExt.slice(0, -'/index'.length) : withoutExt;
 }
 
-const essayStatus = z.enum(['original', 'revised', 'expanded', 'archive']);
-
 const influence = z.object({
 	title: z.string(),
 	author: z.string().optional(),
@@ -29,7 +27,6 @@ const writing = defineCollection({
 		description: z.string(),
 		originalDate: z.coerce.date(),
 		revisedDate: z.coerce.date().optional(),
-		status: essayStatus.default('original'),
 		substackUrl: z.url().optional(),
 		readingPaths: z.array(z.string()).optional().default([]),
 		themes: z.array(z.string()).optional().default([]),
