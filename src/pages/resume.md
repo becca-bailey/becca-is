@@ -80,14 +80,6 @@ _November 2019 – January 2023_
 - Worked closely with product, design, and engineering teams to align technical implementation with business goals.
 - Specialized in web performance and developer experience initiatives.
 
-### Software Engineer
-
-**The Mom Project** · Chicago, IL  
-_May 2019 – August 2019_
-
-- Improved a Ruby on Rails and React application through feature development and technical debt reduction.
-- Created a JavaScript style guide to improve consistency and maintainability across the frontend codebase.
-
 ### Lead Software Crafter / Software Crafter
 
 **8th Light** · Chicago, IL  
