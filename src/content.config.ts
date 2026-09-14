@@ -14,7 +14,7 @@ const influence = z.object({
 	author: z.string().optional(),
 	year: z.coerce.number().optional(),
 	type: z.enum(['book', 'paper', 'article', 'essay', 'talk']).optional(),
-	url: z.string().url().optional(),
+	url: z.url().optional(),
 });
 
 const writing = defineCollection({
@@ -30,7 +30,7 @@ const writing = defineCollection({
 		originalDate: z.coerce.date(),
 		revisedDate: z.coerce.date().optional(),
 		status: essayStatus.default('original'),
-		substackUrl: z.string().url().optional(),
+		substackUrl: z.url().optional(),
 		readingPaths: z.array(z.string()).optional().default([]),
 		themes: z.array(z.string()).optional().default([]),
 		influences: z.array(influence).optional().default([]),
@@ -76,7 +76,7 @@ const projects = defineCollection({
 });
 
 const technicalResource = z.object({
-	url: z.string().url(),
+	url: z.url(),
 	label: z.string(),
 });
 
@@ -96,8 +96,8 @@ const technical = defineCollection({
 				pubDate: z.coerce.date(),
 				summary: z.string(),
 				description: z.string().optional(),
-				externalUrl: z.string().url().optional(),
-				recordingUrl: z.string().url().optional(),
+				externalUrl: z.url().optional(),
+				recordingUrl: z.url().optional(),
 				resources: z.array(technicalResource).optional().default([]),
 				thumbnail: image().optional(),
 				venue: z.string().optional(),
@@ -110,7 +110,7 @@ const technical = defineCollection({
 			.superRefine((data, ctx) => {
 				if (data.type === 'podcast' && !data.externalUrl) {
 					ctx.addIssue({
-						code: z.ZodIssueCode.custom,
+						code: 'custom',
 						message: 'podcast entries require externalUrl',
 						path: ['externalUrl'],
 					});
