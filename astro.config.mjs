@@ -13,6 +13,8 @@ export default defineConfig({
 
   redirects: {
     '/working': '/about',
+    '/resumes': '/resume',
+    '/resumes/developer-educator': '/resume',
     '/talks': '/speaking-and-writing',
     '/talks/[slug]': '/speaking-and-writing/[slug]',
   },

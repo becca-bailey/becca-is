@@ -8,7 +8,7 @@ category: technical
 medium: Research & Data Visualization
 featuredImage: ./featured.png
 pubDate: 2021-10-01
-featured: true
+featured: false
 ---
 
 During a Formidable Fellowship, I investigated the performance challenges of rendering large, interactive data visualizations on the web.

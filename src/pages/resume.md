@@ -1,8 +1,8 @@
 ---
+layout: ../layouts/ResumeLayout.astro
 title: Rebecca Bailey
 role: Developer Educator & Technical Community Builder
 description: Resume — developer education, technical community, and engineering leadership.
-default: true
 ---
 
 Seattle, WA
@@ -157,7 +157,7 @@ On labor, recognition, and who gets credit for the work that holds systems toget
 
 - Mentored engineers through 8th Light's apprenticeship program, focusing on code review, teaching, and professional development.
 - Managed and mentored teams of two to six engineers at Formidable across multiple client engagements.
-- Former K–12 educator in music, art, and drama — experience that continues to shape how I explain complex systems and work with teams.
+- Former K–12 educator in music, art, and drama—experience that continues to shape how I explain complex systems and work with teams.
 - Conference speaker at React Conf, DevReach, Full Stack, and Reactathon.
 - Maintainer and contributor for [Victory](/making-things/data-visualization-victory-main-thread), an open-source charting library built with React and D3.
 - Available for speaking, developer education, technical writing, and selective consulting.

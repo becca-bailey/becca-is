@@ -228,6 +228,16 @@ export async function getPublishedTechnical() {
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
 
+/** Original posts written for this site, as opposed to republished/external work. */
+export function isOriginalPost(entry: TechnicalEntry) {
+	return entry.data.type === 'blog' && !entry.data.republished && !entry.data.externalUrl;
+}
+
+export async function getRecentOriginalPosts(limit = 4) {
+	const entries = await getPublishedTechnical();
+	return entries.filter(isOriginalPost).slice(0, limit);
+}
+
 export async function getTechnicalBySlug(slug: string) {
 	const entries = await getPublishedTechnical();
 	return entries.find((entry) => entry.id === slug);
@@ -251,35 +261,11 @@ export function getTechnicalMeta(entry: TechnicalEntry) {
 	return place ? `${place} · ${date}` : date;
 }
 
-export function resumeUrl(slug: string) {
-	return `/resumes/${slug}`;
-}
-
-export function resumeIndexUrl() {
-	return '/resumes';
-}
-
-export async function getPublishedResumes() {
-	const entries = await getCollection('resumes');
-	return entries
-		.filter((entry) => !entry.data.draft)
-		.sort((a, b) => {
-			if (a.data.default !== b.data.default) {
-				return a.data.default ? -1 : 1;
-			}
-			return a.id.localeCompare(b.id);
-		});
-}
-
-export async function getResumeBySlug(slug: string) {
-	const entries = await getPublishedResumes();
-	return entries.find((entry) => entry.id === slug);
-}
+export const resumeUrl = '/resume';
 
 export type WritingEntry = CollectionEntry<'writing'>;
 export type ReadingPathEntry = CollectionEntry<'readingPaths'>;
 export type ProjectEntry = CollectionEntry<'projects'>;
 export type TechnicalEntry = CollectionEntry<'technical'>;
-export type ResumeEntry = CollectionEntry<'resumes'>;
 export type EssayStatus = WritingEntry['data']['status'];
 export type Influence = WritingEntry['data']['influences'][number];

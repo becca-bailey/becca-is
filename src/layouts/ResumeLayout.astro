@@ -2,12 +2,14 @@
 import Layout from './Layout.astro';
 
 interface Props {
-	title: string;
-	role: string;
-	description?: string;
+	frontmatter: {
+		title: string;
+		role: string;
+		description?: string;
+	};
 }
 
-const { title, role, description } = Astro.props;
+const { title, role, description } = Astro.props.frontmatter;
 const pageTitle = `${role} — ${title}`;
 ---
 

@@ -4,10 +4,13 @@ import RevealScript from '../../components/RevealScript.astro';
 import TimelineEntry from '../../components/technical/TimelineEntry.astro';
 import TimelineScript from '../../components/technical/TimelineScript.astro';
 import TypeFilterTabs from '../../components/technical/TypeFilterTabs.astro';
-import { getPublishedTechnical } from '@/lib/content';
+import TechnicalCard from '../../components/technical/TechnicalCard.astro';
+import { getPublishedTechnical, getRecentOriginalPosts, isOriginalPost } from '@/lib/content';
 import { site } from '@/lib/site';
 
-const entries = await getPublishedTechnical();
+const recentPosts = await getRecentOriginalPosts();
+const allEntries = await getPublishedTechnical();
+const entries = allEntries.filter((entry) => !isOriginalPost(entry));
 ---
 
 <Layout
@@ -20,8 +23,26 @@ const entries = await getPublishedTechnical();
 	</p>
 
 	{
+		recentPosts.length > 0 && (
+			<section class="reveal mb-14" aria-labelledby="recent-writing-heading">
+				<h2 id="recent-writing-heading" class="mb-6 font-sans text-2xl font-medium">
+					Recent writing
+				</h2>
+				<div class="grid gap-6 sm:grid-cols-2">
+					{recentPosts.map((entry) => (
+						<TechnicalCard entry={entry} />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{
 		entries.length > 0 ? (
 			<>
+				{recentPosts.length > 0 && (
+					<h2 class="reveal mb-6 font-sans text-2xl font-medium">Talks &amp; archive</h2>
+				)}
 				<div class="reveal">
 					<TypeFilterTabs />
 				</div>

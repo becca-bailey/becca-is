@@ -3,6 +3,7 @@ import {Image} from "astro:assets";
 import Button from "./Button.astro";
 import HomePageLink from "./HomePageLink.astro";
 import headshot from "../assets/headshot.jpg";
+import {site} from "@/lib/site";
 ---
 
 <section
@@ -26,39 +27,38 @@ import headshot from "../assets/headshot.jpg";
         <p
           class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-relaxed text-text md:mb-4 md:text-xl"
         >
-          I speak and write about technology, community, and systems.
+          I'm a software engineer, writer, and researcher. I write to help
+          people in tech feel seen.
         </p>
       </div>
     </div>
+
     <p
       class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
     >
-      Over the last decade I've built developer tools, design systems, data
-      visualization platforms, and other software that people rely on every day.
-      Along the way I've led teams, mentored engineers, spoken at conferences,
-      and learned that the hardest problems are rarely purely technical.
+      I spent the last decade building software and leading the people who make
+      it. Along the way, I started asking why some people's work turns into
+      recognition and opportunity while someone else's disappears—and why so
+      many problems at work feel intensely personal when they're actually
+      remarkably common.
     </p>
     <p
-      class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
+      class="hero-fade-up hero-fade-up-delay-4 editorial-prose mb-6 leading-[1.8] text-text-muted"
     >
-      These days, I'm increasingly interested in the intersection of technology
-      and social science. How do people feel about work, and why? How is work
-      changing in the AI era? For more on this, check out my most recent
-      project: <a
-        href="/making-things/language-of-work"
-        class="underline hover:text-text">The Language of Work</a
-      >.
+      Now I use data, research, and the experiences of people in tech to figure
+      out what's really going on.
     </p>
     <div
-      class="hero-fade-up hero-fade-up-delay-4 flex flex-col items-start gap-4"
+      class="hero-fade-up hero-fade-up-delay-5 flex flex-col items-start gap-4"
     >
-      <Button href="/writing">Read my essays</Button>
-      <div class="flex flex-col items-start gap-2">
-        <HomePageLink href="/speaking-and-writing"
-          >Speaking & Technical Writing</HomePageLink
-        >
-        <HomePageLink href="/making-things">Browse projects</HomePageLink>
-      </div>
+      <Button
+        href={site.newsletterUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {site.newsletterCta}
+      </Button>
+      <HomePageLink href="/writing">Read my writing</HomePageLink>
     </div>
   </div>
 

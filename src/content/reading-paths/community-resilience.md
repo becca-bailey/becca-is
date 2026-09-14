@@ -32,4 +32,4 @@ externalReading:
     url: "https://doi.org/10.1111/j.1939-0025.1987.tb03541.x"
 ---
 
-Essays and readings on how communities absorb disruption — and what happens when resilience is treated as an individual obligation instead of a collective practice.
+Essays and readings on how communities absorb disruption—and what happens when resilience is treated as an individual obligation instead of a collective practice.

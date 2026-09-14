@@ -5,9 +5,10 @@ export const site = {
 	links: {
 		linkedin: 'https://linkedin.com/in/beccamakesthings',
 		github: 'https://github.com/becca-bailey',
-		substack: 'https://becca-bailey.substack.com',
+		substack: 'https://beccabailey.substack.com',
 	},
-	projectsDescription: 'Technical builds, data work, and hands-on creative projects.',
+	projectsDescription:
+		'Research projects, technical builds, data work, and hands-on creative making by Becca Bailey.',
 	homeProjectsIntro:
 		'A collection of software projects, visualizations, illustrations, and other experiments. Some were built for work, some for fun, and some simply because I wanted to understand how something worked.',
 	projectsIntro:
@@ -19,11 +20,13 @@ export const site = {
 	speakingAndWritingDescription:
 		'Talks, podcast appearances, and technical writing by Becca Bailey.',
 	aboutDescription:
-		'Software engineer, technical communicator, and writer based in Seattle—background, experience, and how to work together.',
+		'Software engineer, writer, and researcher in Seattle—how a decade of building software turned into writing about why work works the way it does.',
 	credibility: {
 		conferences: ['React Conf', 'DevReach', 'Full Stack', 'Reactathon'],
 		publications: ['Formidable', '8th Light', 'Cisco'],
 	},
+	newsletterUrl: 'https://beccabailey.substack.com/?utm_source=becca.is&utm_campaign=homepage',
+	newsletterCta: 'Subscribe on Substack',
 	contactHeading: 'Work With Me',
 	contactIntro:
 		'Available for speaking engagements, technical writing, developer education, podcast appearances, and selective consulting opportunities.',

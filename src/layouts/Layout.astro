@@ -6,12 +6,18 @@ import Footer from '../components/Footer.astro';
 interface Props {
 	title?: string;
 	description?: string;
+	/** Absolute or root-relative path to a 1200x630 social card image. */
+	image?: string;
 }
 
 const {
 	title = 'Becca Bailey',
-	description = 'Essays, projects, and talks by Becca Bailey — software engineer and writer in Seattle.',
+	description = 'Research, essays, and talks by Becca Bailey—software engineer, writer, and researcher in Seattle.',
+	image = '/og-default.png',
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = image ? new URL(image, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -25,7 +31,20 @@ const {
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical.href} />
 		<title>{title}</title>
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Becca Bailey" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical.href} />
+		{socialImage && <meta property="og:image" content={socialImage} />}
+
+		<meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{socialImage && <meta name="twitter:image" content={socialImage} />}
 	</head>
 	<body>
 		<Header />

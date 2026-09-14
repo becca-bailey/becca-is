@@ -37,4 +37,4 @@ externalReading:
     url: "https://openlibrary.org/works/OL20049751W"
 ---
 
-Readings on who does the work no one sees — and what it costs when upkeep is treated as a personal failing instead of a shared obligation.
+Readings on who does the work no one sees—and what it costs when upkeep is treated as a personal failing instead of a shared obligation.
