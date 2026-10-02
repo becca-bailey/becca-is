@@ -22,6 +22,12 @@
  *      datacenter IPs such as CI runners. The feed only carries recent free
  *      posts, so --export remains the way to backfill a whole archive.
  *
+ *      Each post's body is resolved independently, in this order: the per-post
+ *      JSON API, the RSS feed, then the post's own public page. Substack has
+ *      been seen serving an HTML page from the JSON endpoint, which is why the
+ *      fallbacks exist; the run reports which source each body came from, and
+ *      a post whose body cannot be read is skipped without failing the rest.
+ *
  * Environment:
  *   SUBSTACK_SID         substack.sid cookie, for paid posts
  *   SUBSTACK_USER_AGENT  override the default User-Agent, if Cloudflare still
@@ -510,17 +516,26 @@ async function request(url, accept) {
 	return response;
 }
 
-async function fetchPost(slug, publication) {
+/**
+ * A JSON endpoint that answers with a page is a moved or filtered endpoint,
+ * not a parse problem. Say that, rather than surfacing "Unexpected token '<'".
+ */
+async function readJson(response, url) {
+	const text = await response.text();
+	const type = response.headers?.get?.('content-type') ?? '';
+	if (/^\s*</.test(text) || (type && !/json/i.test(type))) {
+		throw new Error(`${url} answered with HTML, not JSON (endpoint moved or filtered)`);
+	}
+	return JSON.parse(text);
+}
+
+async function fetchPostFromApi(slug, publication) {
 	const endpoint = `https://${publication}.substack.com/api/v1/posts/by-slug/${slug}`;
 	const response = await request(endpoint, 'application/json');
 
-	const { post } = await response.json();
-	if (!post) throw new Error(`No post payload for "${slug}"`);
-	if (!post.body_html) {
-		throw new Error(
-			`"${slug}" came back without body_html (paywalled?). Use --export, or set SUBSTACK_SID.`,
-		);
-	}
+	const { post } = await readJson(response, endpoint);
+	if (!post) throw new Error(`no post payload for "${slug}"`);
+	if (!post.body_html) throw new Error('response carried no body_html (paywalled?)');
 
 	return {
 		slug: post.slug ?? slug,
@@ -532,6 +547,116 @@ async function fetchPost(slug, publication) {
 		html: post.body_html,
 	};
 }
+
+/** First element carrying `className`, by depth-first walk. */
+function findByClass(node, className) {
+	for (const child of node.children ?? []) {
+		if (child.type !== 'element') continue;
+		if ((child.attrs.class ?? '').split(/\s+/).includes(className)) return child;
+		const nested = findByClass(child, className);
+		if (nested) return nested;
+	}
+	return null;
+}
+
+function metaContent(root, names) {
+	const walk = (node) => {
+		for (const child of node.children ?? []) {
+			if (child.type !== 'element') continue;
+			if (child.tag === 'meta') {
+				const key = child.attrs.property ?? child.attrs.name;
+				if (key && names.includes(key) && child.attrs.content) return child.attrs.content;
+			}
+			const nested = walk(child);
+			if (nested) return nested;
+		}
+		return null;
+	};
+	return walk(root);
+}
+
+/**
+ * Last resort: read the post's own public page. The article lives in
+ * .available-content (free posts) or .markup, and the og: tags carry enough
+ * metadata to stand alone when the archive listing is not available either.
+ */
+async function fetchBodyFromPage(slug, publication) {
+	const url = `https://${publication}.substack.com/p/${slug}`;
+	const response = await request(url, 'text/html');
+	const root = parseHtml(await response.text());
+
+	const node = findByClass(root, 'available-content') ?? findByClass(root, 'markup');
+	if (!node) throw new Error('no .available-content or .markup block on the page');
+
+	return {
+		node,
+		meta: {
+			title: metaContent(root, ['og:title', 'twitter:title']),
+			description: metaContent(root, ['og:description', 'description']),
+			date: isoDate(metaContent(root, ['article:published_time']) ?? ''),
+		},
+	};
+}
+
+let feedCache = null;
+
+/** The feed is fetched at most once per run and reused as a body source. */
+async function feedEntries(publication) {
+	if (!feedCache) {
+		feedCache = listFeed(publication, {}).catch((error) => {
+			console.warn(`  RSS feed unavailable: ${error.message}`);
+			return [];
+		});
+	}
+	return feedCache;
+}
+
+/**
+ * Resolve one post to something writable. The JSON API comes first because it
+ * is the cleanest source, but it is also the one most likely to be filtered or
+ * moved, so two public fallbacks follow: the RSS feed, then the post page.
+ * Metadata already gathered from the archive listing always wins, since that
+ * request is the one most likely to have succeeded.
+ */
+async function fetchPost(slug, publication, known = {}) {
+	const attempts = [];
+
+	try {
+		const post = await fetchPostFromApi(slug, publication);
+		return { ...post, ...stripEmpty(known), source: 'API' };
+	} catch (error) {
+		attempts.push(`API — ${error.message}`);
+	}
+
+	const fromFeed = (await feedEntries(publication)).find((item) => item.slug === slug);
+	if (fromFeed?.html) {
+		return { ...fromFeed, ...stripEmpty(known), source: 'RSS feed' };
+	}
+	attempts.push('RSS feed — post not in the feed');
+
+	try {
+		const { node, meta } = await fetchBodyFromPage(slug, publication);
+		return {
+			slug,
+			title: known.title || meta.title || slug,
+			subtitle: known.subtitle || '',
+			description: known.description || meta.description || '',
+			date: known.date || meta.date || isoDate(Date.now()),
+			url: known.url || `https://${publication}.substack.com/p/${slug}`,
+			node,
+			source: 'post page',
+		};
+	} catch (error) {
+		attempts.push(`post page — ${error.message}`);
+	}
+
+	throw new Error(`could not read the body.\n      ${attempts.join('\n      ')}`);
+}
+
+function stripEmpty(object) {
+	return Object.fromEntries(Object.entries(object).filter(([, value]) => value));
+}
+
 
 /**
  * Walk the public archive newest-first and return one entry per post. The
@@ -549,7 +674,7 @@ async function listArchive(publication, { limit, since }) {
 
 		const response = await request(endpoint, 'application/json');
 
-		const page = await response.json();
+		const page = await readJson(response, endpoint);
 		if (!Array.isArray(page) || !page.length) break;
 
 		for (const post of page) {
@@ -558,7 +683,14 @@ async function listArchive(publication, { limit, since }) {
 			// The archive is newest-first, so the first post older than --since
 			// means every remaining post is older too.
 			if (since && date && date < since) return entries;
-			entries.push({ slug: post.slug, title: post.title ?? post.slug, date });
+			entries.push({
+				slug: post.slug,
+				title: post.title ?? post.slug,
+				subtitle: post.subtitle ?? '',
+				description: post.description ?? '',
+				date,
+				url: post.canonical_url ?? '',
+			});
 		}
 
 		if (page.length < pageSize) break;
@@ -739,10 +871,14 @@ async function writePost(post, opts) {
 	}
 
 	const images = createImageCollector(opts.images);
-	const body = renderBlocks(parseHtml(post.html), images);
+	// A post read from the post page arrives already parsed.
+	const body = renderBlocks(post.node ?? parseHtml(post.html), images);
 	const mdx = `${buildFrontmatter(post, opts)}\n${body}\n`;
 
-	console.log(`  ${post.slug}: ${body.length} chars, ${images.entries().length} image(s)`);
+	console.log(
+		`  ${post.slug}: ${body.length} chars, ${images.entries().length} image(s)` +
+			(post.source ? ` — via ${post.source}` : ''),
+	);
 
 	if (opts.dryRun) {
 		console.log(`      would write src/content/writing/${post.slug}/index.mdx`);
@@ -785,7 +921,7 @@ async function main() {
 				continue;
 			}
 			try {
-				posts.push(await fetchPost(entry.slug, opts.publication));
+				posts.push(await fetchPost(entry.slug, opts.publication, entry));
 			} catch (error) {
 				// A paywalled post has no public body — report it, keep going, and
 				// let the rest of the sync succeed.
