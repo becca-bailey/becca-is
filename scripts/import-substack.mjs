@@ -17,6 +17,16 @@
  *      pull request instead of a copy-paste:
  *        node scripts/import-substack.mjs --all
  *
+ *      Discovery tries the archive API first and falls back to the public RSS
+ *      feed when that is refused — Cloudflare answers 403 to /api/v1/* from
+ *      datacenter IPs such as CI runners. The feed only carries recent free
+ *      posts, so --export remains the way to backfill a whole archive.
+ *
+ * Environment:
+ *   SUBSTACK_SID         substack.sid cookie, for paid posts
+ *   SUBSTACK_USER_AGENT  override the default User-Agent, if Cloudflare still
+ *                        refuses the request
+ *
  * Common flags:
  *   --all              import every archive post missing from src/content/writing
  *   --since <date>     with --all, ignore posts published before this date
@@ -434,8 +444,7 @@ async function downloadImages(collector, dir, dryRun) {
 			continue;
 		}
 		try {
-			const response = await fetch(url);
-			if (!response.ok) throw new Error(`HTTP ${response.status}`);
+			const response = await request(url, 'image/*');
 			await writeFile(target, Buffer.from(await response.arrayBuffer()));
 			console.log(`      saved ${name}`);
 		} catch (error) {
@@ -461,7 +470,6 @@ function buildFrontmatter(post, opts) {
 	if (post.subtitle) lines.push(`subtitle: ${yamlString(post.subtitle)}`);
 	lines.push(`description: ${yamlString(post.description || post.subtitle || post.title)}`);
 	lines.push(`originalDate: ${post.date}`);
-	lines.push('status: original');
 	if (post.url) lines.push(`substackUrl: ${yamlString(post.url)}`);
 
 	const list = (key, values) => {
@@ -484,14 +492,27 @@ function buildFrontmatter(post, opts) {
 
 // ------------------------------------------------------------------ sources
 
-async function fetchPost(slug, publication) {
-	const endpoint = `https://${publication}.substack.com/api/v1/posts/by-slug/${slug}`;
-	const headers = { accept: 'application/json' };
+// Node's fetch sends no User-Agent at all, and Substack sits behind Cloudflare,
+// which refuses anonymous-looking clients with a 403. Identify the importer
+// honestly instead of impersonating a browser; override with
+// SUBSTACK_USER_AGENT if Cloudflare still turns the request away.
+const USER_AGENT =
+	process.env.SUBSTACK_USER_AGENT ??
+	'becca-is-importer/1.0 (+https://github.com/becca-bailey/becca-is)';
+
+async function request(url, accept) {
+	const headers = { accept, 'user-agent': USER_AGENT, 'accept-language': 'en-US,en;q=0.9' };
 	// Paid posts need a logged-in session cookie; export SUBSTACK_SID to supply one.
 	if (process.env.SUBSTACK_SID) headers.cookie = `substack.sid=${process.env.SUBSTACK_SID}`;
 
-	const response = await fetch(endpoint, { headers });
-	if (!response.ok) throw new Error(`${endpoint} responded ${response.status}`);
+	const response = await fetch(url, { headers });
+	if (!response.ok) throw new Error(`${url} responded ${response.status}`);
+	return response;
+}
+
+async function fetchPost(slug, publication) {
+	const endpoint = `https://${publication}.substack.com/api/v1/posts/by-slug/${slug}`;
+	const response = await request(endpoint, 'application/json');
 
 	const { post } = await response.json();
 	if (!post) throw new Error(`No post payload for "${slug}"`);
@@ -518,9 +539,6 @@ async function fetchPost(slug, publication) {
  * through fetchPost — this only answers "what is published?".
  */
 async function listArchive(publication, { limit, since }) {
-	const headers = { accept: 'application/json' };
-	if (process.env.SUBSTACK_SID) headers.cookie = `substack.sid=${process.env.SUBSTACK_SID}`;
-
 	const pageSize = 50;
 	const entries = [];
 
@@ -529,8 +547,7 @@ async function listArchive(publication, { limit, since }) {
 			`https://${publication}.substack.com/api/v1/archive` +
 			`?sort=new&limit=${Math.min(pageSize, limit - offset)}&offset=${offset}`;
 
-		const response = await fetch(endpoint, { headers });
-		if (!response.ok) throw new Error(`${endpoint} responded ${response.status}`);
+		const response = await request(endpoint, 'application/json');
 
 		const page = await response.json();
 		if (!Array.isArray(page) || !page.length) break;
@@ -548,6 +565,82 @@ async function listArchive(publication, { limit, since }) {
 	}
 
 	return entries;
+}
+
+// -------------------------------------------------------------------- rss
+
+function stripCdata(value) {
+	const match = value.match(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/);
+	return match ? match[1] : decodeEntities(value);
+}
+
+/** Read one child element's text. RSS is machine-generated, so this is enough. */
+function tagValue(xml, tag) {
+	const match = xml.match(new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`));
+	return match ? stripCdata(match[1]).trim() : '';
+}
+
+/**
+ * Read the publication's RSS feed. Unlike the archive API this is a documented,
+ * feed-reader-facing endpoint, so it survives bot filtering that rejects
+ * /api/v1/* — and it carries each post's body in content:encoded, so entries
+ * come back complete and need no follow-up request.
+ *
+ * The trade-off: a feed only holds the most recent posts (and free ones), so
+ * it backfills recent history, not an entire archive. Use --export for that.
+ */
+async function listFeed(publication, { since }) {
+	const response = await request(`https://${publication}.substack.com/feed`, 'application/rss+xml');
+	const xml = await response.text();
+
+	const entries = [];
+	for (const [item] of xml.matchAll(/<item\b[\s\S]*?<\/item>/g)) {
+		const link = tagValue(item, 'link');
+		if (!link) continue;
+
+		let slug;
+		try {
+			slug = toSlug(link);
+		} catch {
+			continue;
+		}
+
+		const date = isoDate(tagValue(item, 'pubDate'));
+		if (since && date && date < since) continue;
+
+		const html = tagValue(item, 'content:encoded');
+		const title = tagValue(item, 'title') || slug;
+		const description = tagValue(item, 'description');
+
+		entries.push({
+			slug,
+			title,
+			subtitle: '',
+			description,
+			date: date ?? isoDate(Date.now()),
+			url: link,
+			// A feed item occasionally omits the body (paywalled). Leaving html
+			// unset sends the slug through fetchPost instead.
+			html: html || undefined,
+		});
+	}
+
+	return entries;
+}
+
+/**
+ * Discovery, preferring the archive API for completeness and falling back to
+ * the feed when it is refused — which is what a 403 from Cloudflare looks like
+ * on a CI runner.
+ */
+async function discoverPosts(publication, opts) {
+	try {
+		return await listArchive(publication, opts);
+	} catch (error) {
+		console.warn(`  archive API unavailable: ${error.message}`);
+		console.warn('  falling back to the public RSS feed');
+		return await listFeed(publication, opts);
+	}
 }
 
 /** Slugs already imported, so a sync run only fetches what is genuinely new. */
@@ -670,7 +763,7 @@ async function main() {
 		posts = await readExport(opts.exportDir, opts.publication);
 		if (opts.only) posts = posts.filter((post) => opts.only.has(post.slug));
 	} else if (opts.all) {
-		const archive = await listArchive(opts.publication, opts);
+		const archive = await discoverPosts(opts.publication, opts);
 		const have = opts.force ? new Set() : await existingSlugs();
 		const missing = archive.filter(
 			(entry) => !have.has(entry.slug) && (!opts.only || opts.only.has(entry.slug)),
@@ -686,6 +779,11 @@ async function main() {
 
 		posts = [];
 		for (const entry of missing) {
+			// Feed entries already carry their body; archive entries do not.
+			if (entry.html) {
+				posts.push(entry);
+				continue;
+			}
 			try {
 				posts.push(await fetchPost(entry.slug, opts.publication));
 			} catch (error) {

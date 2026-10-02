@@ -110,7 +110,7 @@ jobs:
 
           - read the converted markdown for conversion artifacts
           - fill in `readingPaths`, `themes`, `influences`, and `related`
-          - set `status` (`original` / `revised` / `expanded`) and `revisedDate` if the site version differs
+          - set `revisedDate` if the site version differs from the Substack original
           - flip `draft` to `false`
 
           ---
