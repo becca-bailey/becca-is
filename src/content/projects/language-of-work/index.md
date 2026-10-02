@@ -1,9 +1,8 @@
 ---
 title: The Language of Work
 description: >-
-  A computational study of how tech companies describe themselves as
-  employers—and what a quarter century of careers-page language reveals about
-  power in the workplace.
+  I collected a quarter century of tech company careers pages to see how the
+  pitch to workers changes when the job market does.
 category: technical
 medium: Research & Data Storytelling
 featuredImage: ./featured.png
@@ -11,33 +10,35 @@ pubDate: 2026-07-01
 featured: true
 ---
 
-A computational study of how tech companies describe themselves as employers—and what a quarter century of careers-page language reveals about power.
+I've spent a lot of time reading company careers pages. They're a strange kind of writing: a company telling you who it is, what it values, and why you should want to work there. I wanted to know how that pitch had changed as the job market changed.
 
-Careers pages are corporate self-presentation at its most deliberate—every word chosen to attract workers. This is a computational study of a quarter century of them: two dozen tech companies, 1999–2026, reconstructed from the Wayback Machine and read as a longitudinal record of what the language does over time, when it shifts, and why. Movement is tracked as position along embedding-based semantic axes.
+The Language of Work looks at careers pages from two dozen tech companies between 1999 and 2026, using the Wayback Machine to piece together their history. I built a pipeline to collect and analyze the language, then turned the findings into interactive data stories.
 
-The thread running through the studies is selection under leverage: a careers page is an audience-selection device, and its language records who the company needed to persuade—or was willing to lose—at each moment.
+## What I found
 
-When workers had somewhere else to go, the pages filled with belonging, care, and diversity commitments. As that leverage receded, the concessions deflated, the surviving care individualized, and an openly exclusionary register ("we're not for everyone") spread. Underneath both swings, the language that serves the employer—performance, merit, the unmeasured "high bar"—holds steady in every market.
+When workers had more options, companies talked more about belonging, care, and diversity. As the market shifted, a lot of that language receded. The care that remained often asked workers to look after themselves, and more companies started openly saying they weren't for everyone.
 
-The 2010s bet that a new generation would permanently fix work was optimistic, but not founded: the gains tracked the labor market, and receded the moment it inverted.
+Language about performance and merit was much more consistent. That made me question the idea that a new generation had permanently changed work. In these pages, many of the changes tracked how much employers needed to compete for workers.
+
+Careers pages tell us how companies present themselves. They can't tell us on their own what it's like to work there. The stories focus on that public language and what changes in it might mean.
 
 ## The studies
 
-- **DEI Language** — industry-wide adoption, retraction, and counter-programming on careers pages.
-- **A Team, Not a Family** — Netflix's 2009 culture deck, how narrowly it spread, and the scoreboard that isn't there.
-- **Bring Your Own Resilience** — care talk rose and fell with worker leverage; the care that survived is the kind you bring yourself.
-- **Masculine Energy** — gender-coded language across every careers page in the corpus.
-- **The Non-Political Workplace** — a founder's blog, scored with the same instruments as the careers corpus.
+- **DEI Language:** How companies adopted diversity language, pulled it back, or started defining themselves against it.
+- **A Team, Not a Family:** Netflix's 2009 culture deck and how much of its language other employers actually adopted.
+- **Bring Your Own Resilience:** What happened to promises of care, and who became responsible for providing it.
+- **Masculine Energy:** Gender-coded language in the careers-page archive.
+- **The Non-Political Workplace:** A founder's blog analyzed with the same tools I used for the careers pages.
 
-## How it's built
+## How I built it
 
-A shared pipeline chunks archived pages, uses an LLM to classify them into registers, and scores them on embedding-based contrast axes—each paired with a neutral control and a circularity check, so the measure is stance rather than mere topical proximity. Structured extraction pulls benefits into taxonomies validated against blind hand-coded samples.
+I used Python to collect archived pages, split them into passages, and analyze them with embeddings and LLM APIs. The pipeline tracks content hashes so I can reuse work when the source text hasn't changed. The interactive stories use Astro, React, and visx.
 
-Because these instruments can fail quietly, each is checked against one that fails differently. An LLM judge re-ranks the same years from the quotes alone, never seeing the axis's own pole phrases, and an axis publishes only where the two rankings agree—the craft axis fails that bar and stays unpublished. Agreement scores, sample sizes, and the spots where they fall short are reported alongside each story. Where the data can't carry a claim, the story says so rather than reaching.
+A big part of the work was checking whether the measurements were telling me what I thought they were. For example, a passage can mention care without promising to care for anyone. I used neutral controls and separate LLM evaluations to check the language scores, and compared extracted benefits with manually coded samples.
 
-Story prose is an AI-assisted synthesis of my drafts and the data, reviewed and edited by me before publishing.
+Some measures didn't hold up. I left the craft axis unpublished because the checks disagreed. The published stories include agreement scores, sample sizes, and limitations so readers can see what supports the claims.
 
-**Stack:** Python (embeddings, LLM APIs, pandas/scipy) over a content-hash pipeline DAG; interactive data stories in Astro, React, and visx.
+I use AI to help synthesize my drafts and the data into story prose, then review and edit it before publishing.
 
 ## Read it
 
@@ -55,4 +56,4 @@ Story prose is an AI-assisted synthesis of my drafts and the data, reviewed and 
 
 ## Related work
 
-A companion to [The Closing Window](/making-things/closing-window), which points a similar archival method at twenty years of Ravelry designer data.
+[The Closing Window](/making-things/closing-window) started with a similar question about opportunity. For that project, I used Ravelry data to look at when knitting and crochet designers found an audience.

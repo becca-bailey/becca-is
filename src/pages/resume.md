@@ -15,11 +15,11 @@ beccanelsonbailey@gmail.com
 
 ## About Me
 
-Technical leader, educator, and software engineer with experience building developer tools, design systems, data visualization platforms, and AI-enabled products.
+I'm a software engineer and former teacher with experience as an engineering manager, consultant, and startup CTO. I've built developer tools and design systems, maintained an open-source charting library, and worked on accessibility across a large product.
 
-My career spans teaching, engineering leadership, open source, accessibility, and technical communication. I enjoy helping people understand complex systems—whether through software, documentation, public speaking, mentoring, or community education.
+I like helping people understand complicated things. That has been part of my work in the classroom, in conference talks and technical writing, and while mentoring and managing engineers.
 
-Recent work includes AI-powered legal technology, accessibility infrastructure, design systems, and developer tooling. I'm particularly interested in how technology shapes organizations, communities, and human behavior.
+My recent work includes worker advocacy tools and AI-assisted research. I'm interested in developer education and work that helps other people build and use software.
 
 ---
 
@@ -54,7 +54,7 @@ _September 2025 – January 2026_
 - Led architecture and product development for an AI-enabled legal technology platform supporting worker advocacy.
 - Built AI-powered workflows for analyzing legal documents and generating structured narratives from case data.
 - Developed guardrails and human review processes to support responsible AI usage in high-trust workflows.
-- Partnered with legal advisors, product stakeholders, and advocacy organizations to translate ambiguous requirements into scalable technical solutions.
+- Worked with legal advisors and advocates to understand what workers needed and turn those needs into product features.
 - Established engineering standards, observability practices, and deployment workflows for a distributed team.
 
 ### Senior Software Engineer II
@@ -62,8 +62,8 @@ _September 2025 – January 2026_
 **Cisco (ThousandEyes)** · Seattle, WA  
 _April 2023 – April 2025_
 
-- Helped scale the User Experience Engineering platform team responsible for design systems and data visualization infrastructure used across the ThousandEyes product.
-- Partnered with designers and engineers to evolve a shared component library focused on accessibility, consistency, and performance.
+- Helped grow the User Experience Engineering platform team, which built shared design system and data visualization tools for ThousandEyes.
+- Worked with designers and engineers to improve the accessibility, consistency, and performance of a shared component library.
 - Developed systems and processes for tracking accessibility compliance across a large product ecosystem.
 - Modernized critical visualization components used to monitor large-scale network infrastructure.
 - Advocated for accessibility and developer experience improvements across teams.
@@ -77,8 +77,8 @@ _November 2019 – January 2023_
 - Managed and mentored teams of two to six engineers across multiple client engagements.
 - Maintained Victory, Formidable's open-source charting library built with React and D3.
 - Completed an open-source fellowship exploring data visualization performance with large datasets.
-- Worked closely with product, design, and engineering teams to align technical implementation with business goals.
-- Specialized in web performance and developer experience initiatives.
+- Worked with product and design teams to decide what to build and how to build it.
+- Worked on web performance and tools that made development easier for other engineers.
 
 ### Lead Software Crafter / Software Crafter
 

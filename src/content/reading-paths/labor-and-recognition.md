@@ -1,7 +1,7 @@
 ---
 title: "Labor & Recognition"
 slug: labor-and-recognition
-description: "Essays on invisible work, burnout, gender, and the difference between labor that sustains life and work that lasts."
+description: "Who gets credit for the work, and who keeps doing it anyway? Essays and reading about invisible labor, gender, and burnout."
 essays:
   - who-gets-to-be-the-hero
 themes:
@@ -37,4 +37,4 @@ externalReading:
     url: "https://openlibrary.org/works/OL20049751W"
 ---
 
-Readings on who does the work no one sees—and what it costs when upkeep is treated as a personal failing instead of a shared obligation.
+I keep coming back to the work that has to happen over and over, at home and on the job, and the people who do it without much recognition. These readings help me think about why that work is so easy to overlook.

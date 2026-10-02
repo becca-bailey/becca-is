@@ -5,17 +5,13 @@ pubDate: 2024-06-05
 venue: Seattle Design Systems · Seattle, WA
 thumbnail: ./thumbnail.png
 summary: >-
-  Data visualizations often fall into an awkward space between design systems and
-  application-specific code. In this talk, I explored how teams can apply design
-  system thinking to charts, graphs, and complex visualizations—drawing on dashboard
-  work for a large philanthropic organization and later maintaining visualization
-  libraries in production.
+  Charts often end up outside a team's design system, even when the rest of the
+  interface uses shared components. I talked about how to bring them in, drawing
+  on dashboard work and my experience maintaining visualization libraries.
 
-  The talk covered how to define visualization specifications, identify common
-  patterns, and treat charting components as reusable design system primitives.
-  Using examples from Victory, visx, and Material Design, I examined the tradeoffs
-  between flexibility and consistency, framing data visualization architecture as a
-  spectrum where teams balance control, usability, and long-term scalability.
+  Using Victory, visx, and Material Design examples, I looked at specifications,
+  reusable chart components, and how much flexibility to give the people who use
+  them.
 featured: true
 related:
   - data-viz-main-thread

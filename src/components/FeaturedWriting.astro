@@ -1,39 +1,38 @@
 ---
-import EssayCard from './EssayCard.astro';
-import HomePageLink from './HomePageLink.astro';
-import SectionHeader from './SectionHeader.astro';
-import coffee from '../assets/coffee.png';
-import { getFeaturedWriting } from '@/lib/content';
-import { site } from '@/lib/site';
+import EssayCard from "./EssayCard.astro";
+import HomePageLink from "./HomePageLink.astro";
+import SectionHeader from "./SectionHeader.astro";
+import coffee from "../assets/coffee.png";
+import {getFeaturedWriting} from "@/lib/content";
+import {site} from "@/lib/site";
 
 const essays = await getFeaturedWriting(3);
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<SectionHeader title="Featured Essays" image={coffee}>
-		<p slot="intro" class="m-0">
-			Essays from <em>Performance Anxiety</em>, an ongoing writing project about technology, work,
-			community, care, and the systems that shape ordinary life.
-		</p>
-	</SectionHeader>
+  <SectionHeader
+    title="Featured Essays"
+    image={coffee}
+    intro={site.writingDescription}
+  />
 
-	{
-		essays.length > 0 ? (
-			<>
-				<div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
-					{essays.map((entry) => (
-						<EssayCard entry={entry} variant="cover" />
-					))}
-				</div>
-				<div class="flex flex-col items-start gap-2">
-					<HomePageLink href="/writing">View all essays</HomePageLink>
-					<HomePageLink href={site.links.substack} external>
-						Subscribe on Substack
-					</HomePageLink>
-				</div>
-			</>
-		) : (
-			<p class="text-text-muted">Featured essays coming soon.</p>
-		)
-	}
+  {
+    essays.length > 0 ? (
+      <>
+        <div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
+          {essays.map((entry) => (
+            <EssayCard entry={entry} variant="cover" />
+          ))}
+        </div>
+        <div class="flex flex-wrap items-start gap-x-6 gap-y-3">
+          <HomePageLink href="/writing">View all essays</HomePageLink>
+          <HomePageLink href={site.links.substack} external>
+            Subscribe on Substack
+          </HomePageLink>
+        </div>
+      </>
+    ) : (
+      <p class="text-text-muted">Featured essays coming soon.</p>
+    )
+  }
 </section>

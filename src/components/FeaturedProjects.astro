@@ -1,32 +1,36 @@
 ---
-import HomePageLink from './HomePageLink.astro';
-import ProjectCard from './ProjectCard.astro';
-import SectionHeader from './SectionHeader.astro';
-import lucy from '../assets/lucy.png';
-import { getFeaturedProjects } from '@/lib/content';
-import { site } from '@/lib/site';
+import HomePageLink from "./HomePageLink.astro";
+import ProjectCard from "./ProjectCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+import lucy from "../assets/lucy.png";
+import {getFeaturedProjects} from "@/lib/content";
+import {site} from "@/lib/site";
 
 const projects = await getFeaturedProjects(4);
-const projectsIndexUrl = '/making-things';
+const projectsIndexUrl = "/making-things";
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<SectionHeader title="Projects" intro={site.homeProjectsIntro} image={lucy} />
+  <SectionHeader
+    title="Projects"
+    intro={site.projectsDescription}
+    image={lucy}
+  />
 
-	{
-		projects.length > 0 ? (
-			<>
-				<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-					{projects.map((entry) => (
-						<ProjectCard entry={entry} variant="featured" />
-					))}
-				</div>
-				<div class="mt-8 flex flex-col items-start gap-2">
-					<HomePageLink href={projectsIndexUrl}>View all projects</HomePageLink>
-				</div>
-			</>
-		) : (
-			<p class="text-text-muted">Featured projects coming soon.</p>
-		)
-	}
+  {
+    projects.length > 0 ? (
+      <>
+        <div class="reveal-stagger grid gap-6 md:grid-cols-2">
+          {projects.map((entry) => (
+            <ProjectCard entry={entry} variant="featured" />
+          ))}
+        </div>
+        <div class="mt-8 flex flex-col items-start gap-2">
+          <HomePageLink href={projectsIndexUrl}>View all projects</HomePageLink>
+        </div>
+      </>
+    ) : (
+      <p class="text-text-muted">Featured projects coming soon.</p>
+    )
+  }
 </section>

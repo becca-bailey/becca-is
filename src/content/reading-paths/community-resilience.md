@@ -1,7 +1,7 @@
 ---
 title: "Community & Resilience"
 slug: community-resilience
-description: "Essays on resilience, burnout, moral injury, mutual aid, and the structures that help people survive difficult times together."
+description: "What helps people get through difficult times? Essays and reading about resilience, burnout, and the support we need from each other."
 essays:
   - resilience-is-a-systems-problem
 themes:
@@ -32,4 +32,4 @@ externalReading:
     url: "https://doi.org/10.1111/j.1939-0025.1987.tb03541.x"
 ---
 
-Essays and readings on how communities absorb disruption—and what happens when resilience is treated as an individual obligation instead of a collective practice.
+These pieces look at how people get through difficult times together, and why so much advice about resilience puts the responsibility on the person who is already struggling.

@@ -1,15 +1,16 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import EssayCard from '../../components/EssayCard.astro';
-import ReadingPathList from '../../components/writing/ReadingPathList.astro';
-import ThemeTabs from '../../components/writing/ThemeTabs.astro';
-import RevealScript from '../../components/RevealScript.astro';
+import Layout from "../../layouts/Layout.astro";
+import EssayCard from "../../components/EssayCard.astro";
+import ReadingPathList from "../../components/writing/ReadingPathList.astro";
+import ThemeTabs from "../../components/writing/ThemeTabs.astro";
+import RevealScript from "../../components/RevealScript.astro";
 import {
-	getAllThemes,
-	getFeaturedWriting,
-	getPublishedReadingPaths,
-	getPublishedWriting,
-} from '@/lib/content';
+  getAllThemes,
+  getFeaturedWriting,
+  getPublishedReadingPaths,
+  getPublishedWriting,
+} from "@/lib/content";
+import {site} from "@/lib/site";
 
 const allWriting = await getPublishedWriting();
 const featured = await getFeaturedWriting();
@@ -20,71 +21,78 @@ const themes = getAllThemes(allWriting, paths);
 ---
 
 <Layout
-	title="Essays — Becca Bailey"
-	description="Essays about technology, work, community, and the systems that shape everyday life."
+  title="Essays — Becca Bailey"
+  description="My essays about the tech industry, the people inside it, and the ways work follows us into the rest of our lives."
 >
-	<h1 class="mb-4">Essays</h1>
-	<p class="reveal mb-10 max-w-prose text-text-muted">
-		A curated archive of essays—collected over time, revised when ideas shift, and arranged so you
-		can read by theme or follow a path through related work.
-	</p>
+  <h1 class="mb-4">Essays</h1>
+  <p class="reveal mb-10 max-w-prose text-text-muted">
+    {site.writingDescription}
+  </p>
 
-	{
-		featured.length > 0 && (
-			<section class="reveal mb-14">
-				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Featured Essays</h2>
-				<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-					{featured.map((entry) => (
-						<EssayCard entry={entry} />
-					))}
-				</div>
-			</section>
-		)
-	}
+  {
+    featured.length > 0 && (
+      <section class="reveal mb-14">
+        <h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">
+          Featured Essays
+        </h2>
+        <div class="reveal-stagger grid gap-6 md:grid-cols-2">
+          {featured.map((entry) => (
+            <EssayCard entry={entry} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
-	{
-		paths.length > 0 && (
-			<section class="reveal mb-14">
-				<h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">Reading paths</h2>
-				<p class="mb-8 max-w-prose text-text-muted">
-					Conceptual threads that connect essays across time—read in suggested order or dip in
-					where you like.
-				</p>
-				<ReadingPathList paths={paths} />
-			</section>
-		)
-	}
+  {
+    paths.length > 0 && (
+      <section class="reveal mb-14">
+        <h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">
+          Reading paths
+        </h2>
+        <p class="mb-8 max-w-prose text-text-muted">
+          I've grouped some related essays together, along with books and other
+          reading that help me think about them. Start wherever you like.
+        </p>
+        <ReadingPathList paths={paths} />
+      </section>
+    )
+  }
 
-	{
-		recent.length > 0 && (
-			<section class="reveal mb-14">
-				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Recent essays</h2>
-				<div class="space-y-6">
-					{recent.map((entry) => (
-						<EssayCard entry={entry} variant="list" />
-					))}
-				</div>
-			</section>
-		)
-	}
+  {
+    recent.length > 0 && (
+      <section class="reveal mb-14">
+        <h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">
+          Recent essays
+        </h2>
+        <div class="space-y-6">
+          {recent.map((entry) => (
+            <EssayCard entry={entry} variant="list" />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
-	{
-		themes.length > 0 && (
-			<section id="themes" class="reveal scroll-mt-8">
-				<h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">Themes</h2>
-				<p class="mb-8 max-w-prose text-text-muted">
-					Select a topic to see essays tagged with that theme.
-				</p>
-				<ThemeTabs themes={themes} writing={allWriting} />
-			</section>
-		)
-	}
+  {
+    themes.length > 0 && (
+      <section id="themes" class="reveal scroll-mt-8">
+        <h2 class="mb-4 font-sans text-2xl font-medium tracking-tight">
+          Themes
+        </h2>
+        <p class="mb-8 max-w-prose text-text-muted">
+          Select a topic to see essays tagged with that theme.
+        </p>
+        <ThemeTabs themes={themes} writing={allWriting} />
+      </section>
+    )
+  }
 
-	{
-		allWriting.length === 0 && (
-			<p class="text-text-muted">No essays published yet.</p>
-		)
-	}
+  {
+    allWriting.length === 0 && (
+      <p class="text-text-muted">No essays published yet.</p>
+    )
+  }
 
-	<RevealScript />
+  <RevealScript />
 </Layout>

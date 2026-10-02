@@ -5,14 +5,12 @@ pubDate: 2020-12-09
 venue: Reactathon
 thumbnail: ./thumbnail.png
 summary: >-
-  I gave this talk at Reactathon 2020, connecting Marie Kondo's tidying philosophy
-  to refactoring—when to refactor, how behavior-driven tests make changes safer, and
-  why the goal isn't perfect code but code your team can understand. Still a useful
-  frame for code review and mentoring conversations.
+  I borrowed Marie Kondo's approach to tidying to talk about refactoring React
+  components. We looked at when to refactor, how to test behavior, and how to make
+  small changes that help your team understand the code.
 description: >-
-  Tips for stress-free React refactoring—simplification over premature abstraction,
-  testing behavior not implementation details, and making incremental improvements
-  part of daily work.
+  How I approach refactoring React components: small changes, tests for behavior,
+  and code that is easier for the next person to understand.
 externalUrl: https://noti.st/beccabailey/EDZack/konmari-your-code-finding-joy-in-refactoring
 featured: false
 ---

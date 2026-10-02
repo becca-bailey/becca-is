@@ -1,6 +1,5 @@
 ---
 import {Image} from "astro:assets";
-import Button from "./Button.astro";
 import HomePageLink from "./HomePageLink.astro";
 import headshot from "../assets/headshot.jpg";
 import {site} from "@/lib/site";
@@ -27,8 +26,8 @@ import {site} from "@/lib/site";
         <p
           class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-relaxed text-text md:mb-4 md:text-xl"
         >
-          I'm a software engineer, writer, and researcher. I write to help
-          people in tech feel seen.
+          I'm a software engineer, engineering leader, writer, and researcher. I
+          write to help people in tech feel seen.
         </p>
       </div>
     </div>
@@ -36,29 +35,23 @@ import {site} from "@/lib/site";
     <p
       class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
     >
-      I spent the last decade building software and leading the people who make
-      it. Along the way, I started asking why some people's work turns into
-      recognition and opportunity while someone else's disappears—and why so
-      many problems at work feel intensely personal when they're actually
-      remarkably common.
-    </p>
-    <p
-      class="hero-fade-up hero-fade-up-delay-4 editorial-prose mb-6 leading-[1.8] text-text-muted"
-    >
-      Now I use data, research, and the experiences of people in tech to figure
-      out what's really going on.
+      After about ten years in the tech industry, I have become really curious
+      not just about technology, but about people. I'm still trying to figure
+      out where this is going, but lately I have been researching <a
+        href="/making-things/language-of-work"
+        >what the language on tech company careers pages says about the industry
+        and the people who run it</a
+      >, and <a href="/making-things/closing-window"
+        >what the economics of knitting can tell us about the creator economy
+      </a>.
     </p>
     <div
-      class="hero-fade-up hero-fade-up-delay-5 flex flex-col items-start gap-4"
+      class="hero-fade-up hero-fade-up-delay-5 flex flex-wrap items-start gap-x-6 gap-y-3"
     >
-      <Button
-        href={site.newsletterUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {site.newsletterCta}
-      </Button>
-      <HomePageLink href="/writing">Read my writing</HomePageLink>
+      <HomePageLink href="/about">About my work</HomePageLink>
+      <HomePageLink href={site.newsletterUrl} external>
+        Find me on Substack
+      </HomePageLink>
     </div>
   </div>
 

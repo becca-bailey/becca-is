@@ -1,32 +1,29 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import RevealScript from '../../components/RevealScript.astro';
-import { getPublishedProjects } from '@/lib/content';
-import { site } from '@/lib/site';
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import RevealScript from "../../components/RevealScript.astro";
+import {getPublishedProjects} from "@/lib/content";
+import {site} from "@/lib/site";
 
 const projects = await getPublishedProjects();
 ---
 
-<Layout
-	title="Projects — Becca Bailey"
-	description={site.projectsDescription}
->
-	<h1 class="mb-4">Projects</h1>
-	<p class="reveal mb-10 max-w-prose text-text-muted">
-		{site.projectsIntro}
-	</p>
+<Layout title="Projects — Becca Bailey" description={site.projectsDescription}>
+  <h1 class="mb-4">Projects</h1>
+  <p class="reveal mb-10 max-w-prose text-text-muted">
+    {site.projectsDescription}
+  </p>
 
-	{
-		projects.length > 0 ? (
-			<div class="reveal-stagger grid gap-6 md:grid-cols-2">
-				{projects.map((entry) => (
-					<ProjectCard entry={entry} />
-				))}
-			</div>
-		) : (
-			<p class="text-text-muted">No projects published yet.</p>
-		)
-	}
-	<RevealScript />
+  {
+    projects.length > 0 ? (
+      <div class="reveal-stagger grid gap-6 md:grid-cols-2">
+        {projects.map((entry) => (
+          <ProjectCard entry={entry} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-text-muted">No projects published yet.</p>
+    )
+  }
+  <RevealScript />
 </Layout>

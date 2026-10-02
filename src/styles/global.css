@@ -58,6 +58,10 @@
 		@apply font-sans text-sm font-medium tracking-tight md:text-base;
 	}
 
+	a {
+		@apply text-text no-underline underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline;
+	}
+
 	:focus-visible {
 		outline: 2px solid var(--color-blue);
 		outline-offset: 2px;
@@ -218,10 +222,6 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply pl-0.5;
 }
 
-.prose a {
-	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
-}
-
 .prose blockquote {
 	@apply border-l-2 border-border pl-4 text-text-muted italic;
 }
@@ -275,14 +275,6 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 .essay-figure-credit p {
 	display: inline;
 	margin: 0;
-}
-
-.essay-figure-credit a {
-	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
-}
-
-.influence-list a {
-	@apply text-text underline underline-offset-4 transition-colors hover:text-[#3D3832];
 }
 
 .essay-dek {

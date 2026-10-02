@@ -12,7 +12,7 @@ interface Props {
 
 const { title, type, pubDate, venue, host, href } = Astro.props;
 const subtitle = venue ?? host ?? formatDate(pubDate);
-const year = pubDate.getFullYear();
+const year = pubDate.getUTCFullYear();
 const metaLine = venue || host ? `${subtitle} · ${year}` : subtitle;
 const Tag = href ? 'a' : 'div';
 ---

@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import defaultProjectImage from '@/assets/project-default.png';
 
 export function projectUrl(slug: string) {
 	return `/making-things/${slug}`;
@@ -10,6 +11,7 @@ export function projectIndexUrl() {
 
 export function formatDate(date: Date) {
 	return date.toLocaleDateString('en-US', {
+		timeZone: 'UTC',
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
@@ -18,6 +20,7 @@ export function formatDate(date: Date) {
 
 export function formatMonthYear(date: Date) {
 	return date.toLocaleDateString('en-US', {
+		timeZone: 'UTC',
 		year: 'numeric',
 		month: 'short',
 	});
@@ -266,5 +269,10 @@ export const resumeUrl = '/resume';
 export type WritingEntry = CollectionEntry<'writing'>;
 export type ReadingPathEntry = CollectionEntry<'readingPaths'>;
 export type ProjectEntry = CollectionEntry<'projects'>;
+
+/** Projects without a featuredImage fall back to the site's default illustration. */
+export function projectImage(entry: ProjectEntry) {
+	return entry.data.featuredImage ?? defaultProjectImage;
+}
 export type TechnicalEntry = CollectionEntry<'technical'>;
 export type Influence = WritingEntry['data']['influences'][number];

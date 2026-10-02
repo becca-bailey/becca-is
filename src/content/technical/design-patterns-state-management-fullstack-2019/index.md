@@ -4,9 +4,8 @@ title: Design Patterns for State Management with React and TypeScript
 pubDate: 2019-07-12
 venue: Fullstack JS London
 summary: >-
-  A workshop-style session at Fullstack JS London with a companion repo of React
-  and TypeScript patterns for state management—practical material teams could take
-  back to their codebases.
+  A workshop on React and TypeScript state management patterns, with a companion
+  repository so people could try them out and take the examples back to work.
 externalUrl: https://github.com/beccanelson/react-typescript-state-design-patterns
 featured: false
 ---

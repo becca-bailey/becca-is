@@ -5,10 +5,9 @@ pubDate: 2019-10-24
 venue: React Conf · Las Vegas, NV
 thumbnail: ./thumbnail.png
 summary: >-
-  I gave this talk at React Conf in 2019 about state management when hooks, Context,
-  and Redux were all competing for attention. The landscape has changed since then,
-  but breaking down a crowded topic for engineers at every level was a formative
-  DevRel moment.
+  I gave this talk at React Conf in 2019, when hooks, Context, and Redux gave us
+  plenty of options for managing state. I wanted to help people understand what
+  each was good for and decide what made sense for their own applications.
 externalUrl: https://noti.st/beccabailey/7wQtT2/the-state-of-react-state-in-2019
 recordingUrl: https://www.youtube.com/watch?v=wUMMUyQtMSg
 resources:

@@ -1,7 +1,6 @@
 ---
 import {Image} from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import Button from "../../components/Button.astro";
 import HomePageLink from "../../components/HomePageLink.astro";
 import ContactSection from "../../components/ContactSection.astro";
 import RevealScript from "../../components/RevealScript.astro";
@@ -9,7 +8,10 @@ import speakingPhoto from "../../assets/about-speaking.png";
 import {site} from "@/lib/site";
 ---
 
-<Layout title="About — Becca Bailey" description={site.aboutDescription}>
+<Layout
+  title="About — Becca Bailey"
+  description="I'm a software engineer, writer, and researcher. I write to help people in tech feel seen."
+>
   <div>
     <h1 class="mb-6 md:mb-8">About</h1>
 
@@ -22,37 +24,31 @@ import {site} from "@/lib/site";
           people in tech feel seen.
         </p>
         <p>
-          I've spent my career moving between disciplines that don't always look
-          related on paper. I started as a music teacher. I became a software
-          engineer, then an engineering manager and technical leader. I've built
-          developer tools, design systems, accessible interfaces, and data
-          visualization products; led engineers and technical initiatives; and
-          spoken at software conferences.
-        </p>
-        <p class="text-text">The common thread has always been people.</p>
-        <p>
-          I'm interested in why systems produce the outcomes they do—and what
-          happens when they don't work for the people inside them.
+          I often struggle with what to put here, because I don't have a linear
+          career arc that fits into a short elevator pitch. I have been working
+          in the tech industry for about ten years, but still, tech recruiters
+          don't usually know what to do with me.
         </p>
         <p>
-          In software, that has meant thinking beyond whether something
-          technically works. Who can use it? Can they understand it? What
-          organizational structures help engineers do good work? How do we build
-          teams and technical systems that can adapt as their needs change?
+          I majored in Music Education, and spent the first few years after
+          college graduation teaching music and art to elementary students in
+          Chicago and Quetzaltenango, Guatemala. I had always been interested in
+          web development, but I decided to turn it into a career in 2015. After
+          a tech bootcamp and an apprenticeship, I became a front-end focused
+          software engineer.
         </p>
         <p>
-          Increasingly, those questions have taken me outside software itself.
+          Since then, I have been an Engineering Manager, an open source
+          maintainer for a widely-used data visualization tool, a design system
+          engineer, and an accessibility advocate. Most recently, I had a short
+          stint as a CTO for a legal tech startup, helping a founder turn an
+          idea into a real product. I think people are the most important part
+          of any tech product, and helping the people around me to understand
+          technology is my passion and guiding principle.
         </p>
-        <p>
-          Why does one person's work become recognition and opportunity while
-          someone else's disappears? Why do organizations repeatedly reward
-          behaviors that make their teams less effective? Why do workers
-          experience systemic problems as personal failures? What happens to all
-          of this as AI changes both the technology we build and the
-          organizations building it?
-        </p>
-        <p>Those are questions you can't answer with code alone.</p>
-        <p class="text-text">So I started writing about them.</p>
+        <div class="pt-2">
+          <HomePageLink href="/resume">My professional background</HomePageLink>
+        </div>
       </div>
 
       <figure
@@ -74,53 +70,36 @@ import {site} from "@/lib/site";
         <h2 class="mb-6">Writing &amp; research</h2>
         <div class="editorial-prose space-y-4 text-text-muted">
           <p>
-            I use data, academic research, history, reporting, and my own
-            experience inside the technology industry to investigate the strange
-            things that happen at work—the things that make you wonder, <em
-              >Wait. Is anyone else seeing this?</em
-            >
+            When I first became a software engineer, a mentor told me that "all
+            technical problems are people problems". Today, I think I would
+            rephrase that to say that "all technical problems are systems
+            problems". So, I write about systems problems, and the people who
+            are affected by them. I want to help people in tech feel seen, and
+            to help people outside of tech understand the systems that shape our
+            work and our lives.
           </p>
           <p>
-            My projects include <a
+            An astonishing number of times, I found research or data about
+            something I thought I was making up. That moment of recognition,
+            “Oh. That's what I've been experiencing. I thought it was just me,”
+            is what I want to create for readers of my newsletter,
+            <a href={site.links.substack}>Performance Anxiety</a>.
+          </p>
+          <p>
+            Having an engineering background means I can build tools to follow
+            these questions, which is how I've ended up studying both <a
               href="/making-things/language-of-work"
-              class="underline hover:text-text">The Language of Work</a
-            >, an investigation of the systems and language surrounding
-            employment, and Did You See That?, where I start with something
-            strange from technology, work, or culture and ask other people to
-            help me figure out what we're looking at.
+              >the language on company careers pages</a
+            > and <a href="/making-things/closing-window"
+              >the odds of building an audience on Ravelry</a
+            >. Sometimes I start with something smaller in
+            <em>Did You See That?</em>, where I put something weird from work,
+            tech, or culture in front of readers and ask them to help me figure
+            out what we're looking at.
           </p>
         </div>
         <div class="mt-8 flex flex-col items-start gap-4">
-          <Button href="/writing">Read my writing</Button>
-        </div>
-      </section>
-
-      <section class="reveal mb-12">
-        <h2 class="mb-6">Engineering &amp; technical leadership</h2>
-        <div class="editorial-prose space-y-4 text-text-muted">
-          <p>
-            I've spent more than a decade building software and leading the
-            people who make it.
-          </p>
-          <p>
-            My technical work has focused particularly on frontend architecture,
-            developer experience, accessibility, design systems, and data
-            visualization. I've worked as an individual contributor, engineering
-            manager, consultant, technical lead, and founding CTO.
-          </p>
-          <p>
-            I'm particularly interested in technical work where the hard
-            problems aren't purely technical: building strong engineering
-            organizations, making complex products understandable, improving the
-            systems around how software gets built, and translating between
-            engineering and the humans on either side of it.
-          </p>
-        </div>
-        <div class="mt-8 flex flex-col items-start gap-2">
-          <HomePageLink href="/speaking-and-writing"
-            >See my technical work</HomePageLink
-          >
-          <HomePageLink href="/resume">Résumé</HomePageLink>
+          <HomePageLink href="/writing">Read my writing</HomePageLink>
         </div>
       </section>
     </div>

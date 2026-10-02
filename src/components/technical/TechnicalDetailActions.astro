@@ -1,5 +1,5 @@
 ---
-import Button from '../Button.astro';
+import HomePageLink from '../HomePageLink.astro';
 import {
 	externalLinkLabel,
 	getTechnicalActionsLabel,
@@ -23,9 +23,9 @@ const hasActions = Boolean(externalUrl) || secondaryLinks.length > 0;
 			{
 				externalUrl && (
 					<div class={secondaryLinks.length > 0 ? 'mb-4' : ''}>
-						<Button href={externalUrl} target="_blank" rel="noopener noreferrer">
+						<HomePageLink href={externalUrl} external>
 							{externalLinkLabel(entry)}
-						</Button>
+						</HomePageLink>
 					</div>
 				)
 			}

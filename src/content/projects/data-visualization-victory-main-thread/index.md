@@ -1,27 +1,25 @@
 ---
 title: Data Visualization, Victory, and the Main Thread
 description: >-
-  Research during a Formidable Fellowship on browser rendering performance for
-  large, interactive charts—prototyping SVG, Canvas, and OffscreenCanvas, and
-  exploring architectural tradeoffs in Victory.
+  Why do big charts make the rest of a web application slow? My Formidable
+  Fellowship research into SVG, Canvas, OffscreenCanvas, and Victory.
 category: technical
 medium: Research & Data Visualization
-featuredImage: ./featured.png
 pubDate: 2021-10-01
-featured: false
+featured: true
 ---
 
-During a Formidable Fellowship, I investigated the performance challenges of rendering large, interactive data visualizations on the web.
+During a Formidable Fellowship, I spent time investigating why large, interactive charts can make a web application feel slow.
 
-The project began with a real-world problem: complex chart-heavy applications were causing noticeable delays in UI responsiveness, sometimes blocking interactions while charts rendered. To better understand the underlying causes, I explored browser rendering architecture, performance profiling tools, and alternative visualization approaches.
+The problem was easy to recognize: charts were rendering, and the rest of the interface stopped responding. I wanted to understand where that time was going and which parts of the work could happen somewhere else.
 
-As part of the research, I built experimental prototypes using SVG, Canvas, and OffscreenCanvas, compared their performance characteristics, and evaluated how rendering work interacts with the browser's main thread. I also explored architectural challenges within Victory, Formidable's React visualization library, and proposed potential directions for improving performance in areas such as zooming, animation, and large datasets.
+I built prototypes with SVG, Canvas, and OffscreenCanvas, compared their performance, and looked at how each approach used the browser's main thread. I also investigated how Victory, Formidable's React charting library, handled zooming, animation, and large datasets.
 
-The result was less about finding a single optimization and more about understanding how browser systems, rendering technologies, and library architecture work together to shape the user experience.
+Each approach had tradeoffs. The research helped me understand which ones mattered for different kinds of charts and where changes to Victory's architecture might help.
 
 ## Related writing
 
-The fellowship produced a two-part blog series on the Formidable blog (archived):
+I wrote a two-part series about the research for the Formidable blog, now archived here:
 
 - [Data Visualizations and the Main Thread: A (Sometimes) Love Story](/speaking-and-writing/data-viz-main-thread)
 - [Adventures with Victory and Canvas](/speaking-and-writing/adventures-victory-canvas)

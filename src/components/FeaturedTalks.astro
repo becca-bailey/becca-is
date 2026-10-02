@@ -1,32 +1,38 @@
 ---
-import HomePageLink from './HomePageLink.astro';
-import TechnicalCard from './technical/TechnicalCard.astro';
-import SectionHeader from './SectionHeader.astro';
-import becca from '../assets/becca.png';
-import { getFeaturedTechnical, technicalIndexUrl } from '@/lib/content';
-import { site } from '@/lib/site';
+import HomePageLink from "./HomePageLink.astro";
+import TechnicalCard from "./technical/TechnicalCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+import becca from "../assets/becca.png";
+import {getFeaturedTechnical, technicalIndexUrl} from "@/lib/content";
+import {site} from "@/lib/site";
 
 const entries = await getFeaturedTechnical(4);
 const indexUrl = technicalIndexUrl();
 ---
 
 <section class="reveal mb-12 md:mb-28">
-	<SectionHeader title="Speaking & Technical Writing" intro={site.homeSpeakingIntro} image={becca} />
+  <SectionHeader
+    title="Speaking & Technical Writing"
+    intro={site.speakingAndWritingIntro}
+    image={becca}
+  />
 
-	{
-		entries.length > 0 ? (
-			<>
-				<div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
-					{entries.map((entry) => (
-						<TechnicalCard entry={entry} variant="compact" />
-					))}
-				</div>
-				<div class="flex flex-col items-start gap-2">
-					<HomePageLink href={indexUrl}>View all</HomePageLink>
-				</div>
-			</>
-		) : (
-			<p class="text-text-muted">Featured speaking and writing coming soon.</p>
-		)
-	}
+  {
+    entries.length > 0 ? (
+      <>
+        <div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
+          {entries.map((entry) => (
+            <TechnicalCard entry={entry} variant="compact" />
+          ))}
+        </div>
+        <div class="flex flex-col items-start gap-2">
+          <HomePageLink href={indexUrl}>
+            All talks &amp; technical writing
+          </HomePageLink>
+        </div>
+      </>
+    ) : (
+      <p class="text-text-muted">Featured speaking and writing coming soon.</p>
+    )
+  }
 </section>

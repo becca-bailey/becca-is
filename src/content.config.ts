@@ -62,10 +62,11 @@ const projects = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
+			subtitle: z.string().optional(),
 			description: z.string(),
 			category: z.enum(['technical', 'making', 'digital-illustration']),
 			medium: z.string(),
-			featuredImage: image(),
+			featuredImage: image().optional(),
 			pubDate: z.coerce.date().optional(),
 			featured: z.boolean().optional().default(false),
 			draft: z.boolean().optional().default(false),

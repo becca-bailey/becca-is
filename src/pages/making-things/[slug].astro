@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import ProseLayout from '../../layouts/ProseLayout.astro';
-import { formatDate, getPublishedProjects } from '@/lib/content';
+import { formatDate, getPublishedProjects, projectImage } from '@/lib/content';
 import { render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -18,7 +18,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, description, featuredImage, pubDate } = entry.data;
+const { title, subtitle, description, pubDate } = entry.data;
 ---
 
 <ProseLayout
@@ -29,7 +29,7 @@ const { title, description, featuredImage, pubDate } = entry.data;
 >
 	<header slot="header" class="mb-8">
 		<Image
-			src={featuredImage}
+			src={projectImage(entry)}
 			alt=""
 			class="project-preview-image project-preview-image--framed mb-6"
 			width={960}
@@ -43,6 +43,7 @@ const { title, description, featuredImage, pubDate } = entry.data;
 			)
 		}
 		<h1 class="mb-2">{title}</h1>
+		{subtitle && <p class="mb-3 font-sans text-lg font-medium text-text">{subtitle}</p>}
 		<p class="text-text-muted">{description}</p>
 	</header>
 	<Content />

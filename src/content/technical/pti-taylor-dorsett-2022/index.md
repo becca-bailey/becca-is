@@ -5,8 +5,8 @@ pubDate: 2022-12-07
 host: Professional Technical Interviewee with Taylor Dorsett
 thumbnail: ./thumbnail.png
 summary: >-
-  A wide-ranging interview on career path, engineering leadership, and the skills
-  that matter in technical interviews and day-to-day software work.
+  I joined Taylor Dorsett to talk about my career path, engineering leadership,
+  and the skills we use in interviews and in our everyday work.
 externalUrl: https://www.youtube.com/watch?v=Bz0LoXYBHAQ
 featured: false
 ---
