@@ -61,7 +61,7 @@ export async function resolveRelatedWriting(slugs: string[]) {
 	return slugs.map((slug) => byId.get(slug)).filter((entry): entry is WritingEntry => entry != null);
 }
 
-export async function getFeaturedWriting(limit = 3) {
+export async function getFeaturedWriting(limit = 4) {
 	const entries = await getPublishedWriting();
 	return entries.filter((entry) => entry.data.featured).slice(0, limit);
 }

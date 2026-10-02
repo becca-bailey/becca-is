@@ -6,6 +6,7 @@ essays:
   - millennials-were-supposed-to-fix
   - the-death-of-changing-the-world
   - a-team-not-a-family
+  - deeply-resentful
   - dark-places
 themes:
   - work

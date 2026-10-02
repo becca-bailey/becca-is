@@ -11,6 +11,8 @@ const { title, subtitle, description } = entry.data;
 const displayDate = getDisplayDate(entry);
 const href = `/writing/${entry.id}`;
 const cardExcerpt = truncateExcerpt(description);
+// Imported Substack essays carry their one-line subtitle in `description`.
+const coverSubtitle = subtitle ?? truncateExcerpt(description, 140);
 
 const listClasses =
 	'group flex flex-col gap-2 border-b border-border pb-6 last:border-b-0 last:pb-0';
@@ -47,8 +49,8 @@ const readLinkClasses =
 						{title}
 					</a>
 				</h3>
-				{subtitle && (
-					<p class="font-sans text-sm font-medium tracking-wide text-text-muted">{subtitle}</p>
+				{coverSubtitle && (
+					<p class="font-sans text-sm font-medium tracking-wide text-text-muted">{coverSubtitle}</p>
 				)}
 			</div>
 			<a href={href} class={`mt-8 ${readLinkClasses}`}>
