@@ -74,6 +74,22 @@
 	--radius-md: 6px;
 }
 
+/*
+ * A soft warm shadow that lifts photos and screenshots off the page. It lives
+ * outside @theme because Tailwind rewrites theme shadow colors and would drop
+ * the color-mix transparency.
+ */
+:root {
+	/* Stone brown (--palette-stone-brown) at low alpha, written out so no fallback is needed */
+	--elevation-soft:
+		0 1px 2px rgb(78 71 63 / 0.08),
+		0 6px 16px -6px rgb(78 71 63 / 0.18);
+}
+
+@utility shadow-soft {
+	box-shadow: var(--elevation-soft);
+}
+
 @layer base {
 	body {
 		@apply bg-background font-serif text-base text-text leading-[1.75] md:text-lg;
@@ -213,13 +229,13 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply shrink-0 rounded-full object-contain p-1;
 }
 
-/* A 16:10 mat that shows the whole screenshot, whatever its shape. */
-.project-preview {
+/* A 16:10 mat that shows the whole image, whatever its shape. */
+.media-mat {
 	@apply flex aspect-[16/10] min-h-0 w-full items-center justify-center overflow-hidden bg-surface-sunken/5 p-4 md:p-6;
 }
 
 
-.project-preview--framed {
+.media-mat--framed {
 	@apply rounded-md;
 }
 
@@ -227,11 +243,34 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
  * Sized to the screenshot itself (never past the mat's padded box), so the
  * shadow hugs the image. The mat's min-h-0 keeps a tall image from growing it.
  */
-.project-preview-image {
-	@apply h-auto max-h-full w-auto max-w-full rounded-sm object-contain;
-	box-shadow:
-		0 1px 2px color-mix(in srgb, var(--color-text) 8%, transparent),
-		0 6px 16px -6px color-mix(in srgb, var(--color-text) 18%, transparent);
+.media-mat-image {
+	@apply h-auto max-h-full w-auto max-w-full rounded-sm object-contain shadow-soft;
+}
+
+/* Shared card layout (Card.astro): media, title, summary, meta, arrow link. */
+.card {
+	@apply flex h-full flex-col overflow-hidden rounded-md border border-border bg-background shadow-soft transition-colors hover:bg-surface-accent/20;
+}
+
+.card-body {
+	@apply flex flex-1 flex-col p-6;
+}
+
+.card-title {
+	@apply mb-2 font-sans text-lg font-medium leading-snug tracking-tight text-balance;
+}
+
+.card-summary {
+	@apply mb-4 font-sans text-base leading-relaxed text-text-muted;
+}
+
+.card-meta {
+	@apply mb-4 block font-sans text-sm text-text-muted;
+}
+
+/* Pinned to the bottom so links line up across a row of cards. */
+.card-link {
+	@apply mt-auto font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline;
 }
 
 .editorial-prose {

@@ -1,86 +1,39 @@
 ---
-import { Image } from 'astro:assets';
-import {
-	formatDate,
-	getTechnicalCardMeta,
-	technicalUrl,
-	truncateExcerpt,
-	type TechnicalEntry,
-} from '@/lib/content';
+import Card from '../Card.astro';
+import { getTechnicalCardMeta, technicalUrl, truncateExcerpt, type TechnicalEntry } from '@/lib/content';
 import TechnicalPlaceholderThumb from './TechnicalPlaceholderThumb.astro';
 
 interface Props {
 	entry: TechnicalEntry;
+	/** Compact cards drop the thumbnail, for the home page. */
 	variant?: 'default' | 'compact';
 }
 
 const { entry, variant = 'default' } = Astro.props;
 const { title, summary, pubDate, thumbnail, venue, host, type } = entry.data;
 const href = technicalUrl(entry.id);
-const isCompact = variant === 'compact';
-const excerpt = truncateExcerpt(summary, 160);
-const meta = getTechnicalCardMeta(entry);
-const place = venue ?? host;
-const linkClasses =
-	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
+const showMedia = variant !== 'compact';
 ---
 
-{
-	isCompact ? (
-		<article class="group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-surface-accent/20 md:p-8">
-			<time datetime={pubDate.toISOString()} class="mb-6 block font-sans text-sm text-text-muted">
-				{formatDate(pubDate)}
-			</time>
-			<div class="flex flex-1 flex-col justify-center">
-				<h3 class="mb-3 leading-snug">
-					<a href={href} class="text-text no-underline group-hover:underline">
-						{title}
-					</a>
-				</h3>
-				{place && (
-					<p class="font-sans text-sm font-medium tracking-wide text-text-muted">{place}</p>
-				)}
-			</div>
-			<a href={href} class={`mt-8 ${linkClasses}`}>
-				Read more &rarr;
-			</a>
-		</article>
-	) : (
-		<article class="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-surface-accent/20">
-			{
-				thumbnail ? (
-					<a href={href} class="block shrink-0 no-underline" tabindex="-1" aria-hidden="true">
-						<Image
-							src={thumbnail}
-							alt=""
-							class="aspect-[16/10] w-full object-cover"
-							width={640}
-							height={400}
-						/>
-					</a>
-				) : (
-					<TechnicalPlaceholderThumb
-						title={title}
-						type={type}
-						pubDate={pubDate}
-						venue={venue}
-						host={host}
-						href={href}
-					/>
-				)
-			}
-			<div class="flex min-h-[10rem] flex-1 flex-col p-6 md:p-8">
-				<h3 class="mb-2 font-sans text-lg font-medium leading-snug md:text-xl">
-					<a href={href} class="text-text no-underline group-hover:underline">
-						{title}
-					</a>
-				</h3>
-				{meta && <p class="mb-3 font-sans text-sm text-text-muted">{meta}</p>}
-				<p class="mb-6 flex-1 text-text-muted">{excerpt}</p>
-				<a href={href} class={`mt-auto ${linkClasses}`}>
-					Read more &rarr;
-				</a>
-			</div>
-		</article>
-	)
-}
+<Card
+	href={href}
+	title={title}
+	image={showMedia ? thumbnail : undefined}
+	summary={truncateExcerpt(summary, 160)}
+	meta={getTechnicalCardMeta(entry)}
+	linkLabel="Read more"
+>
+	{
+		showMedia && !thumbnail && (
+			<TechnicalPlaceholderThumb
+				slot="media"
+				title={title}
+				type={type}
+				pubDate={pubDate}
+				venue={venue}
+				host={host}
+				href={href}
+			/>
+		)
+	}
+</Card>

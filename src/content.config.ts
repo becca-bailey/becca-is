@@ -21,20 +21,23 @@ const writing = defineCollection({
 		base: 'src/content/writing',
 		generateId: ({ entry }) => contentId(entry),
 	}),
-	schema: z.object({
-		title: z.string(),
-		subtitle: z.string().optional(),
-		description: z.string(),
-		originalDate: z.coerce.date(),
-		revisedDate: z.coerce.date().optional(),
-		substackUrl: z.url().optional(),
-		readingPaths: z.array(z.string()).optional().default([]),
-		themes: z.array(z.string()).optional().default([]),
-		influences: z.array(influence).optional().default([]),
-		related: z.array(z.string()).optional().default([]),
-		featured: z.boolean().optional().default(false),
-		draft: z.boolean().optional().default(false),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			subtitle: z.string().optional(),
+			description: z.string(),
+			originalDate: z.coerce.date(),
+			revisedDate: z.coerce.date().optional(),
+			substackUrl: z.url().optional(),
+			readingPaths: z.array(z.string()).optional().default([]),
+			themes: z.array(z.string()).optional().default([]),
+			influences: z.array(influence).optional().default([]),
+			related: z.array(z.string()).optional().default([]),
+			featured: z.boolean().optional().default(false),
+			/** Shown on the essay's card on /writing. Decorative there, so no alt text is needed. */
+			featuredImage: image().optional(),
+			draft: z.boolean().optional().default(false),
+		}),
 });
 
 const readingPaths = defineCollection({

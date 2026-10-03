@@ -21,7 +21,7 @@ const essays = await getFeaturedWriting();
       <>
         <div class="reveal-stagger mb-8 grid gap-6 md:grid-cols-2">
           {essays.map((entry) => (
-            <EssayCard entry={entry} variant="cover" />
+            <EssayCard entry={entry} />
           ))}
         </div>
         <div class="flex flex-wrap items-start gap-x-6 gap-y-3">

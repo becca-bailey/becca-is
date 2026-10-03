@@ -15,9 +15,20 @@ const navItems = [
   >
     <a
       href="/"
-      class="-ml-2 rounded-md px-2 py-1 font-sans text-lg font-medium tracking-tight text-text no-underline transition-colors duration-200 hover:text-text-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:text-xl"
+      class="group -ml-2 rounded-md px-2 py-1 font-sans text-lg font-medium tracking-tight text-text no-underline transition-colors duration-200 hover:text-text-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:text-xl"
     >
-      💜 Becca Bailey
+      <!-- Both emoji share one grid cell, so swapping them doesn't shift the name. -->
+      <span class="inline-grid" aria-hidden="true">
+        <span
+          class="col-start-1 row-start-1 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0"
+          >💜</span
+        >
+        <span
+          class="col-start-1 row-start-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+          >🐈‍⬛</span
+        >
+      </span>
+      Becca Bailey
     </a>
 
     <nav class="hidden items-center gap-6 md:flex" aria-label="Main navigation">
@@ -63,8 +74,7 @@ const navItems = [
     aria-hidden="true"
     data-mobile-nav
   >
-    <div class="absolute inset-0 bg-overlay/20" data-mobile-nav-backdrop>
-    </div>
+    <div class="absolute inset-0 bg-overlay/20" data-mobile-nav-backdrop></div>
     <nav
       class="absolute top-0 right-0 flex h-full w-72 flex-col border-l border-border bg-background p-6 shadow-lg"
       aria-label="Mobile navigation"

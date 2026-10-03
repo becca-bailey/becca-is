@@ -1,53 +1,24 @@
 ---
-import { Image } from 'astro:assets';
+import Card from './Card.astro';
 import { projectImage, projectUrl, truncateExcerpt, type ProjectEntry } from '@/lib/content';
 
 interface Props {
 	entry: ProjectEntry;
-	variant?: 'default' | 'featured';
 	/** Use 2 when the card sits directly under the page's h1. */
 	headingLevel?: 2 | 3;
 }
 
-const { entry, variant = 'default', headingLevel = 3 } = Astro.props;
-const Heading = `h${headingLevel}` as const;
-const { title, subtitle, description, medium, pubDate } = entry.data;
-const href = projectUrl(entry.id);
-const isFeatured = variant === 'featured';
-const year = pubDate?.getUTCFullYear();
-const meta = [medium, year].filter(Boolean).join(' · ');
-const blurb = isFeatured ? truncateExcerpt(description, 140) : description;
-const linkClasses =
-	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
-// Cards render about 530px wide; the larger sizes cover 2x screens.
-const previewWidths = [640, 960, 1280];
-const previewSizes = '(min-width: 768px) 530px, 100vw';
+const { entry, headingLevel = 3 } = Astro.props;
+const { title, description, medium, pubDate } = entry.data;
+const meta = [medium, pubDate?.getUTCFullYear()].filter(Boolean).join(' · ');
 ---
 
-<article class="flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-surface-accent/20">
-	<a href={href} class="project-preview shrink-0 no-underline" tabindex="-1" aria-hidden="true">
-		<Image
-			src={projectImage(entry)}
-			alt=""
-			class="project-preview-image"
-			widths={previewWidths}
-			sizes={previewSizes}
-			quality={90}
-		/>
-	</a>
-	<div class="flex flex-1 flex-col p-6">
-		<Heading class="mb-2 font-sans text-lg font-medium">
-			<a href={href} class="text-text no-underline hover:underline">
-				{title}
-			</a>
-		</Heading>
-		{subtitle && <p class="mb-2 font-sans text-sm font-medium text-text">{subtitle}</p>}
-		<p class:list={['mb-4 flex-1 text-text-muted', isFeatured && 'line-clamp-3 text-sm leading-relaxed']}>
-			{blurb}
-		</p>
-		{meta && <p class="mb-4 font-sans text-sm text-text-muted">{meta}</p>}
-		<a href={href} class={linkClasses}>
-			View project &rarr;
-		</a>
-	</div>
-</article>
+<Card
+	href={projectUrl(entry.id)}
+	title={title}
+	headingLevel={headingLevel}
+	image={projectImage(entry)}
+	summary={truncateExcerpt(description, 160)}
+	meta={meta}
+	linkLabel="View project"
+/>

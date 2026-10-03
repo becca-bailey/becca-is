@@ -1,32 +1,23 @@
 ---
+import Card from './Card.astro';
 import { formatDate, getDisplayDate, truncateExcerpt, type WritingEntry } from '@/lib/content';
 
 interface Props {
 	entry: WritingEntry;
-	variant?: 'card' | 'list' | 'cover';
+	variant?: 'card' | 'list';
 }
 
 const { entry, variant = 'card' } = Astro.props;
-const { title, subtitle, description } = entry.data;
+const { title, subtitle, description, featuredImage } = entry.data;
 const displayDate = getDisplayDate(entry);
 const href = `/writing/${entry.id}`;
-const cardExcerpt = truncateExcerpt(description);
 // Imported Substack essays carry their one-line subtitle in `description`.
-const coverSubtitle = subtitle ?? truncateExcerpt(description, 140);
-
-const listClasses =
-	'group flex flex-col gap-2 border-b border-border pb-6 last:border-b-0 last:pb-0';
-const cardClasses =
-	'group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-surface-accent/20';
-const coverClasses =
-	'group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-surface-accent/20 md:p-8';
-const readLinkClasses =
-	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
+const summary = subtitle ?? truncateExcerpt(description, 140);
 ---
 
 {
 	variant === 'list' ? (
-		<article class={listClasses}>
+		<article class="group flex flex-col gap-2 border-b border-border pb-6 last:border-b-0 last:pb-0">
 			<time datetime={displayDate.toISOString()} class="font-sans text-sm text-text-muted">
 				{formatDate(displayDate)}
 			</time>
@@ -38,40 +29,15 @@ const readLinkClasses =
 			{subtitle && <p class="font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
 			<p class="text-text-muted">{description}</p>
 		</article>
-	) : variant === 'cover' ? (
-		<article class={coverClasses}>
-			<time datetime={displayDate.toISOString()} class="mb-6 block font-sans text-sm text-text-muted">
-				{formatDate(displayDate)}
-			</time>
-			<div class="flex flex-1 flex-col justify-center">
-				<h3 class="mb-3 leading-snug">
-					<a href={href} class="text-text no-underline group-hover:underline">
-						{title}
-					</a>
-				</h3>
-				{coverSubtitle && (
-					<p class="font-sans text-sm font-medium tracking-wide text-text-muted">{coverSubtitle}</p>
-				)}
-			</div>
-			<a href={href} class={`mt-8 ${readLinkClasses}`}>
-				Read essay &rarr;
-			</a>
-		</article>
 	) : (
-		<article class={cardClasses}>
-			<time datetime={displayDate.toISOString()} class="mb-3 block font-sans text-sm text-text-muted">
-				{formatDate(displayDate)}
-			</time>
-			<h3 class="mb-2">
-				<a href={href} class="text-text no-underline group-hover:underline">
-					{title}
-				</a>
-			</h3>
-			{subtitle && <p class="mb-2 font-sans text-sm font-medium text-text-muted">{subtitle}</p>}
-			<p class="mb-6 flex-1 text-text-muted">{cardExcerpt}</p>
-			<a href={href} class={readLinkClasses}>
-				Read essay &rarr;
-			</a>
-		</article>
+		<Card
+			href={href}
+			title={title}
+			image={featuredImage}
+			summary={summary}
+			meta={formatDate(displayDate)}
+			datetime={displayDate.toISOString()}
+			linkLabel="Read essay"
+		/>
 	)
 }

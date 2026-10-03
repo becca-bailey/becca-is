@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * The one card layout behind project, essay, talk and reading path cards:
+ * optional media on top, then title, summary, meta line and an arrow link.
+ */
+interface Props {
+	href: string;
+	title: string;
+	/** Use 2 when the card sits directly under the page's h1. */
+	headingLevel?: 2 | 3;
+	/** Shown on the preview mat. For custom media, use the `media` slot instead. */
+	image?: ImageMetadata;
+	summary?: string;
+	meta?: string;
+	/** ISO date, when the meta line is a date. */
+	datetime?: string;
+	linkLabel: string;
+}
+
+const { href, title, headingLevel = 3, image, summary, meta, datetime, linkLabel } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+// Cards render about 530px wide; the larger sizes cover 2x screens.
+const imageWidths = [640, 960, 1280];
+const imageSizes = '(min-width: 768px) 530px, 100vw';
+---
+
+<article class="card group">
+	{
+		image ? (
+			<a href={href} class="media-mat shrink-0 no-underline" tabindex="-1" aria-hidden="true">
+				<Image
+					src={image}
+					alt=""
+					class="media-mat-image"
+					widths={imageWidths}
+					sizes={imageSizes}
+					quality={90}
+				/>
+			</a>
+		) : (
+			<slot name="media" />
+		)
+	}
+	<div class="card-body">
+		<Heading class="card-title">
+			<a href={href} class="text-text no-underline group-hover:underline">
+				{title}
+			</a>
+		</Heading>
+		{summary && <p class="card-summary">{summary}</p>}
+		{
+			meta &&
+				(datetime ? (
+					<time datetime={datetime} class="card-meta">
+						{meta}
+					</time>
+				) : (
+					<p class="card-meta">{meta}</p>
+				))
+		}
+		<a href={href} class="card-link">
+			{linkLabel} &rarr;
+		</a>
+	</div>
+</article>
