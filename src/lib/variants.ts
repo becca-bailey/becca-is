@@ -26,9 +26,8 @@ export const navLinkVariants = cva(
 	{
 		variants: {
 			context: {
-				header: 'rounded-md px-3 py-1.5 text-base no-underline hover:bg-surface-accent hover:text-text active:bg-surface-accent/80',
-				mobile:
-					'block rounded-md px-3 py-2.5 text-lg no-underline hover:bg-surface-accent hover:text-text active:bg-surface-accent/80',
+				header: 'rounded-md px-3 py-1.5 text-base no-underline underline-offset-[6px]',
+				mobile: 'block rounded-md px-3 py-2.5 text-lg no-underline underline-offset-[6px]',
 				body: 'font-normal text-text underline hover:text-text-hover',
 			},
 			active: {
@@ -40,13 +39,14 @@ export const navLinkVariants = cva(
 			{
 				context: ['header', 'mobile'],
 				active: false,
-				class: 'text-text-muted',
+				// Hover borrows the faint underline that body links show at rest.
+				class: 'text-text-muted hover:text-text hover:underline hover:decoration-current/30',
 			},
 			{
 				context: ['header', 'mobile'],
 				active: true,
-				class:
-					'text-text underline decoration-accent underline-offset-4 hover:bg-transparent',
+				// A solid 2px underline in the text color (8.7:1) marks the current page.
+				class: 'text-text underline decoration-current decoration-2 hover:text-text',
 			},
 		],
 		defaultVariants: {

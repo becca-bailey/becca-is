@@ -53,7 +53,7 @@
 	--color-focus-ring: var(--palette-blue-dark); /* 5.1:1 on cream; the light blue was 2.2:1 */
 
 	/* The author's voice: author's notes, blockquote rules, text selection */
-	--color-voice: var(--palette-pink);
+	--color-voice: var(--palette-blue);
 
 	/* Primary action */
 	--color-primary: var(--palette-gold);
@@ -108,7 +108,7 @@
 	}
 
 	::selection {
-		@apply bg-voice text-text;
+		@apply bg-voice/40 text-text; /* solid blue is 4.0:1 behind text; 40% is 6.5:1 */
 	}
 
 	:focus-visible {
@@ -204,13 +204,9 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	transition-delay: 120ms;
 }
 
-/* Subtle blue border — pairs with active nav underline (decoration-accent) */
-.image-outline {
-	@apply rounded-md border border-accent/40;
-}
-
-.doodle-image {
-	@apply overflow-hidden rounded-md border border-accent/40;
+/* No border: many screenshots carry their own frame or shadow. */
+.image-rounded {
+	@apply rounded-md;
 }
 
 .section-doodle {
@@ -222,7 +218,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .project-preview-image--framed {
-	@apply rounded-md border border-border;
+	@apply rounded-md;
 }
 
 .editorial-prose {
@@ -284,7 +280,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .margin-note {
-	@apply my-6 rounded-md border border-voice bg-voice/15 px-4 py-3;
+	@apply my-6 rounded-md border border-voice bg-voice/10 px-4 py-3;
 }
 
 .margin-note-label {
@@ -350,7 +346,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .technical-preview-image {
-	@apply aspect-[16/10] w-full rounded-md border border-border object-cover object-left-top;
+	@apply aspect-[16/10] w-full rounded-md object-cover object-left-top;
 }
 
 .technical-summary {

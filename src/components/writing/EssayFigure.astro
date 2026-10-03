@@ -21,11 +21,11 @@ const hasCaption = Astro.slots.has('default');
 				alt={alt}
 				width={src.width}
 				height={src.height}
-				class="image-outline w-full"
+				class="image-rounded w-full"
 				loading="lazy"
 			/>
 		) : (
-			<Image src={src} alt={alt} class="image-outline w-full" />
+			<Image src={src} alt={alt} class="image-rounded w-full" />
 		)
 	}
 	{
