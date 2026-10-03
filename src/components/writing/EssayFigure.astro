@@ -4,11 +4,13 @@ import type { ImageMetadata } from 'astro';
 
 interface Props {
 	src: ImageMetadata;
+	/** Read by screen readers only; the visible caption goes in the slot. */
 	alt: string;
 }
 
 const { src, alt } = Astro.props;
 const isGif = src.format === 'gif';
+const hasCaption = Astro.slots.has('default');
 ---
 
 <figure class="essay-figure">
@@ -27,7 +29,7 @@ const isGif = src.format === 'gif';
 		)
 	}
 	{
-		Astro.slots.has('default') && (
+		hasCaption && (
 			<figcaption class="essay-figure-credit font-sans text-sm text-text-muted">
 				<slot />
 			</figcaption>

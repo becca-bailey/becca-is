@@ -16,6 +16,10 @@ draft: false
 ---
 
 import MarginNote from "@/components/writing/MarginNote.astro";
+import EssayFigure from "@/components/writing/EssayFigure.astro";
+import image1 from "./a4bbd029-95c3-4375-b9c1-f4fb905e9d1a_480x270.gif";
+import image2 from "./7713e50c-ad76-4d3e-aa67-6cd50cd53cec_1709x2399.png";
+import image3 from "./photo-1552820755-733e038f86d5.png";
 
 In January 2025, shortly after the second presidential inauguration of Donald Trump, Mark Zuckerberg went on Joe Rogan’s podcast and said that the workplace has become “culturally neutered” and he wants to bring “masculine energy” back to the workplace. (I sent this audio clip to the next Meta recruiter who reached out to me, and I haven’t heard from them since.)
 
@@ -55,7 +59,11 @@ I did the same thing with my careers corpus. My axis is built from sixteen pure 
 
 So when I talk about “masculine-coded” or “feminine-coded”, I want to be clear that this isn’t based on a personal judgement like “direct communication is for men, therefore companies shouldn’t talk about direct communication”. Instead, I am highlighting the computed proximity to masculinity. If the training data has these concepts mapped to statements made by men, for men, or about men, the embedding will show that. In this particular study, gender bias is the feature, not a bug.
 
-![I love a good feminist bookstore, but this is not the tone I am going for.](./a4bbd029-95c3-4375-b9c1-f4fb905e9d1a_480x270.gif "I love a good feminist bookstore, but this is not the tone I am going for.")
+<EssayFigure src={image1} alt={"I love a good feminist bookstore, but this is not the tone I am going for."}>
+
+I love a good feminist bookstore, but this is not the tone I am going for.
+
+</EssayFigure>
 
 ---
 
@@ -63,7 +71,7 @@ And lo and behold, the companies doing the exclusionary posturing were the compa
 
 I scored every sentence of careers copy in the corpus — about 9,600 sentences across twenty-three companies — and counted what fraction of each company’s sentences land meaningfully on the masculine side of the axis. At the top: **Anduril, where 71% of all careers-page sentences are masculine-coded and 1% are feminine-coded.** Then Ramp (54%), SpaceX (52%), Palantir (51%), Engine (51%), Netflix (49%), Coinbase (38%). Every company I named in the first half of this post is in the top eight.
 
-![](./7713e50c-ad76-4d3e-aa67-6cd50cd53cec_1709x2399.png)
+<EssayFigure src={image2} alt={""} />
 
 At the bottom of the ranking: Snap, where 8% of sentences are masculine-coded and 37% are feminine-coded, then Uber, Starbucks, Salesforce, and Apple. These are all consumer-facing companies that maintain a warmer, marketing-driven image. The companies that want to sound like Special Forces (and SpaceX literally described itself that way) reflect that in a measurable way. When you look closely, there’s a real pattern: exclusivity is masculine-coded, and inclusion and diversity are feminine-coded.
 
@@ -71,7 +79,11 @@ Let’s look at some of the most notable sentences. Coinbase's [homage to the Ne
 
 Meanwhile, Netflix’s plain statement of the idea, “But Netflix is not for everyone, so please read on,” scores almost exactly _neutral_. It’s not the sentiment that’s masculine-coded. You can tell people your company isn’t for everyone in neutral language. It’s the _performance_ of it — the over-the-top language like “hardcore”, or “hard mode” or “not for the faint of heart” — that carries the gender coding.
 
-![naked man statue](./photo-1552820755-733e038f86d5.png "Photo by Simone Pellegrini on Unsplash")
+<EssayFigure src={image3} alt={"naked man statue"}>
+
+Photo by Simone Pellegrini on Unsplash
+
+</EssayFigure>
 
 There’s one interesting exception here: the second most masculine-coded company in my data next to Anduril is Basecamp. While Basecamp hasn’t had the intense posturing, Basecamp was also one of the originators of the “non-political workplace”. (And while I don’t feel like doing a deep dive into this today, I will leave you with [this screenshot](https://www.linkedin.com/posts/anildash_for-those-of-you-who-still-use-basecamp-products-share-7487865023709683713-B9qd/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAOASuUBIzlM4unuotyo33-43fcwx8DiUXs) of an X post from one of the Basecamp founders this week, where he complains about his free speech being infringed upon when Claude refuses to translate a post where he compares Roma people to wolves.)
 

@@ -18,6 +18,11 @@ draft: false
 ---
 
 import MarginNote from "@/components/writing/MarginNote.astro";
+import EssayFigure from "@/components/writing/EssayFigure.astro";
+import image1 from "./1a156daa-258e-4902-a009-f394406dfa3a_1782x476.png";
+import image2 from "./d3dbdff9-baa8-4248-9ff1-fae5def6bd35_1644x442.png";
+import image3 from "./0d6355f7-63e9-427f-a1cc-e7b42a273a4c_1010x726.png";
+import image4 from "./photo-1741031294594-0e344647b5c2.png";
 
 _Content note: this post quotes anti-migrant, anti-Roma, and anti-trans rhetoric verbatim, including dehumanizing language and a slur for Roma people. The quotes are the evidence, so I've kept them exact rather than paraphrasing._
 
@@ -47,11 +52,11 @@ So in other words, employees brought up concerns about racial stereotypes inside
 
 Basecamp/37signals has shown up as an outlier in my research a couple of times now. Despite the size of the company, the founders have—to put it lightly—_a lot of opinions_. So they have given me one of the largest corpora in my dataset, the fifth-largest of over twenty companies. Despite the sheer amount of writing they have done about their company culture, their technical practices, and how they set themselves apart from the rest of the tech industry, they have been largely silent on the topic of diversity and inclusion. Only four percent of the text I analyzed mentions it, as opposed to 26-52% for the other four companies of comparable corpus size. Only Coinbase and Palantir scored lower, and that was true even before Basecamp disbanded the DEI committee in 2021.
 
-![](./1a156daa-258e-4902-a009-f394406dfa3a_1782x476.png)
+<EssayFigure src={image1} alt={""} />
 
 They also rank second, next to Anduril (a literal weapons manufacturer) as the most masculine-coded company in my corpus, ahead of SpaceX and Palantir. Most likely this is because so much of the cultural canon was written by the founders themselves and not by recruiters or HR teams.
 
-![](./d3dbdff9-baa8-4248-9ff1-fae5def6bd35_1644x442.png)
+<EssayFigure src={image2} alt={""} />
 
 ### The “non-political workplace”
 
@@ -67,7 +72,7 @@ I should note at this point that the rules about political speech at 37signals h
 
 In order to better understand what happened after 2021, I ran an instrument over every post to extract references to marginalized groups. This surfaced references to Roma, Muslims, trans people, and other groups. It also codes the tone of the reference—is it a neutral call-out, general hostility, or does it frame these groups as a threat?
 
-![](./0d6355f7-63e9-427f-a1cc-e7b42a273a4c_1010x726.png)
+<EssayFigure src={image3} alt={""} />
 
 In 2021, only one post references a marginalized group. In 2022 and 2023, a handful do, but none frame a group as a threat. In 2024, he starts citing statistics (with an unclear source) about migrants and crime rates in Denmark.
 
@@ -117,4 +122,8 @@ Well, I think it means that my pattern-matching is working. Masculine-coded lang
 
 Ironically, the framework that describes this the best is the one that triggered Hansson’s far-right swing: [The Pyramid of Hate](https://www.adl.org/resources/tools-and-strategies/pyramid-hate). Subtle biases that are allowed to propagate lay the groundwork for more extreme speech, discrimination, and violence. Hansson was given an opportunity to grapple with this. But rather than acknowledging the pyramid, he decided to ascend it.
 
-![Armed soldiers stand in a row on a street.](./photo-1741031294594-0e344647b5c2.png "Photo by Colin Lloyd on Unsplash")
+<EssayFigure src={image4} alt={"Armed soldiers stand in a row on a street."}>
+
+Photo by Colin Lloyd on Unsplash
+
+</EssayFigure>

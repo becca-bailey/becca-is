@@ -17,6 +17,10 @@
  *      pull request instead of a copy-paste:
  *        node scripts/import-substack.mjs --all
  *
+ *      To see what discovery would pick up without fetching or writing
+ *      anything, list the available slugs instead (npm run import:list):
+ *        node scripts/import-substack.mjs --list
+ *
  *      Discovery tries the archive API first and falls back to the public RSS
  *      feed when that is refused — Cloudflare answers 403 to /api/v1/* from
  *      datacenter IPs such as CI runners. The feed only carries recent free
@@ -35,6 +39,7 @@
  *
  * Common flags:
  *   --all              import every archive post missing from src/content/writing
+ *   --list             print the slugs --all (or --export) would import, then stop
  *   --since <date>     with --all, ignore posts published before this date
  *   --limit <n>        with --all, stop after scanning n archive entries
  *   --path <slug>      add a readingPaths entry (repeatable)
@@ -65,6 +70,7 @@ function parseArgs(argv) {
 		only: null,
 		exportDir: null,
 		all: false,
+		list: false,
 		since: null,
 		limit: 200,
 		publication: 'beccabailey',
@@ -81,6 +87,9 @@ function parseArgs(argv) {
 				break;
 			case '--all':
 				opts.all = true;
+				break;
+			case '--list':
+				opts.list = true;
 				break;
 			case '--since': {
 				const value = argv[++i];
@@ -366,12 +375,7 @@ function renderBlocks(node, images, depth = 0) {
 				const img = findFirst(child, 'img');
 				const caption = findFirst(child, 'figcaption');
 				const src = img?.attrs.src;
-				if (src) {
-					const alt = escapeInline(img.attrs.alt || (caption ? textContent(caption).trim() : ''));
-					const captionText = caption ? collapse(textContent(caption)).trim() : '';
-					const title = captionText ? ` "${captionText.replace(/"/g, "'")}"` : '';
-					blocks.push(`![${alt}](${images.register(src)}${title})`);
-				}
+				if (src) blocks.push(renderFigure(img, caption, images));
 				break;
 			}
 			case 'figcaption':
@@ -385,6 +389,28 @@ function renderBlocks(node, images, depth = 0) {
 
 	flush();
 	return blocks.join('\n\n');
+}
+
+/**
+ * A downloaded image becomes an <EssayFigure>. Its alt text is for screen
+ * readers only; the Substack caption (often a photo credit) goes in the slot
+ * and is the visible caption. Remote images can't be imported, so they stay
+ * plain markdown.
+ */
+function renderFigure(img, caption, images) {
+	const captionText = caption ? collapse(textContent(caption)).trim() : '';
+	const alt = collapse(img.attrs.alt || captionText).trim();
+	const ref = images.register(img.attrs.src);
+	const name = images.importName(ref);
+
+	if (!name) {
+		const title = captionText ? ` "${captionText.replace(/"/g, "'")}"` : '';
+		return `![${escapeInline(alt)}](${ref}${title})`;
+	}
+
+	const credit = caption ? renderInline(caption, images).trim() : '';
+	const open = `<EssayFigure src={${name}} alt={${JSON.stringify(alt)}}`;
+	return credit ? `${open}>\n\n${credit}\n\n</EssayFigure>` : `${open} />`;
 }
 
 function findFirst(node, tag) {
@@ -406,6 +432,7 @@ function findFirst(node, tag) {
 function createImageCollector(enabled) {
 	const byUrl = new Map();
 	const usedNames = new Set();
+	const importNames = new Map();
 
 	return {
 		register(rawSrc) {
@@ -435,6 +462,20 @@ function createImageCollector(enabled) {
 			usedNames.add(name);
 			byUrl.set(rawSrc, name);
 			return `./${name}`;
+		},
+		/** The MDX import identifier for a local `./name`, or null for a remote URL. */
+		importName(ref) {
+			if (!ref.startsWith('./')) return null;
+			if (!importNames.has(ref)) importNames.set(ref, `image${importNames.size + 1}`);
+			return importNames.get(ref);
+		},
+		/** Import lines for every figure rendered, to sit between frontmatter and body. */
+		imports() {
+			if (!importNames.size) return [];
+			return [
+				'import EssayFigure from "@/components/writing/EssayFigure.astro";',
+				...[...importNames].map(([ref, name]) => `import ${name} from "${ref}";`),
+			];
 		},
 		entries() {
 			return [...byUrl.entries()].map(([url, name]) => ({ url, name }));
@@ -873,7 +914,9 @@ async function writePost(post, opts) {
 	const images = createImageCollector(opts.images);
 	// A post read from the post page arrives already parsed.
 	const body = renderBlocks(post.node ?? parseHtml(post.html), images);
-	const mdx = `${buildFrontmatter(post, opts)}\n${body}\n`;
+	const imports = images.imports();
+	const head = imports.length ? `${imports.join('\n')}\n\n` : '';
+	const mdx = `${buildFrontmatter(post, opts)}\n${head}${body}\n`;
 
 	console.log(
 		`  ${post.slug}: ${body.length} chars, ${images.entries().length} image(s)` +
@@ -891,8 +934,35 @@ async function writePost(post, opts) {
 	return true;
 }
 
+/** Print the posts not yet in src/content/writing, without fetching bodies or writing. */
+async function listAvailable(opts) {
+	const source = opts.exportDir
+		? await readExport(opts.exportDir, opts.publication)
+		: await discoverPosts(opts.publication, opts);
+	const have = await existingSlugs();
+	const available = source.filter(
+		(entry) => !have.has(entry.slug) && (!opts.only || opts.only.has(entry.slug)),
+	);
+
+	console.log(
+		`${source.length} post(s) found, ${source.length - available.length} already imported, ` +
+			`${available.length} available:`,
+	);
+	for (const entry of available) {
+		console.log(`  ${entry.slug}  ${entry.date ?? '          '}  ${entry.title}`);
+	}
+	if (available.length) {
+		console.log('\nImport with: node scripts/import-substack.mjs <slug> [<slug> ...]');
+	}
+}
+
 async function main() {
 	const opts = parseArgs(process.argv.slice(2));
+
+	if (opts.list) {
+		await listAvailable(opts);
+		return;
+	}
 
 	let posts;
 	if (opts.exportDir) {

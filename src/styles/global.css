@@ -11,6 +11,7 @@
 	--color-gold: #cfaf36;
 	--color-gold-dark: #b8992f;
 	--color-blue: #7caef3;
+	--color-blue-dark: #2969c2;
 	--color-peach: #ffe0d3;
 	--color-pink: #fdc1e1;
 	--color-pink-dark: #f06292;
@@ -19,6 +20,8 @@
 	--color-text: var(--color-stone-brown);
 	--color-text-muted: #736b62;
 	--color-border: var(--color-peach);
+	--color-link: var(--color-blue-dark);
+	--color-link-hover: #1d4b8b;
 
 	--font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 	--font-serif: "Lora", ui-serif, Georgia, serif;
@@ -59,7 +62,7 @@
 	}
 
 	a {
-		@apply text-text no-underline underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline;
+		@apply text-link no-underline underline-offset-4 transition-colors hover:text-link-hover hover:underline;
 	}
 
 	:focus-visible {
