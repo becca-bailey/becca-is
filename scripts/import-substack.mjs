@@ -304,6 +304,20 @@ function textContent(node) {
 	return node.children.map(textContent).join('');
 }
 
+/** How far to shift headings so the post's highest one renders as h2. Set per post. */
+let headingOffset = -1;
+
+function topHeadingLevel(node) {
+	let top = 7;
+	for (const child of node.children ?? []) {
+		if (child.type !== 'element') continue;
+		const match = child.tag.match(/^h([1-6])$/);
+		if (match) top = Math.min(top, Number(match[1]));
+		top = Math.min(top, topHeadingLevel(child));
+	}
+	return top;
+}
+
 function renderBlocks(node, images, depth = 0) {
 	const blocks = [];
 	let inlineRun = '';
@@ -334,8 +348,9 @@ function renderBlocks(node, images, depth = 0) {
 			case 'h4':
 			case 'h5':
 			case 'h6': {
-				// Demote by one: the essay title is already the page's h1.
-				const level = Math.min(Number(child.tag[1]) + 1, 6);
+				// The essay title is the page's h1, so the post's top heading level
+				// becomes h2 and the rest keep their relative depth.
+				const level = Math.min(Number(child.tag[1]) - headingOffset, 6);
 				const text = renderInline(child, images).trim();
 				if (text) blocks.push(`${'#'.repeat(level)} ${text}`);
 				break;
@@ -913,7 +928,10 @@ async function writePost(post, opts) {
 
 	const images = createImageCollector(opts.images);
 	// A post read from the post page arrives already parsed.
-	const body = renderBlocks(post.node ?? parseHtml(post.html), images);
+	const root = post.node ?? parseHtml(post.html);
+	const top = topHeadingLevel(root);
+	headingOffset = top <= 6 ? top - 2 : 0;
+	const body = renderBlocks(root, images);
 	const imports = images.imports();
 	const head = imports.length ? `${imports.join('\n')}\n\n` : '';
 	const mdx = `${buildFrontmatter(post, opts)}\n${head}${body}\n`;

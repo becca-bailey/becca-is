@@ -5,9 +5,12 @@ import { projectImage, projectUrl, truncateExcerpt, type ProjectEntry } from '@/
 interface Props {
 	entry: ProjectEntry;
 	variant?: 'default' | 'featured';
+	/** Use 2 when the card sits directly under the page's h1. */
+	headingLevel?: 2 | 3;
 }
 
-const { entry, variant = 'default' } = Astro.props;
+const { entry, variant = 'default', headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
 const { title, subtitle, description, medium, pubDate } = entry.data;
 const href = projectUrl(entry.id);
 const isFeatured = variant === 'featured';
@@ -15,12 +18,12 @@ const year = pubDate?.getUTCFullYear();
 const meta = [medium, year].filter(Boolean).join(' · ');
 const blurb = isFeatured ? truncateExcerpt(description, 140) : description;
 const linkClasses =
-	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
+	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
 const previewWidth = 640;
 const previewHeight = 400;
 ---
 
-<article class="flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-peach/20">
+<article class="flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-surface-accent/20">
 	<a href={href} class="block shrink-0 overflow-hidden no-underline" tabindex="-1" aria-hidden="true">
 		<Image
 			src={projectImage(entry)}
@@ -31,11 +34,11 @@ const previewHeight = 400;
 		/>
 	</a>
 	<div class="flex flex-1 flex-col p-6">
-		<h3 class="mb-2 font-sans text-lg font-medium">
+		<Heading class="mb-2 font-sans text-lg font-medium">
 			<a href={href} class="text-text no-underline hover:underline">
 				{title}
 			</a>
-		</h3>
+		</Heading>
 		{subtitle && <p class="mb-2 font-sans text-sm font-medium text-text">{subtitle}</p>}
 		<p class:list={['mb-4 flex-1 text-text-muted', isFeatured && 'line-clamp-3 text-sm leading-relaxed']}>
 			{blurb}

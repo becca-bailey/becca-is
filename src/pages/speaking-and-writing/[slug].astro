@@ -48,7 +48,7 @@ const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
 		<nav class="mb-6" aria-label="Breadcrumb">
 			<a
 				href={technicalIndexUrl()}
-				class="font-sans text-sm text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+				class="font-sans text-sm text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
 			>
 				&larr; Speaking & Technical Writing
 			</a>
@@ -107,7 +107,7 @@ const pageTitle = `${title} — Speaking & Technical Writing — Becca Bailey`;
 							<li>
 								<a
 									href={technicalUrl(item.id)}
-									class="font-sans text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+									class="font-sans text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
 								>
 									{item.data.title}
 								</a>

@@ -5,23 +5,65 @@
 @import "@fontsource/lora/600.css";
 @import "tailwindcss";
 
-@theme {
-	--color-stone-brown: #4e473f;
-	--color-cream: #fbf9f8;
-	--color-gold: #cfaf36;
-	--color-gold-dark: #b8992f;
-	--color-blue: #7caef3;
-	--color-blue-dark: #2969c2;
-	--color-peach: #ffe0d3;
-	--color-pink: #fdc1e1;
-	--color-pink-dark: #f06292;
+/*
+ * Palette: raw brand colors, named for what they look like. Components never
+ * use these directly; they only feed the semantic tokens below. Changing the
+ * site's colors means editing this block (and, if a role needs a new shade,
+ * pointing that role at it).
+ */
+:root {
+	--palette-stone-brown: #4e473f;
+	--palette-stone-brown-dark: #3d3832;
+	--palette-stone-brown-light: #736b62;
+	--palette-cream: #fbf9f8;
+	--palette-gold: #cfaf36;
+	--palette-gold-light: #d8bd5a;
+	--palette-blue: #7caef3;
+	--palette-blue-dark: #2969c2;
+	--palette-plum: #9352a3;
+	--palette-plum-dark: #6c3a79;
+	--palette-peach: #ffe0d3;
+	--palette-pink: #fdc1e1;
+}
 
-	--color-background: var(--color-cream);
-	--color-text: var(--color-stone-brown);
-	--color-text-muted: #736b62;
-	--color-border: var(--color-peach);
-	--color-link: var(--color-blue-dark);
-	--color-link-hover: #1d4b8b;
+/*
+ * Semantic tokens: named for the job they do, so they read the same whatever
+ * the palette is. These are the only colors Tailwind generates utilities for.
+ */
+@theme {
+	/* Surfaces */
+	--color-background: var(--palette-cream); /* page */
+	--color-surface-accent: var(--palette-peach); /* hover fills, active tabs, badges, notes */
+	--color-surface-sunken: var(--palette-stone-brown); /* code blocks; use at low opacity */
+	--color-overlay: var(--palette-stone-brown); /* scrim behind the mobile menu; use at low opacity */
+
+	/* Text */
+	--color-text: var(--palette-stone-brown);
+	--color-text-muted: var(--palette-stone-brown-light);
+	--color-text-hover: var(--palette-stone-brown-dark);
+	--color-link: var(--palette-plum);
+	--color-link-hover: var(--palette-plum-dark);
+
+	/* Borders */
+	--color-border: var(--palette-peach);
+	--color-border-strong: var(--palette-stone-brown); /* outlined buttons */
+
+	/* Accent: decorative strokes such as the active nav underline, image outlines and timeline */
+	--color-accent: var(--palette-blue);
+	--color-focus-ring: var(--palette-blue-dark); /* 5.1:1 on cream; the light blue was 2.2:1 */
+
+	/* The author's voice: author's notes, blockquote rules, text selection */
+	--color-voice: var(--palette-pink);
+
+	/* Primary action */
+	--color-primary: var(--palette-gold);
+	--color-primary-hover: var(--palette-gold-light); /* lighter, so button text keeps 4.5:1 */
+	--color-on-primary: var(--palette-stone-brown-dark); /* text on primary: 5.4:1, 6.3:1 on hover */
+
+	/* Content categories (technical placeholder thumbnails) */
+	--color-category-blog: var(--palette-peach);
+	--color-category-talk: var(--palette-blue);
+	--color-category-podcast: var(--palette-pink);
 
 	--font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 	--font-serif: "Lora", ui-serif, Georgia, serif;
@@ -62,11 +104,15 @@
 	}
 
 	a {
-		@apply text-link no-underline underline-offset-4 transition-colors hover:text-link-hover hover:underline;
+		@apply text-link underline decoration-current/30 decoration-1 underline-offset-4 transition-colors hover:text-link-hover hover:decoration-current;
+	}
+
+	::selection {
+		@apply bg-voice text-text;
 	}
 
 	:focus-visible {
-		outline: 2px solid var(--color-blue);
+		outline: 2px solid var(--color-focus-ring);
 		outline-offset: 2px;
 	}
 }
@@ -158,13 +204,13 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	transition-delay: 120ms;
 }
 
-/* Subtle blue border — pairs with active nav underline (decoration-blue) */
+/* Subtle blue border — pairs with active nav underline (decoration-accent) */
 .image-outline {
-	@apply rounded-md border border-blue/40;
+	@apply rounded-md border border-accent/40;
 }
 
 .doodle-image {
-	@apply overflow-hidden rounded-md border border-blue/40;
+	@apply overflow-hidden rounded-md border border-accent/40;
 }
 
 .section-doodle {
@@ -226,7 +272,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .prose blockquote {
-	@apply border-l-2 border-border pl-4 text-text-muted italic;
+	@apply border-l-2 border-voice pl-4 text-text-muted italic;
 }
 
 .prose strong {
@@ -238,7 +284,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .margin-note {
-	@apply my-6 rounded-md border border-border/80 bg-peach/10 px-4 py-3;
+	@apply my-6 rounded-md border border-voice bg-voice/15 px-4 py-3;
 }
 
 .margin-note-label {
@@ -263,7 +309,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 
 @media (min-width: 1024px) {
 	.essay-prose .margin-note {
-		@apply float-right clear-right -mr-4 mb-4 ml-6 max-w-[14rem] rounded-none border-0 border-l-2 border-peach bg-transparent py-1 pl-4;
+		@apply float-right clear-right -mr-4 mb-4 ml-6 max-w-[14rem] rounded-none border-0 border-l-2 border-voice bg-transparent py-1 pl-4;
 	}
 }
 
@@ -291,11 +337,11 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .technical-prose :not(pre) > code {
-	@apply rounded-sm bg-stone-brown/10 px-1.5 py-0.5 font-mono text-[0.9em];
+	@apply rounded-sm bg-surface-sunken/10 px-1.5 py-0.5 font-mono text-[0.9em];
 }
 
 .technical-prose pre {
-	@apply my-6 overflow-x-auto rounded-md border border-border bg-stone-brown/5 p-4 text-sm leading-relaxed;
+	@apply my-6 overflow-x-auto rounded-md border border-border bg-surface-sunken/5 p-4 text-sm leading-relaxed;
 	tab-size: 2;
 }
 
@@ -308,7 +354,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .technical-summary {
-	@apply mb-10 rounded-md border border-border bg-peach/15 px-5 py-4;
+	@apply mb-10 rounded-md border border-border bg-surface-accent/15 px-5 py-4;
 }
 
 .technical-summary-label {
@@ -316,7 +362,15 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .technical-republished-badge {
-	@apply inline-block rounded-sm border border-border bg-peach/30 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
+	@apply inline-block rounded-sm border border-border bg-surface-accent/30 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
+}
+
+.skip-link {
+	@apply absolute top-2 left-2 z-50 -translate-y-[200%] rounded-md bg-background px-4 py-2 font-sans text-sm font-medium text-text shadow-md transition-transform focus:translate-y-0;
+}
+
+main:focus {
+	outline: none;
 }
 
 .sr-only {
@@ -325,7 +379,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .technical-type-badge {
-	@apply inline-block rounded-sm border border-border bg-peach/30 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
+	@apply inline-block rounded-sm border border-border bg-surface-accent/30 px-2 py-0.5 font-sans text-xs font-medium text-text-muted;
 }
 
 .timeline {
@@ -337,7 +391,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .timeline-progress {
-	@apply absolute top-0 left-0 w-full origin-top bg-blue;
+	@apply absolute top-0 left-0 w-full origin-top bg-accent;
 	height: 100%;
 	transform: scaleY(var(--timeline-progress, 0));
 }
@@ -347,19 +401,19 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 }
 
 .timeline-marker {
-	@apply absolute top-2 left-3 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-background bg-blue md:left-4;
+	@apply absolute top-2 left-3 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-background bg-accent md:left-4;
 }
 
 .type-filter-tab {
-	@apply rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-peach/20;
+	@apply rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-surface-accent/20;
 }
 
 .type-filter-tab-active {
-	@apply border-blue/40 bg-peach/30 text-text;
+	@apply border-accent/40 bg-surface-accent/30 text-text;
 }
 
 .technical-placeholder-thumb {
-	@apply block aspect-[16/10] w-full overflow-hidden rounded-md border border-border no-underline transition-colors hover:border-blue/40;
+	@apply block aspect-[16/10] w-full overflow-hidden rounded-md border border-border no-underline transition-colors hover:border-accent/40;
 }
 
 .technical-placeholder-thumb-inner {
@@ -369,7 +423,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 .technical-placeholder-thumb--blog {
 	background: linear-gradient(
 		145deg,
-		color-mix(in srgb, var(--color-peach) 55%, var(--color-background)) 0%,
+		color-mix(in srgb, var(--color-category-blog) 55%, var(--color-background)) 0%,
 		var(--color-background) 70%
 	);
 }
@@ -377,7 +431,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 .technical-placeholder-thumb--talk {
 	background: linear-gradient(
 		145deg,
-		color-mix(in srgb, var(--color-blue) 28%, var(--color-background)) 0%,
+		color-mix(in srgb, var(--color-category-talk) 28%, var(--color-background)) 0%,
 		var(--color-background) 72%
 	);
 }
@@ -385,7 +439,7 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 .technical-placeholder-thumb--podcast {
 	background: linear-gradient(
 		145deg,
-		color-mix(in srgb, var(--color-pink) 35%, var(--color-background)) 0%,
+		color-mix(in srgb, var(--color-category-podcast) 35%, var(--color-background)) 0%,
 		var(--color-background) 70%
 	);
 }

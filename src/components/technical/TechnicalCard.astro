@@ -22,12 +22,12 @@ const excerpt = truncateExcerpt(summary, 160);
 const meta = getTechnicalCardMeta(entry);
 const place = venue ?? host;
 const linkClasses =
-	'font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline';
+	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
 ---
 
 {
 	isCompact ? (
-		<article class="group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20 md:p-8">
+		<article class="group flex h-full flex-col rounded-md border border-border bg-background p-6 transition-colors hover:bg-surface-accent/20 md:p-8">
 			<time datetime={pubDate.toISOString()} class="mb-6 block font-sans text-sm text-text-muted">
 				{formatDate(pubDate)}
 			</time>
@@ -46,7 +46,7 @@ const linkClasses =
 			</a>
 		</article>
 	) : (
-		<article class="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-peach/20">
+		<article class="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-surface-accent/20">
 			{
 				thumbnail ? (
 					<a href={href} class="block shrink-0 no-underline" tabindex="-1" aria-hidden="true">

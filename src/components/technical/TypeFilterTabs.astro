@@ -8,17 +8,16 @@ const filters = [
 ---
 
 <div class="type-filters mb-10" data-type-filters>
-	<div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter by type">
+	<div class="flex flex-wrap gap-2" role="group" aria-label="Filter by type">
 		{
 			filters.map((filter, index) => (
 				<button
 					type="button"
-					role="tab"
 					class:list={[
 						'type-filter-tab',
 						{ 'type-filter-tab-active': index === 0 },
 					]}
-					aria-selected={index === 0 ? 'true' : 'false'}
+					aria-pressed={index === 0 ? 'true' : 'false'}
 					data-type-filter={filter.id}
 				>
 					{filter.label}
@@ -36,7 +35,7 @@ const filters = [
 		tabs.forEach((tab) => {
 			const active = tab.getAttribute('data-type-filter') === filter;
 			tab.classList.toggle('type-filter-tab-active', active);
-			tab.setAttribute('aria-selected', active ? 'true' : 'false');
+			tab.setAttribute('aria-pressed', active ? 'true' : 'false');
 		});
 
 		entries.forEach((entry) => {

@@ -10,7 +10,7 @@ const { path, essayCount } = Astro.props;
 const { title, description, slug } = path.data;
 ---
 
-<article class="reading-path-card rounded-md border border-border bg-background p-6 transition-colors hover:bg-peach/20">
+<article class="reading-path-card rounded-md border border-border bg-background p-6 transition-colors hover:bg-surface-accent/20">
 	<h3 class="mb-2 font-sans text-xl font-medium">
 		<a href={`/paths/${slug}`} class="text-text no-underline hover:underline">
 			{title}
@@ -26,7 +26,7 @@ const { title, description, slug } = path.data;
 	}
 	<a
 		href={`/paths/${slug}`}
-		class="mt-4 inline-block font-sans text-sm font-medium text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline"
+		class="mt-4 inline-block font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
 	>
 		View path &rarr;
 	</a>

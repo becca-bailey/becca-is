@@ -47,8 +47,9 @@ const socialImage = image ? new URL(image, Astro.site).href : undefined;
 		{socialImage && <meta name="twitter:image" content={socialImage} />}
 	</head>
 	<body>
+		<a href="#main" class="skip-link">Skip to main content</a>
 		<Header />
-		<main class="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
+		<main id="main" tabindex="-1" class="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
 			<slot />
 		</main>
 		<Footer />

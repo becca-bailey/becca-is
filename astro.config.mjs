@@ -24,7 +24,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
-      theme: 'github-light',
+      theme: 'github-light-high-contrast',
       wrap: true,
     },
   },

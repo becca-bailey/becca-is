@@ -8,7 +8,7 @@ interface Props {
 const { href, external = false, class: className } = Astro.props;
 
 const linkClasses =
-	'block max-w-[14rem] font-sans text-sm font-medium leading-snug text-text underline-offset-4 transition-colors hover:text-[#3D3832] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue';
+	'block max-w-[14rem] font-sans text-sm font-medium leading-snug text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring';
 ---
 
 <a

@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "becca.is",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,7 +12,7 @@
     "prebuild": "astro sync",
     "preview": "astro preview",
     "astro": "astro",
-    "import:list": "node scripts/import-substack.mjs --list"
+    "import": "node scripts/import-substack.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

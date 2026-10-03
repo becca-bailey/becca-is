@@ -32,10 +32,11 @@ const defaultTheme = themePanels[0]?.theme ?? '';
 						role="tab"
 						id={`tab-${theme}`}
 						class:list={[
-							'theme-tab rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-peach/20',
+							'theme-tab rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-text transition-colors hover:bg-surface-accent/20',
 							{ 'theme-tab-active': theme === defaultTheme },
 						]}
 						aria-selected={theme === defaultTheme ? 'true' : 'false'}
+						tabindex={theme === defaultTheme ? 0 : -1}
 						aria-controls={`panel-${theme}`}
 						data-theme-tab={theme}
 					>
@@ -82,6 +83,7 @@ const defaultTheme = themePanels[0]?.theme ?? '';
 		tabs.forEach((tab) => {
 			const isActive = tab.getAttribute('data-theme-tab') === theme;
 			tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+			tab.tabIndex = isActive ? 0 : -1;
 			tab.classList.toggle('theme-tab-active', isActive);
 		});
 
@@ -123,6 +125,20 @@ const defaultTheme = themePanels[0]?.theme ?? '';
 					activateThemeTab(root, theme);
 					history.replaceState(null, '', `#theme-${theme}`);
 				});
+				tab.addEventListener('keydown', (event) => {
+					const list = [...tabs];
+					const index = list.indexOf(tab);
+					const next = {
+						ArrowRight: list[(index + 1) % list.length],
+						ArrowLeft: list[(index - 1 + list.length) % list.length],
+						Home: list[0],
+						End: list[list.length - 1],
+					}[event.key];
+					if (!next) return;
+					event.preventDefault();
+					next.focus();
+					next.click();
+				});
 			});
 		});
 	}
@@ -143,7 +159,7 @@ const defaultTheme = themePanels[0]?.theme ?? '';
 
 <style>
 	.theme-tab-active {
-		background-color: color-mix(in srgb, var(--color-peach) 35%, var(--color-background));
-		border-color: var(--color-peach);
+		background-color: color-mix(in srgb, var(--color-surface-accent) 35%, var(--color-background));
+		border-color: var(--color-border);
 	}
 </style>
