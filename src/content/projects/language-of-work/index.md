@@ -47,12 +47,12 @@ I use AI to help synthesize my drafts and the data into story prose, then review
 
 ## Related writing
 
-- [Masculine Energy](https://beccabailey.substack.com/p/masculine-energy)
-- [Deeply Resentful](https://beccabailey.substack.com/p/deeply-resentful)
+- [Masculine Energy](/writing/masculine-energy)
+- [Deeply Resentful](/writing/deeply-resentful)
 - [The Death of Changing the World](https://open.substack.com/pub/beccabailey/p/the-death-of-changing-the-world)
-- [A Team, Not a Family](https://open.substack.com/pub/beccabailey/p/a-team-not-a-family)
-- [Millennials Were Supposed to Fix Work](https://beccabailey.substack.com/p/bb503447-8aa3-4e59-af99-bb62c57f8a02)
-- [Dark Places](https://beccabailey.substack.com/p/dark-places)
+- [A Team, Not a Family](/writing/a-team-not-a-family)
+- [Millennials Were Supposed to Fix Work](/writing/millennials-were-supposed-to-fix)
+- [Dark Places](/writing/dark-places)
 
 ## Related work
 

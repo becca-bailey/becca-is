@@ -28,13 +28,16 @@ const { title, subtitle, description, pubDate } = entry.data;
 	backLabel="Projects"
 >
 	<header slot="header" class="mb-8">
-		<Image
-			src={projectImage(entry)}
-			alt=""
-			class="project-preview-image project-preview-image--framed mb-6"
-			width={960}
-			height={600}
-		/>
+		<div class="project-preview project-preview--framed mb-6">
+			<Image
+				src={projectImage(entry)}
+				alt=""
+				class="project-preview-image"
+				widths={[768, 1152, 1536, 1920]}
+				sizes="(min-width: 768px) 768px, 100vw"
+				quality={90}
+			/>
+		</div>
 		{
 			pubDate && (
 				<time datetime={pubDate.toISOString()} class="mb-2 block font-sans text-sm text-text-muted">

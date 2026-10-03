@@ -19,18 +19,20 @@ const meta = [medium, year].filter(Boolean).join(' · ');
 const blurb = isFeatured ? truncateExcerpt(description, 140) : description;
 const linkClasses =
 	'font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline';
-const previewWidth = 640;
-const previewHeight = 400;
+// Cards render about 530px wide; the larger sizes cover 2x screens.
+const previewWidths = [640, 960, 1280];
+const previewSizes = '(min-width: 768px) 530px, 100vw';
 ---
 
 <article class="flex h-full flex-col overflow-hidden rounded-md border border-border bg-background transition-colors hover:bg-surface-accent/20">
-	<a href={href} class="block shrink-0 overflow-hidden no-underline" tabindex="-1" aria-hidden="true">
+	<a href={href} class="project-preview shrink-0 no-underline" tabindex="-1" aria-hidden="true">
 		<Image
 			src={projectImage(entry)}
 			alt=""
 			class="project-preview-image"
-			width={previewWidth}
-			height={previewHeight}
+			widths={previewWidths}
+			sizes={previewSizes}
+			quality={90}
 		/>
 	</a>
 	<div class="flex flex-1 flex-col p-6">

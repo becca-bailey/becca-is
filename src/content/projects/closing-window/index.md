@@ -32,6 +32,8 @@ Among sampled designers who started between 2007 and 2014, about 60% reached 100
 
 Current totals alone can't show how quickly an audience grew. I used Wayback Machine snapshots to reconstruct the catalogs of six successful designers and examine how patterns accumulated favorites after publication. The historical research also draws on archived Instagram profiles.
 
+![Dot timeline titled “How much work success takes,” showing every pattern released by 18 of Ravelry’s most successful knitting designers from 2006 to 2026, one dot per pattern sized by favorites, with rows sorted by when each designer started. Early designers like Norah Gaughan and Jared Flood begin before Ravelry launched; later entrants like Andrea Mowry, PetiteKnit and Caitlin Hunter start around 2015 and 2016 and release patterns densely from the start, while the most recent, saskie&co and Pope Vergara, publish just as often but with smaller dots. Lines mark Ravelry launching, Google Reader shutting down and Instagram’s feed going algorithmic.](./success-timeline.png)
+
 In that six-designer sample, hit patterns received about 52% of their lifetime favorites in the first year and 84% in the first five. This helped me investigate whether earlier designers' higher totals could be explained by having more time to accumulate attention. The small sample of successful designers limits how far those findings can be generalized.
 
 The study suggests that newer designers have a harder time finding an audience, but it doesn't establish the cause. Changes in discovery through blogs and social platforms are a possible explanation, discussed separately from the measured results.
@@ -45,7 +47,7 @@ The interactive study presents the findings alongside the methods and checks beh
 ## Read it
 
 - [The Closing Window — the interactive study](https://ravelry-study.netlify.app/)
-- [Right on Time — the essay](https://beccabailey.substack.com/p/right-on-time)
+- [Right on Time — the essay](/writing/right-on-time)
 - [Source on GitHub](https://github.com/becca-bailey/ravelry-study)
 
 ## Talk about this research
