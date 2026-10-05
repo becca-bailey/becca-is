@@ -5,6 +5,9 @@ export const site = {
   name: "Becca Bailey",
   email: "beccanelsonbailey@gmail.com",
   url: "https://becca.is",
+  /** Hero and about page tagline; also the about page meta description. */
+  tagline:
+    "I'm a software engineer, engineering leader, writer, and researcher. I use data, stories, and reporting to understand communities and the people inside them.",
   links: {
     linkedin: "https://linkedin.com/in/beccamakesthings",
     github: "https://github.com/becca-bailey",

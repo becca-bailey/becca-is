@@ -8,10 +8,7 @@ import speakingPhoto from "../../assets/about-speaking.png";
 import {site} from "@/lib/site";
 ---
 
-<Layout
-  title="About — Becca Bailey"
-  description="I'm a software engineer, engineering leader, writer, and researcher. I use data, stories, and reporting to understand communities and the people inside them."
->
+<Layout title="About — Becca Bailey" description={site.tagline}>
   <div>
     <h1 class="mb-6 md:mb-8">About</h1>
 
@@ -19,14 +16,14 @@ import {site} from "@/lib/site";
       class="reveal mb-12 grid gap-8 md:mb-16 md:grid-cols-[minmax(0,1fr)_min(380px,38%)] md:items-start md:gap-10 lg:gap-12"
     >
       <div class="max-w-prose editorial-prose space-y-4 text-text-muted">
-        <p class="text-text">
-          I'm a software engineer, engineering leader, writer, and researcher.
-          I use data, stories, and reporting to understand communities and the
-          people inside them.
+        <p
+          class="font-sans text-lg font-medium leading-relaxed text-text md:text-xl"
+        >
+          {site.tagline}
         </p>
         <p></p>
         <p>
-          I often struggle with what to put here, because I don't have a linear
+          I'm sometimes not sure what toput here, because I don't have a linear
           career arc that fits into a short elevator pitch. I majored in Music
           Education, and spent the first few years after college graduation
           teaching music and art to elementary students in Chicago and
@@ -37,12 +34,13 @@ import {site} from "@/lib/site";
         </p>
         <p>
           Since then, I have been an Engineering Manager, an open source
-          maintainer for a widely-used data visualization tool, a design system
-          engineer, and an accessibility advocate. Most recently, I had a short
-          stint as a CTO for a legal tech startup, helping a founder turn an
-          idea into a real product. I think people are the most important part
-          of any tech product, and helping the people around me to understand
-          technology is my passion and guiding principle.
+          maintainer for Victory, a widely-used React data visualization
+          library, a design system engineer, and an accessibility advocate. Most
+          recently, I had a short stint as a CTO for a legal tech startup,
+          helping a founder turn an idea into a real product. I think people are
+          the most important part of any tech product, and helping the people
+          around me to understand technology is my passion and guiding
+          principle.
         </p>
         <div class="pt-2">
           <HomePageLink href="/resume">My professional background</HomePageLink>
@@ -68,32 +66,30 @@ import {site} from "@/lib/site";
         <h2 class="mb-6">Writing &amp; research</h2>
         <div class="editorial-prose space-y-4 text-text-muted">
           <p>
-            When I first became a software engineer, a mentor told me that "all
-            technical problems are people problems". Today, I think I would
-            rephrase that to say that "all technical problems are systems
-            problems". So, I write about systems problems, and the people who
-            are affected by them. I want to help people in tech feel seen, and
-            to help people outside of tech understand the systems that shape our
-            work and our lives.
+            When I first became a software engineer, a mentor told me that “all
+            technical problems are people problems.” Today, I think I would
+            rephrase that: all technical problems are systems problems. As it
+            turns out, I'm interested in a lot of non-technical systems, too.
           </p>
           <p>
-            An astonishing number of times, I found research or data about
-            something I thought I was making up. That moment of recognition,
-            “Oh. That's what I've been experiencing. I thought it was just me,”
-            is what I want to create for readers of my newsletter,
-            <a href={site.links.substack}>Performance Anxiety</a>.
+            I write about the strange systems we build around work, creativity,
+            technology, and culture. So often, the things we accept as normal
+            are just the result of a system that was built intentionally by lots
+            of small choices over time, and I find it really fascinating to
+            study those choices. In <a href={site.links.substack}
+              >Performance Anxiety</a
+            >, I use data, research, and a bit of software engineering to
+            understand the systems that shape our work and our lives.
           </p>
           <p>
-            Having an engineering background means I can build tools to follow
-            these questions, which is how I've ended up studying both <a
-              href="/making-things/language-of-work"
-              >the language on company careers pages</a
-            > and <a href="/making-things/closing-window"
-              >the odds of building an audience on Ravelry</a
-            >. Sometimes I start with something smaller in
-            <em>Did You See That?</em>, where I put something weird from work,
-            tech, or culture in front of readers and ask them to help me figure
-            out what we're looking at.
+            Lately I've been researching what
+            <a href="/making-things/closing-window">twenty years of Ravelry</a>
+            can tell us about the changing economics of independent knitting design,
+            and what the language on
+            <a href="/making-things/language-of-work"
+              >tech company careers pages</a
+            >
+            reveals about the industry and the people who run it.
           </p>
         </div>
         <div class="mt-8 flex flex-col items-start gap-4">
