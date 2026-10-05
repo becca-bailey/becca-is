@@ -7,14 +7,17 @@ import {getFeaturedWriting} from "@/lib/content";
 import {site} from "@/lib/site";
 
 const essays = await getFeaturedWriting();
+// Link the newsletter's name inside the shared description.
+const newsletterName = "Performance Anxiety";
+const [beforeName, afterName] = site.writingDescription.split(newsletterName);
 ---
 
 <section class="reveal mb-12 md:mb-28">
-  <SectionHeader
-    title="Featured Essays"
-    image={coffee}
-    intro={site.writingDescription}
-  />
+  <SectionHeader title="Featured Essays" image={coffee}>
+    <p slot="intro" class="m-0">
+      {beforeName}<a href={site.links.substack}>{newsletterName}</a>{afterName}
+    </p>
+  </SectionHeader>
 
   {
     essays.length > 0 ? (

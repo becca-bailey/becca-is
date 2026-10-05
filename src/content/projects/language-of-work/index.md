@@ -54,6 +54,11 @@ I use AI to help synthesize my drafts and the data into story prose, then review
 - [Millennials Were Supposed to Fix Work](/writing/millennials-were-supposed-to-fix)
 - [Dark Places](/writing/dark-places)
 
+## Writing about the methods
+
+- [LLM Coding, Human Judgment, and Krippendorff's Alpha](/speaking-and-writing/llm-coding-krippendorffs-alpha)
+- [LLM-as-a-Judge in Practice: What I Learned When Two AIs Disagreed About Google](/speaking-and-writing/llm-as-a-judge-in-practice)
+
 ## Related work
 
 [The Closing Window](/making-things/closing-window) started with a similar question about opportunity. For that project, I used Ravelry data to look at when knitting and crochet designers found an audience.

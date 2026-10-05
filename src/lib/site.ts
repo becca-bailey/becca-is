@@ -1,3 +1,6 @@
+const writingTagline =
+  "Writing about the strange systems we build around work, creativity, technology, and culture.";
+
 export const site = {
   name: "Becca Bailey",
   email: "beccanelsonbailey@gmail.com",
@@ -9,8 +12,9 @@ export const site = {
   },
   projectsDescription:
     "Here is some of the most recent work I have done, professionally and otherwise.",
-  writingDescription:
-    "I write about the tech industry, work in general, knitting, other things that are interesting to me. You can find more of my writing on Performance Anxiety.",
+  /** Meta description for /writing; also opens the writing intro below. */
+  writingTagline,
+  writingDescription: `${writingTagline} You can find more of my writing on Performance Anxiety.`,
   speakingAndWritingIntro:
     "Talks, podcast conversations, and technical writing about software development and engineering teams.",
   newsletterUrl:
