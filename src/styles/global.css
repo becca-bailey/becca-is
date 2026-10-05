@@ -20,10 +20,10 @@
 	--palette-gold-light: #d8bd5a;
 	--palette-blue: #7caef3;
 	--palette-blue-dark: #2969c2;
-	--palette-plum: #9352a3;
-	--palette-plum-dark: #6c3a79;
+	--palette-blue-darker: #1d4b8b;
 	--palette-peach: #ffe0d3;
 	--palette-pink: #fdc1e1;
+	--palette-pink-deep: #ee8fbd;
 }
 
 /*
@@ -41,8 +41,8 @@
 	--color-text: var(--palette-stone-brown);
 	--color-text-muted: var(--palette-stone-brown-light);
 	--color-text-hover: var(--palette-stone-brown-dark);
-	--color-link: var(--palette-plum);
-	--color-link-hover: var(--palette-plum-dark);
+	--color-link: var(--palette-blue-dark); /* 5.1:1 on cream */
+	--color-link-hover: var(--palette-blue-darker);
 
 	/* Borders */
 	--color-border: var(--palette-peach);
@@ -63,6 +63,10 @@
 	/* Content categories (technical placeholder thumbnails) */
 	--color-category-blog: var(--palette-peach);
 	--color-category-talk: var(--palette-blue);
+
+	/* The heart next to the site name */
+	--color-heart: var(--palette-pink);
+	--color-heart-outline: var(--palette-pink-deep);
 	--color-category-podcast: var(--palette-pink);
 
 	--font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;

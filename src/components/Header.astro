@@ -15,14 +15,23 @@ const navItems = [
   >
     <a
       href="/"
-      class="group -ml-2 rounded-md px-2 py-1 font-sans text-lg font-medium tracking-tight text-text no-underline transition-colors duration-200 hover:text-text-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:text-xl"
+      class="group -ml-2 inline-flex items-center gap-[0.3em] rounded-md px-2 py-1 font-sans text-lg font-medium tracking-tight text-text no-underline transition-colors duration-200 hover:text-text-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:text-xl"
     >
-      <!-- Both emoji share one grid cell, so swapping them doesn't shift the name. -->
-      <span class="inline-grid" aria-hidden="true">
-        <span
-          class="col-start-1 row-start-1 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0"
-          >💜</span
+      <!-- The heart and cat share one grid cell, so swapping them doesn't shift the name. -->
+      <span class="grid place-items-center" aria-hidden="true">
+        <svg
+          class="col-start-1 row-start-1 h-[1.15em] w-[1.15em] transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0"
+          viewBox="0 0 24 24"
         >
+          <path
+            d="M12 20.5c-.3 0-.6-.1-.8-.3C7.3 17 3 13.4 3 9.1 3 6.3 5.1 4 7.8 4c1.7 0 3.2.9 4.2 2.3C13 4.9 14.5 4 16.2 4 18.9 4 21 6.3 21 9.1c0 4.3-4.3 7.9-8.2 11.1-.2.2-.5.3-.8.3z"
+            fill="var(--color-heart)"
+            stroke="var(--color-heart-outline)"
+            stroke-width="1.6"
+            stroke-linejoin="round"
+          />
+          <ellipse cx="7.6" cy="8.4" rx="1.6" ry="1.1" fill="#fff" opacity="0.75" transform="rotate(-35 7.6 8.4)" />
+        </svg>
         <span
           class="col-start-1 row-start-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
           >🐈‍⬛</span

@@ -9,27 +9,24 @@ import {site} from "@/lib/site";
   class="mb-10 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
 >
   <div class="hero-fade-up">
-    <div class="mb-4 flex items-start gap-4">
+    <!-- On phones, a small round avatar sits beside the greeting; the tagline runs full width below. -->
+    <div class="mb-3 flex items-center gap-3 md:mb-4">
       <Image
         src={headshot}
         alt=""
-        class="h-20 w-20 shrink-0 rounded-lg object-cover object-[center_30%] shadow-soft md:hidden"
-        width={2048}
-        height={3072}
+        class="h-14 w-14 shrink-0 rounded-full object-cover object-[center_25%] shadow-soft md:hidden"
+        width={128}
+        height={192}
         loading="eager"
         aria-hidden="true"
       />
-      <div class="min-w-0">
-        <h1 class="hero-fade-up hero-fade-up-delay-1 mb-2 md:mb-4">
-          Hi, I'm Becca.
-        </h1>
-        <p
-          class="hero-fade-up hero-fade-up-delay-2 editorial-prose font-sans text-lg font-medium leading-relaxed text-text md:mb-4 md:text-xl"
-        >
-          {site.tagline}
-        </p>
-      </div>
+      <h1 class="hero-fade-up hero-fade-up-delay-1 mb-0">Hi, I'm Becca.</h1>
     </div>
+    <p
+      class="hero-fade-up hero-fade-up-delay-2 editorial-prose mb-4 font-sans text-base font-medium leading-relaxed text-text sm:text-lg md:text-xl"
+    >
+      {site.tagline}
+    </p>
 
     <p
       class="hero-fade-up hero-fade-up-delay-3 editorial-prose mb-6 leading-[1.8] text-text-muted"
