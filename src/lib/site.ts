@@ -12,6 +12,9 @@ export const site = {
     linkedin: "https://linkedin.com/in/beccamakesthings",
     github: "https://github.com/becca-bailey",
     substack: "https://beccabailey.substack.com",
+    /** Anne Helen Petersen's Culture Study interview about the Ravelry research. */
+    cultureStudyInterview:
+      "https://www.patreon.com/CultureStudy/posts/has-creator-171996428",
   },
   projectsDescription:
     "Here is some of the most recent work I have done, professionally and otherwise.",

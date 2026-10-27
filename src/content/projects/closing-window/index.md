@@ -14,6 +14,8 @@ I built a dataset of 3,130 knitting and crochet designers to study how audience 
 
 [Explore the interactive study →](https://ravelry-study.netlify.app/)
 
+Anne Helen Petersen and I discussed this research in [Has the Creator Window Closed?](https://www.patreon.com/CultureStudy/posts/has-creator-171996428), an interview for Culture Study.
+
 ## Collecting the data
 
 Ravelry is a pattern database and marketplace where knitters and crocheters can also record their projects. Its public pattern registry and API make it possible to connect patterns to designers and examine audience and engagement measures.
@@ -48,6 +50,7 @@ The interactive study presents the findings alongside the methods and checks beh
 
 - [The Closing Window — the interactive study](https://ravelry-study.netlify.app/)
 - [Right on Time — the essay](/writing/right-on-time)
+- [Has the Creator Window Closed? — an interview with Anne Helen Petersen for Culture Study](https://www.patreon.com/CultureStudy/posts/has-creator-171996428)
 - [Source on GitHub](https://github.com/becca-bailey/ravelry-study)
 
 ## Talk about this research
