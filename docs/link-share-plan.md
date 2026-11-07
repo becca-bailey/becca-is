@@ -18,6 +18,12 @@ Rabbit Hole does three things, in this order:
 
 Useful with one user. Fun with ten. Works with the whole internet.
 
+## 1a. The name
+
+A rabbit hole is two things: a cozy den and a trail of curiosity. Rabbit Hole is both. The archive is the den, your own warren of everything you've kept, private and warm. The group and the editions are the trail, following where other people's curiosity went. The name is not about losing an afternoon. It is about having somewhere to keep the trail so you can come back to it.
+
+Landing page copy and the privacy page should start from this framing. The ranking page can name the other meaning directly: the usual rabbit hole is an algorithm pulling you forward; this one is a den you return to.
+
 ## 2. Non-negotiables
 
 These are product decisions, already made. Do not reopen them in implementation without flagging it.
@@ -261,7 +267,7 @@ Written down now so the first request doesn't reopen it:
 
 ## 15. Open decisions
 
-- Product name: Rabbit Hole (decided). Check trademark and App Store collisions, notably the NYT podcast of the same name, before launch.
+- Trademark and App Store collision check for Rabbit Hole, notably the NYT podcast of the same name, before launch.
 - Embeddings: self-hosted model vs API provider.
 - Native capture: Expo share extension vs Swift.
 - Default for recommender names in private groups (current lean: visible).
