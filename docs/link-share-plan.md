@@ -22,6 +22,10 @@ Useful with one user. Fun with ten. Works with the whole internet.
 
 A rabbit hole is two things: a cozy den and a trail of curiosity. Rabbit Hole is both. The archive is the den, your own warren of everything you've kept, private and warm. The group and the editions are the trail, following where other people's curiosity went. The name is not about losing an afternoon. It is about having somewhere to keep the trail so you can come back to it.
 
+**The name is provisional and must be a single configuration value.** Put it in one place (for example a `product.name` export in a site config module, as becca.is does with `site.name`) and reference it everywhere: page titles, meta tags, the share extension label, email subjects, export headers, the privacy page, the invite email. Never type the name into copy or components directly. Derived strings (possessive, lowercase slug, app bundle display name) come from helpers on the same module. Changing the name should be a one-line edit plus a search for stragglers that finds nothing.
+
+Names considered and kept in reserve: Potluck, Show and Tell, Plenty, Commonplace, Hearsay, Tearsheet, Open Mic, Bee, Finite.
+
 Landing page copy and the privacy page should start from this framing. The ranking page can name the other meaning directly: the usual rabbit hole is an algorithm pulling you forward; this one is a den you return to.
 
 ## 2. Non-negotiables
