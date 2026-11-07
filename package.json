@@ -12,7 +12,8 @@
     "prebuild": "astro sync",
     "preview": "astro preview",
     "astro": "astro",
-    "import": "node scripts/import-substack.mjs"
+    "import": "node scripts/import-substack.mjs",
+    "log-book": "node scripts/log-book.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

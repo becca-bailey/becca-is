@@ -119,4 +119,63 @@ const technical = defineCollection({
 			}),
 });
 
-export const collections = { writing, readingPaths, projects, technical };
+const isbn = z
+	.string()
+	.transform((value) => value.replace(/[-\s]/g, ''))
+	.pipe(z.string().regex(/^(?:\d{9}[\dX]|\d{13})$/, 'ISBN-10 or ISBN-13'));
+
+/**
+ * One entry per book. The body is the conversational write-up and may be
+ * empty for a book still in progress. There is deliberately no rating field.
+ */
+const reading = defineCollection({
+	loader: glob({
+		pattern: '**/*.{md,mdx}',
+		base: 'src/content/reading',
+		generateId: ({ entry }) => contentId(entry),
+	}),
+	schema: ({ image }) =>
+		z
+			.object({
+				title: z.string(),
+				author: z.string(),
+				isbn: isbn.optional(),
+				/** Open Library work (OL…W) or edition (OL…M) id. */
+				openLibraryId: z
+					.string()
+					.regex(/^OL\d+[WM]$/, 'Open Library work or edition id, e.g. OL12345W')
+					.optional(),
+				/** Open Library cover id (`cover_i` in search results). The most reliable cover key. */
+				openLibraryCoverId: z.coerce.number().int().positive().optional(),
+				status: z.enum(['reading', 'finished', 'abandoned']),
+				startedOn: z.coerce.date().optional(),
+				/** For `abandoned`, the date the book was set aside. */
+				finishedOn: z.coerce.date().optional(),
+				format: z.enum(['print', 'ebook', 'audiobook']).optional(),
+				/** Local cover image; overrides the Open Library lookup. */
+				cover: image().optional(),
+				/** Essay slugs this book connects to. */
+				related: z.array(z.string()).optional().default([]),
+				/** Same vocabulary as essay themes. */
+				themes: z.array(z.string()).optional().default([]),
+				draft: z.boolean().optional().default(false),
+			})
+			.superRefine((data, ctx) => {
+				if (data.status === 'finished' && !data.finishedOn) {
+					ctx.addIssue({
+						code: 'custom',
+						message: 'finished books need finishedOn',
+						path: ['finishedOn'],
+					});
+				}
+				if (data.status === 'reading' && data.finishedOn) {
+					ctx.addIssue({
+						code: 'custom',
+						message: 'a book still being read cannot have finishedOn',
+						path: ['finishedOn'],
+					});
+				}
+			}),
+});
+
+export const collections = { writing, readingPaths, projects, technical, reading };

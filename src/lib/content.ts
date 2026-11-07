@@ -264,6 +264,108 @@ export function getTechnicalMeta(entry: TechnicalEntry) {
 	return place ? `${place} · ${date}` : date;
 }
 
+/* ---------------------------------------------------------------- Reading */
+
+export type ReadingEntry = CollectionEntry<'reading'>;
+export type ReadingStatus = ReadingEntry['data']['status'];
+
+export function readingUrl(slug: string) {
+	return `/reading/${slug}`;
+}
+
+export const readingIndexUrl = '/reading';
+
+/** The date a finished or abandoned book left the stack, else when it was started. */
+function readingSortDate(entry: ReadingEntry) {
+	return (entry.data.finishedOn ?? entry.data.startedOn)?.valueOf() ?? 0;
+}
+
+export async function getPublishedReading() {
+	const entries = await getCollection('reading');
+	return entries
+		.filter((entry) => !entry.data.draft)
+		.sort((a, b) => readingSortDate(b) - readingSortDate(a));
+}
+
+export function getReadingByStatus(entries: ReadingEntry[], status: ReadingStatus) {
+	const matching = entries.filter((entry) => entry.data.status === status);
+	if (status !== 'reading') return matching;
+	// Books in progress sort by when they were picked up, most recent first.
+	return [...matching].sort(
+		(a, b) => (b.data.startedOn?.valueOf() ?? 0) - (a.data.startedOn?.valueOf() ?? 0),
+	);
+}
+
+export async function getCurrentlyReading(limit?: number) {
+	const entries = getReadingByStatus(await getPublishedReading(), 'reading');
+	return limit ? entries.slice(0, limit) : entries;
+}
+
+export async function getReadingBySlug(slug: string) {
+	const entries = await getPublishedReading();
+	return entries.find((entry) => entry.id === slug);
+}
+
+/** True when the entry has a write-up below the frontmatter. */
+export function hasWriteUp(entry: ReadingEntry) {
+	return (entry.body ?? '').trim().length > 0;
+}
+
+/** First paragraph of the write-up with Markdown markers stripped, for list views. */
+export function readingExcerpt(entry: ReadingEntry, maxLength = 200) {
+	const body = (entry.body ?? '').trim();
+	if (!body) return undefined;
+	const firstParagraph = body
+		.split(/\n\s*\n/)
+		.map((block) => block.trim())
+		.find((block) => block && !block.startsWith('import ') && !block.startsWith('<'));
+	if (!firstParagraph) return undefined;
+	const plain = firstParagraph
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+		.replace(/[*_`>#]+/g, '')
+		.replace(/\s+/g, ' ')
+		.trim();
+	return truncateExcerpt(plain, maxLength);
+}
+
+export function openLibraryUrl(entry: ReadingEntry) {
+	const { openLibraryId, isbn } = entry.data;
+	if (openLibraryId?.endsWith('W')) return `https://openlibrary.org/works/${openLibraryId}`;
+	if (openLibraryId?.endsWith('M')) return `https://openlibrary.org/books/${openLibraryId}`;
+	if (isbn) return `https://openlibrary.org/isbn/${isbn}`;
+	return undefined;
+}
+
+/** "Finished March 2026", "Reading since Nov 2026", "Set aside Jan 2026". */
+export function readingStatusLabel(entry: ReadingEntry) {
+	const { status, startedOn, finishedOn } = entry.data;
+	switch (status) {
+		case 'reading':
+			return startedOn ? `Reading since ${formatMonthYear(startedOn)}` : 'Currently reading';
+		case 'finished':
+			return finishedOn ? `Finished ${formatMonthYear(finishedOn)}` : 'Finished';
+		case 'abandoned':
+			return finishedOn ? `Set aside ${formatMonthYear(finishedOn)}` : 'Set aside';
+	}
+}
+
+/** The date shown on list rows: when the book left the stack, else when it was started. */
+export function readingDisplayDate(entry: ReadingEntry) {
+	return entry.data.finishedOn ?? entry.data.startedOn;
+}
+
+export function readingFormatLabel(format: NonNullable<ReadingEntry['data']['format']>) {
+	switch (format) {
+		case 'print':
+			return 'Print';
+		case 'ebook':
+			return 'Ebook';
+		case 'audiobook':
+			return 'Audiobook';
+	}
+}
+
 export const resumeUrl = '/resume';
 
 export type WritingEntry = CollectionEntry<'writing'>;

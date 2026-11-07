@@ -1,12 +1,6 @@
 ---
 import NavLink from "./NavLink.astro";
-
-const navItems = [
-  {href: "/writing", label: "Essays"},
-  {href: "/speaking-and-writing", label: "Speaking & Technical Writing"},
-  {href: "/making-things", label: "Projects"},
-  {href: "/about", label: "About"},
-];
+import {mainNav} from "@/lib/navigation";
 ---
 
 <header class="static border-b border-border bg-background">
@@ -42,7 +36,7 @@ const navItems = [
 
     <nav class="hidden items-center gap-6 md:flex" aria-label="Main navigation">
       {
-        navItems.map((item) => (
+        mainNav.map((item) => (
           <NavLink href={item.href} context="header">
             {item.label}
           </NavLink>
@@ -111,7 +105,7 @@ const navItems = [
         </svg>
       </button>
       {
-        navItems.map((item) => (
+        mainNav.map((item) => (
           <NavLink href={item.href} context="mobile" data-mobile-nav-link>
             {item.label}
           </NavLink>

@@ -21,6 +21,11 @@ export default defineConfig({
 
   integrations: [mdx(), react()],
 
+  image: {
+    // Book covers are fetched from Open Library at build time and optimised like local images.
+    domains: ['covers.openlibrary.org'],
+  },
+
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {

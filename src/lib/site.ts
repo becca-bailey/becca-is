@@ -11,6 +11,8 @@ export const site = {
   links: {
     linkedin: "https://linkedin.com/in/beccamakesthings",
     github: "https://github.com/becca-bailey",
+    bluesky: "https://bsky.app/profile/becca.is",
+    threads: "https://www.threads.com/@beccamakesthings",
     substack: "https://beccabailey.substack.com",
     /** Anne Helen Petersen's Culture Study interview about the Ravelry research. */
     cultureStudyInterview:
@@ -21,6 +23,9 @@ export const site = {
   /** Meta description for /writing; also opens the writing intro below. */
   writingTagline,
   writingDescription: `${writingTagline} You can find more of my writing on Performance Anxiety.`,
+  /** Meta description for /reading; also opens the page. */
+  readingDescription:
+    "What I'm reading now, and some thoughts on books I've finished. No star ratings, just conversation.",
   speakingAndWritingIntro:
     "Talks, podcast conversations, and technical writing about software development and engineering teams.",
   newsletterUrl:

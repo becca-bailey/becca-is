@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BookCover from '../../components/reading/BookCover.astro';
+import BookMeta from '../../components/reading/BookMeta.astro';
+import RelatedEssays from '../../components/writing/RelatedEssays.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import {
+	getPublishedReading,
+	hasWriteUp,
+	readingExcerpt,
+	readingIndexUrl,
+	resolveRelatedWriting,
+} from '@/lib/content';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const books = await getPublishedReading();
+	return books.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+interface Props {
+	entry: Awaited<ReturnType<typeof getPublishedReading>>[number];
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, author, themes } = entry.data;
+const related = await resolveRelatedWriting(entry.data.related);
+const writeUp = hasWriteUp(entry);
+const excerpt = readingExcerpt(entry, 160);
+const description = [`${title} by ${author}.`, excerpt].filter(Boolean).join(' ');
+---
+
+<Layout title={`${title} — Reading — Becca Bailey`} description={description}>
+	<article class="mx-auto max-w-prose">
+		<p class="mb-6">
+			<a
+				href={readingIndexUrl}
+				class="font-sans text-sm text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
+			>
+				&larr; Reading
+			</a>
+		</p>
+
+		<header class="mb-10 grid gap-6 sm:grid-cols-[minmax(0,11rem)_1fr] sm:gap-8">
+			<div class="w-40 sm:w-full">
+				<BookCover entry={entry} size="lg" />
+			</div>
+			<div class="flex flex-col justify-center">
+				<p class="mb-2 font-sans text-sm font-medium tracking-wide uppercase text-text-muted">Book</p>
+				<h1 class="mb-2">{title}</h1>
+				<p class="mb-4 font-sans text-lg font-medium text-text-muted">{author}</p>
+				<BookMeta entry={entry} />
+				{
+					themes.length > 0 && (
+						<ul class="mt-4 flex flex-wrap gap-2">
+							{themes.map((theme) => (
+								<li>
+									<a
+										href={`/writing#theme-${theme}`}
+										class="font-sans text-sm text-text-muted no-underline underline-offset-4 hover:text-text hover:underline"
+									>
+										{theme}
+									</a>
+								</li>
+							))}
+						</ul>
+					)
+				}
+			</div>
+		</header>
+
+		{
+			writeUp ? (
+				<>
+					<hr class="essay-divider" aria-hidden="true" />
+					<div class="prose essay-prose">
+						<Content />
+					</div>
+				</>
+			) : (
+				<p class="text-text-muted">
+					{entry.data.status === 'reading'
+						? "I'm still reading this one. Notes will follow."
+						: 'No notes on this one yet.'}
+				</p>
+			)
+		}
+
+		{
+			related.length > 0 && (
+				<aside class="essay-aside mt-12 border-t border-border pt-10">
+					<RelatedEssays entries={related} />
+				</aside>
+			)
+		}
+	</article>
+	<RevealScript />
+</Layout>

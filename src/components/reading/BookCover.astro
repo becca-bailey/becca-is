@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import type { ReadingEntry } from '@/lib/content';
+import { coverUrl, resolveRemoteCover } from '@/lib/covers';
+
+/**
+ * A 2:3 cover mat. Prefers a local `cover` image, then an Open Library cover
+ * checked at build time, then a typographic tile so a book without artwork
+ * still reads as a book. The adjacent heading names the book, so the image
+ * itself is decorative.
+ */
+interface Props {
+	entry: ReadingEntry;
+	size?: 'sm' | 'lg';
+	class?: string;
+}
+
+const { entry, size = 'sm', class: className } = Astro.props;
+const { title, author, cover } = entry.data;
+
+const remote = cover ? null : await resolveRemoteCover(coverUrl(entry.data));
+
+const widths = size === 'lg' ? [320, 480, 640] : [160, 240, 320];
+const sizes = size === 'lg' ? '(min-width: 768px) 280px, 60vw' : '(min-width: 768px) 160px, 40vw';
+---
+
+<div class:list={['book-cover', size === 'lg' && 'book-cover--lg', className]}>
+	{
+		cover ? (
+			<Image src={cover} alt="" class="book-cover-image" widths={widths} sizes={sizes} quality={85} />
+		) : remote ? (
+			<Image
+				src={remote}
+				alt=""
+				inferSize
+				class="book-cover-image"
+				widths={widths}
+				sizes={sizes}
+				quality={85}
+			/>
+		) : (
+			<div class="book-cover-tile" aria-hidden="true">
+				<p class="book-cover-tile-title">{title}</p>
+				<p class="book-cover-tile-author">{author}</p>
+			</div>
+		)
+	}
+</div>

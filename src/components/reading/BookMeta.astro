@@ -1,0 +1,45 @@
+---
+import {
+	openLibraryUrl,
+	readingFormatLabel,
+	readingStatusLabel,
+	type ReadingEntry,
+} from '@/lib/content';
+
+interface Props {
+	entry: ReadingEntry;
+}
+
+const { entry } = Astro.props;
+const { format, startedOn, finishedOn } = entry.data;
+const statusLabel = readingStatusLabel(entry);
+const statusDate = finishedOn ?? startedOn;
+const libraryUrl = openLibraryUrl(entry);
+---
+
+<dl class="book-meta font-sans text-sm text-text-muted">
+	<div class="flex flex-wrap gap-x-2">
+		<dt class="sr-only">Status</dt>
+		<dd>
+			{statusDate ? <time datetime={statusDate.toISOString()}>{statusLabel}</time> : statusLabel}
+		</dd>
+	</div>
+	{
+		format && (
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="sr-only">Format</dt>
+				<dd>{readingFormatLabel(format)}</dd>
+			</div>
+		)
+	}
+	{
+		libraryUrl && (
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="sr-only">Catalog</dt>
+				<dd>
+					<a href={libraryUrl} rel="noopener noreferrer">Open Library</a>
+				</dd>
+			</div>
+		)
+	}
+</dl>

@@ -119,7 +119,17 @@ Renders `<a>` when `href` is provided, otherwise `<button>`.
 - **Desktop (`md+`):** Inline nav links
 - **Mobile:** Hamburger opens slide-over panel (vanilla JS, no React)
 
-Nav items: Home, Work, About, Contact.
+Nav items come from `mainNav` in `src/lib/navigation.ts`; footer links from `footerLinks` in the same file (social profiles carry `rel="me"`).
+
+### Reading components
+
+`src/components/reading/`
+
+- **`BookCover.astro`** — a 2:3 mat (`.book-cover`) that shows the whole cover with `object-contain`. Source order: local `cover` frontmatter image, then an Open Library cover checked at build time (`src/lib/covers.ts`), then a typographic tile (`.book-cover-tile`, title and author on `surface-accent`). The adjacent heading names the book, so the image is `alt=""`.
+- **`BookCard.astro`** — `card` variant (cover-first, for grids) and `list` variant (cover thumbnail beside a row like `EssayCard`'s list).
+- **`BookMeta.astro`** — status line ("Finished March 2026"), format, Open Library link.
+
+Remote covers are optimised like local images because `covers.openlibrary.org` is listed in `image.domains` in `astro.config.mjs`.
 
 ## Layout
 

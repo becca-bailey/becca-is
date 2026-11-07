@@ -1,0 +1,83 @@
+---
+import BookCover from './BookCover.astro';
+import {
+	formatDate,
+	hasWriteUp,
+	readingDisplayDate,
+	readingExcerpt,
+	readingStatusLabel,
+	readingUrl,
+	type ReadingEntry,
+} from '@/lib/content';
+
+/**
+ * `card`: cover-first tile for the "currently reading" grid and the home strip.
+ * `list`: a row like EssayCard's list variant, for finished and set-aside books.
+ */
+interface Props {
+	entry: ReadingEntry;
+	variant?: 'card' | 'list';
+	/** Use 2 when the card sits directly under the page's h1. */
+	headingLevel?: 2 | 3;
+}
+
+const { entry, variant = 'card', headingLevel = 3 } = Astro.props;
+const { title, author } = entry.data;
+const href = readingUrl(entry.id);
+const Heading = `h${headingLevel}` as const;
+const excerpt = readingExcerpt(entry);
+const displayDate = readingDisplayDate(entry);
+---
+
+{
+	variant === 'list' ? (
+		<article class="group flex gap-5 border-b border-border pb-6 last:border-b-0 last:pb-0 md:gap-6">
+			<a href={href} class="w-20 shrink-0 no-underline md:w-24" tabindex="-1" aria-hidden="true">
+				<BookCover entry={entry} />
+			</a>
+			<div class="flex min-w-0 flex-col gap-1.5">
+				<p class="font-sans text-sm text-text-muted">
+					{displayDate ? (
+						<time datetime={displayDate.toISOString()}>{readingStatusLabel(entry)}</time>
+					) : (
+						readingStatusLabel(entry)
+					)}
+				</p>
+				<Heading class="font-sans text-xl font-medium">
+					<a href={href} class="text-text no-underline group-hover:underline">
+						{title}
+					</a>
+				</Heading>
+				<p class="font-sans text-sm font-medium text-text-muted">{author}</p>
+				{excerpt && <p class="text-text-muted">{excerpt}</p>}
+				{hasWriteUp(entry) && (
+					<a
+						href={href}
+						class="mt-1 font-sans text-sm font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
+					>
+						Read my notes <span aria-hidden="true">&rarr;</span>
+					</a>
+				)}
+			</div>
+		</article>
+	) : (
+		<article class="group flex flex-col gap-3">
+			<a href={href} class="no-underline" tabindex="-1" aria-hidden="true">
+				<BookCover entry={entry} />
+			</a>
+			<div class="min-w-0">
+				<Heading class="font-sans text-base font-medium leading-snug tracking-tight text-balance">
+					<a href={href} class="text-text no-underline group-hover:underline">
+						{title}
+					</a>
+				</Heading>
+				<p class="mt-1 font-sans text-sm text-text-muted">{author}</p>
+				{displayDate && (
+					<time datetime={displayDate.toISOString()} class="mt-1 block font-sans text-xs text-text-muted">
+						{formatDate(displayDate)}
+					</time>
+				)}
+			</div>
+		</article>
+	)
+}

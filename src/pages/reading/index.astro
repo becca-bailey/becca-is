@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BookCard from '../../components/reading/BookCard.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import { getPublishedReading, getReadingByStatus } from '@/lib/content';
+import { site } from '@/lib/site';
+
+const books = await getPublishedReading();
+const reading = getReadingByStatus(books, 'reading');
+const finished = getReadingByStatus(books, 'finished');
+const abandoned = getReadingByStatus(books, 'abandoned');
+---
+
+<Layout title="Reading — Becca Bailey" description={site.readingDescription}>
+	<h1 class="mb-4">Reading</h1>
+	<p class="reveal mb-10 max-w-prose text-text-muted">{site.readingDescription}</p>
+
+	{
+		reading.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Currently reading</h2>
+				<div class="reveal-stagger grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+					{reading.map((entry) => (
+						<BookCard entry={entry} />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		finished.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-6 font-sans text-2xl font-medium tracking-tight">Finished</h2>
+				<div class="max-w-3xl space-y-6">
+					{finished.map((entry) => (
+						<BookCard entry={entry} variant="list" />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		abandoned.length > 0 && (
+			<section class="reveal mb-14">
+				<h2 class="mb-2 font-sans text-2xl font-medium tracking-tight">Set aside</h2>
+				<p class="mb-6 max-w-prose text-text-muted">
+					Books I stopped reading. Not every book is for every moment.
+				</p>
+				<div class="max-w-3xl space-y-6">
+					{abandoned.map((entry) => (
+						<BookCard entry={entry} variant="list" />
+					))}
+				</div>
+			</section>
+		)
+	}
+
+	{books.length === 0 && <p class="text-text-muted">Nothing logged yet.</p>}
+
+	<RevealScript />
+</Layout>

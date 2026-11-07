@@ -1,0 +1,30 @@
+---
+import BookCard from './reading/BookCard.astro';
+import HomePageLink from './HomePageLink.astro';
+import SectionHeader from './SectionHeader.astro';
+import coffee from '../assets/coffee.png';
+import { getCurrentlyReading, readingIndexUrl } from '@/lib/content';
+
+// Only the books in progress; the section disappears when there are none.
+const books = await getCurrentlyReading(4);
+---
+
+{
+	books.length > 0 && (
+		<section class="reveal mb-12 md:mb-28">
+			<SectionHeader
+				title="Currently reading"
+				intro="What's on my nightstand right now. Notes arrive once I've finished."
+				image={coffee}
+			/>
+			<div class="reveal-stagger grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+				{books.map((entry) => (
+					<BookCard entry={entry} />
+				))}
+			</div>
+			<div class="mt-8 flex flex-col items-start gap-2">
+				<HomePageLink href={readingIndexUrl}>See everything I've been reading</HomePageLink>
+			</div>
+		</section>
+	)
+}

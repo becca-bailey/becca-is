@@ -251,6 +251,38 @@ html.reveal-ready .reveal-stagger:not(.is-visible) > * {
 	@apply h-auto max-h-full w-auto max-w-full rounded-sm object-contain shadow-soft;
 }
 
+/*
+ * Book covers (BookCover.astro): a 2:3 mat that shows the whole cover, whatever
+ * its shape, with a typographic tile when no artwork is available.
+ */
+.book-cover {
+	@apply flex aspect-[2/3] w-full items-center justify-center overflow-hidden rounded-md border border-border bg-surface-sunken/5;
+}
+
+.book-cover-image {
+	@apply h-full w-full object-contain;
+}
+
+.book-cover-tile {
+	@apply flex h-full w-full flex-col justify-between bg-surface-accent p-3 text-text md:p-4;
+}
+
+.book-cover-tile-title {
+	@apply font-sans text-sm font-medium leading-snug tracking-tight text-balance;
+}
+
+.book-cover-tile-author {
+	@apply font-sans text-xs text-text-muted;
+}
+
+.book-cover--lg .book-cover-tile-title {
+	@apply text-lg;
+}
+
+.book-cover--lg .book-cover-tile-author {
+	@apply text-sm;
+}
+
 /* Shared card layout (Card.astro): media, title, summary, meta, arrow link. */
 .card {
 	@apply flex h-full flex-col overflow-hidden rounded-md border border-border bg-background shadow-soft transition-colors hover:bg-surface-accent/20;

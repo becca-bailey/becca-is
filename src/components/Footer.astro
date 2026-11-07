@@ -1,5 +1,6 @@
 ---
-import { mailto, site } from '@/lib/site';
+import { site } from '@/lib/site';
+import { footerLinkRel, footerLinks } from '@/lib/navigation';
 
 const year = new Date().getFullYear();
 
@@ -23,33 +24,18 @@ const footerLinkClasses =
 				class="flex flex-col items-start gap-1 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2"
 				aria-label="Footer navigation"
 			>
-				<a href={mailto()} class={footerLinkClasses}>
-					{site.email}
-				</a>
-				<a
-					href={site.links.linkedin}
-					class={footerLinkClasses}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					LinkedIn
-				</a>
-				<a
-					href={site.links.github}
-					class={footerLinkClasses}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					GitHub
-				</a>
-				<a
-					href={site.links.substack}
-					class={footerLinkClasses}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Substack
-				</a>
+				{
+					footerLinks.map((link) => (
+						<a
+							href={link.href}
+							class={footerLinkClasses}
+							target={link.external ? '_blank' : undefined}
+							rel={footerLinkRel(link)}
+						>
+							{link.label}
+						</a>
+					))
+				}
 			</nav>
 		</div>
 	</div>
