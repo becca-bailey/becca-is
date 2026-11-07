@@ -12,9 +12,11 @@
  * update status and dates and leave the body (the write-up) alone, so you can
  * start a book, finish it months later, and add notes whenever you like.
  *
- * Book metadata comes from Open Library's search API. When the network is
- * unavailable the entry is still written with title, author and status, and a
- * warning says what to fill in later. Logging never blocks on a lookup.
+ * Book metadata comes from Open Library's search API, with Google Books as a
+ * keyless fallback for new releases Open Library has not catalogued yet. When
+ * the network is unavailable the entry is still written with title, author and
+ * status, and a warning says what to fill in later. Logging never blocks on a
+ * lookup.
  *
  * Flags:
  *   --title <text>      book title (required unless --isbn or the slug exists)
@@ -26,11 +28,16 @@
  *   --related <slug>    add a related essay slug (repeatable)
  *   --pick <n>          choose the nth search candidate (1-based) instead of the first
  *   --slug <slug>       override the directory name
+ *   --private           keep the entry in the log but off the site (sets private: true)
+ *   --public            clear a previous --private
  *   --list              print search candidates and stop
  *   --dry-run           print the frontmatter that would be written, write nothing
  *
  * Environment:
- *   OPENLIBRARY_BASE    alternate API base URL (tests point this at a local server)
+ *   OPENLIBRARY_BASE    alternate Open Library base URL (tests point this at a local server)
+ *   GOOGLE_BOOKS_BASE   alternate Google Books base URL
+ *   GOOGLE_BOOKS_API_KEY optional key; keyless requests from shared IPs are often rate-limited
+ *   NODE_USE_ENV_PROXY  set to 1 so fetch honours HTTPS_PROXY (the npm alias does this)
  */
 
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
@@ -44,6 +51,7 @@ const USER_AGENT = 'becca.is log-book (https://becca.is)';
 const SEARCH_FIELDS = 'key,title,author_name,isbn,cover_i,cover_edition_key,first_publish_year';
 /** Override for tests; the real API lives at https://openlibrary.org. */
 const OPENLIBRARY_BASE = process.env.OPENLIBRARY_BASE ?? 'https://openlibrary.org';
+const GOOGLE_BOOKS_BASE = process.env.GOOGLE_BOOKS_BASE ?? 'https://www.googleapis.com/books/v1';
 
 function usage(message) {
 	if (message) console.error(`Error: ${message}\n`);
@@ -65,6 +73,7 @@ function parseArgs(argv) {
 		related: [],
 		pick: 1,
 		slug: undefined,
+		private: undefined,
 		list: false,
 		dryRun: false,
 	};
@@ -111,6 +120,12 @@ function parseArgs(argv) {
 			}
 			case '--slug':
 				opts.slug = next();
+				break;
+			case '--private':
+				opts.private = true;
+				break;
+			case '--public':
+				opts.private = false;
 				break;
 			case '--list':
 				opts.list = true;
@@ -172,9 +187,15 @@ function fromSearchDoc(doc) {
 }
 
 async function searchByTitle(title, author) {
-	const params = new URLSearchParams({ title, fields: SEARCH_FIELDS, limit: '5' });
-	if (author) params.set('author', author);
-	const data = await fetchJson(`${OPENLIBRARY_BASE}/search.json?${params}`);
+	// Field search first (precise), then the general query, which tolerates
+	// articles and subtitles that the title field matches literally.
+	const exact = new URLSearchParams({ title, fields: SEARCH_FIELDS, limit: '5' });
+	if (author) exact.set('author', author);
+	let data = await fetchJson(`${OPENLIBRARY_BASE}/search.json?${exact}`);
+	if (!data.docs?.length) {
+		const fuzzy = new URLSearchParams({ q: [title, author].filter(Boolean).join(' '), fields: SEARCH_FIELDS, limit: '5' });
+		data = await fetchJson(`${OPENLIBRARY_BASE}/search.json?${fuzzy}`);
+	}
 	return (data.docs ?? []).map(fromSearchDoc);
 }
 
@@ -186,18 +207,49 @@ async function searchByIsbn(isbn) {
 	return docs.map((doc) => ({ ...doc, isbn }));
 }
 
+/** Google Books volume → the same shape as a search doc. No Open Library ids, so no cover. */
+function fromVolume(volume) {
+	const info = volume.volumeInfo ?? {};
+	const ids = info.industryIdentifiers ?? [];
+	const isbn13 = ids.find((id) => id.type === 'ISBN_13')?.identifier;
+	const isbn10 = ids.find((id) => id.type === 'ISBN_10')?.identifier;
+	return {
+		title: info.title,
+		author: Array.isArray(info.authors) ? info.authors.join(', ') : undefined,
+		isbn: isbn13 ?? isbn10,
+		year: info.publishedDate ? Number(String(info.publishedDate).slice(0, 4)) : undefined,
+		source: 'Google Books',
+	};
+}
+
+async function searchGoogleBooks({ title, author, isbn }) {
+	const q = isbn ? `isbn:${isbn}` : [title && `intitle:${title}`, author && `inauthor:${author}`].filter(Boolean).join(' ');
+	const params = new URLSearchParams({ q, maxResults: '5', printType: 'books' });
+	// A free API key lifts the strict keyless quota that shared IPs (CI, cloud sessions) hit.
+	if (process.env.GOOGLE_BOOKS_API_KEY) params.set('key', process.env.GOOGLE_BOOKS_API_KEY);
+	const data = await fetchJson(`${GOOGLE_BOOKS_BASE}/volumes?${params}`);
+	return (data.items ?? []).map(fromVolume).filter((candidate) => candidate.title);
+}
+
 function printCandidates(candidates) {
 	candidates.forEach((candidate, index) => {
-		const bits = [candidate.author, candidate.year, candidate.isbn && `ISBN ${candidate.isbn}`].filter(Boolean);
+		const bits = [candidate.author, candidate.year, candidate.isbn && `ISBN ${candidate.isbn}`, candidate.source].filter(Boolean);
 		console.log(`  ${index + 1}. ${candidate.title}${bits.length ? ` — ${bits.join(', ')}` : ''}`);
 	});
 }
 
 async function lookup(opts) {
 	try {
-		const candidates = opts.isbn ? await searchByIsbn(opts.isbn) : await searchByTitle(opts.title, opts.author);
+		let candidates = opts.isbn ? await searchByIsbn(opts.isbn) : await searchByTitle(opts.title, opts.author);
 		if (candidates.length === 0) {
-			console.warn('Open Library found nothing for that query; writing the entry without catalog ids.');
+			console.warn('Open Library has no record of this book; trying Google Books for the ISBN.');
+			candidates = await searchGoogleBooks(opts).catch((error) => {
+				console.warn(`Google Books lookup failed (${error.message}).`);
+				return [];
+			});
+		}
+		if (candidates.length === 0) {
+			console.warn('Nothing found; writing the entry without catalog ids.');
 			return null;
 		}
 		if (opts.list || candidates.length > 1) {
@@ -236,6 +288,7 @@ function serialize(front) {
 	push('startedOn', front.startedOn);
 	push('finishedOn', front.finishedOn);
 	push('format', front.format);
+	if (front.private === true || front.private === 'true') lines.push('private: true');
 	if (front.themes?.length) {
 		lines.push('themes:');
 		for (const theme of front.themes) lines.push(`  - ${theme}`);
@@ -320,6 +373,7 @@ async function main() {
 	if (existing) {
 		const front = applyStatus(existing.front, opts.status, date);
 		if (opts.format) front.format = opts.format;
+		if (opts.private !== undefined) front.private = opts.private;
 		for (const theme of opts.themes) if (!front.themes.includes(theme)) front.themes.push(theme);
 		for (const slug of opts.related) if (!front.related.includes(slug)) front.related.push(slug);
 		const output = `${serialize(front)}\n${existing.body}`;
@@ -328,7 +382,7 @@ async function main() {
 			return;
 		}
 		await writeFile(existing.file, output);
-		console.log(`Updated ${path.relative(process.cwd(), existing.file)} → ${opts.status}`);
+		console.log(`Updated ${path.relative(process.cwd(), existing.file)} → ${opts.status}${front.private === true ? ' (private)' : ''}`);
 		return;
 	}
 
@@ -346,6 +400,7 @@ async function main() {
 			openLibraryId: found?.openLibraryId,
 			openLibraryCoverId: found?.openLibraryCoverId,
 			format: opts.format,
+			private: opts.private,
 			themes: opts.themes,
 			related: opts.related,
 		},
@@ -364,8 +419,9 @@ async function main() {
 	}
 	await mkdir(dir, { recursive: true });
 	await writeFile(file, output, { flag: 'wx' });
-	console.log(`Wrote ${path.relative(process.cwd(), file)} (${opts.status})`);
-	if (!found) console.log('Add `isbn` or `openLibraryCoverId` later to pull in the cover.');
+	console.log(`Wrote ${path.relative(process.cwd(), file)} (${opts.status}${opts.private ? ', private' : ''})`);
+	if (!found?.openLibraryCoverId && !found?.isbn) console.log('Add `isbn` or `openLibraryCoverId` later to pull in the cover.');
+	else if (!found.openLibraryCoverId) console.log('Open Library may not have a cover for this ISBN yet; drop a `cover.jpg` next to index.md and set `cover: ./cover.jpg` if the tile shows.');
 	console.log('Add your notes below the frontmatter whenever you like.');
 }
 

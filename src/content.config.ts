@@ -159,6 +159,8 @@ const reading = defineCollection({
 				/** Same vocabulary as essay themes. */
 				themes: z.array(z.string()).optional().default([]),
 				draft: z.boolean().optional().default(false),
+				/** Kept in the log but never rendered, listed or linked on the site. */
+				private: z.boolean().optional().default(false),
 			})
 			.superRefine((data, ctx) => {
 				if (data.status === 'finished' && !data.finishedOn) {

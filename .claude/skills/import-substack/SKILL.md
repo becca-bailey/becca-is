@@ -12,7 +12,7 @@ description: Import essays from Becca's Substack (Performance Anxiety, beccabail
 1. **Find the post.**
 
    ```bash
-   node scripts/import-substack.mjs --list
+   npm run import -- --list
    ```
 
    This prints archive slugs not yet in `src/content/writing`. "Latest" means the first slug listed. If Becca named a post or pasted a URL, use that slug or URL directly and skip the list.
@@ -20,7 +20,7 @@ description: Import essays from Becca's Substack (Performance Anxiety, beccabail
 2. **Import it.**
 
    ```bash
-   node scripts/import-substack.mjs <slug-or-url>
+   npm run import -- <slug-or-url>
    ```
 
    Report which source the body came from (JSON API, RSS, or the public page) and any images it could not fetch. If the post is paid and the body cannot be read, say that `SUBSTACK_SID` (the `substack.sid` cookie) unlocks it and stop there rather than guessing.

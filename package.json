@@ -8,12 +8,12 @@
   "scripts": {
     "dev": "astro dev",
     "predev": "astro sync",
-    "build": "astro build",
+    "build": "NODE_USE_ENV_PROXY=1 astro build",
     "prebuild": "astro sync",
     "preview": "astro preview",
     "astro": "astro",
-    "import": "node scripts/import-substack.mjs",
-    "log-book": "node scripts/log-book.mjs"
+    "import": "NODE_USE_ENV_PROXY=1 node scripts/import-substack.mjs",
+    "log-book": "NODE_USE_ENV_PROXY=1 node scripts/log-book.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

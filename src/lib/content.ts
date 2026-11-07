@@ -280,10 +280,11 @@ function readingSortDate(entry: ReadingEntry) {
 	return (entry.data.finishedOn ?? entry.data.startedOn)?.valueOf() ?? 0;
 }
 
+/** Books that appear on the site: not drafts and not marked private. */
 export async function getPublishedReading() {
 	const entries = await getCollection('reading');
 	return entries
-		.filter((entry) => !entry.data.draft)
+		.filter((entry) => !entry.data.draft && !entry.data.private)
 		.sort((a, b) => readingSortDate(b) - readingSortDate(a));
 }
 
