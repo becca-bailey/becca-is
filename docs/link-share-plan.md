@@ -1,8 +1,8 @@
-# Link Share: Plan
+# Rabbit Hole: Plan
 
 A reading archive that happens to be shareable, not a sharing app that happens to keep a copy.
 
-This document is the working plan for a new project. It is written so that a Claude Code session can pick it up cold: the premise, the non-negotiables, the data model, the ranking rules, the research to do before building, and the order to build in. Working name is undecided; "the app" below means this product.
+This document is the working plan for a new project. It is written so that a Claude Code session can pick it up cold: the premise, the non-negotiables, the data model, the ranking rules, the research to do before building, and the order to build in. The product is called Rabbit Hole.
 
 ---
 
@@ -10,7 +10,7 @@ This document is the working plan for a new project. It is written so that a Cla
 
 People read things they love and have nowhere good to put them. Bookmark managers fail because managing the manager is a job. Social platforms turn sharing into performance and reading into scrolling.
 
-The app does three things, in this order:
+Rabbit Hole does three things, in this order:
 
 1. **Save.** Every link goes to the user's own archive first. Full text captured, searchable, never filed. Private by default, exportable always.
 2. **Share.** Optionally, the same save goes to one or more groups with a single sentence of why.
@@ -113,7 +113,7 @@ Private notes never leave the archive. Group recommendations never reveal a user
 
 ### Phase 4: Native and personal depth
 
-- iOS share extension ("Recommend on [app]"): Expo config plugin or Swift.
+- iOS share extension ("Recommend on Rabbit Hole"): Expo config plugin or Swift.
 - Archive clustering: themes over a user's saves, "what do I keep coming back to," surfaced only once the archive is large enough (roughly 100+ saves).
 - Year-end view: private, opt-in, exportable.
 - Community data story tooling: aggregate theme and source analysis for a group, for the owner to publish.
@@ -261,7 +261,7 @@ Written down now so the first request doesn't reopen it:
 
 ## 15. Open decisions
 
-- Product name.
+- Product name: Rabbit Hole (decided). Check trademark and App Store collisions, notably the NYT podcast of the same name, before launch.
 - Embeddings: self-hosted model vs API provider.
 - Native capture: Expo share extension vs Swift.
 - Default for recommender names in private groups (current lean: visible).
