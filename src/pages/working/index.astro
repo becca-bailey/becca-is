@@ -5,6 +5,7 @@ import RevealScript from '../../components/RevealScript.astro';
 import YarnDivider from '../../components/YarnDivider.astro';
 import { site } from '@/lib/site';
 import Illustration from '../../assets/working-home-office.svg';
+import DeskIllustration from '../../assets/working-desk.svg';
 
 const description =
 	'Friendly, practical tech help for makers, artists, independent shops, and other creative small businesses, from a software engineer with over a decade of experience.';
@@ -50,7 +51,14 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 		class="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
 	>
 		<div>
-			<h1 class="mb-6 text-balance md:mb-8">Friendly tech help for small creative businesses</h1>
+			<div class="mb-6 flex items-end gap-3 md:mb-8 md:block">
+				<h1 class="mb-0 flex-1 text-balance">Friendly tech help for small creative businesses</h1>
+
+				<!-- Mobile-only spot illustration; the full scene takes over from md up. -->
+				<div class="working-desk relative mb-1 w-24 shrink-0 md:hidden" aria-hidden="true">
+					<DeskIllustration class="relative h-auto w-full" />
+				</div>
+			</div>
 
 			<div class="reveal editorial-prose space-y-4 text-text-muted">
 				<p class="font-sans text-lg font-medium leading-relaxed text-text md:text-xl">
@@ -172,6 +180,15 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 </Layout>
 
 <style>
+	.working-desk::before {
+		/* Small peach wash, echoing the blob behind the desktop scene. */
+		content: '';
+		position: absolute;
+		inset: -0.875rem -0.5rem 0.625rem;
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--color-surface-accent) 45%, var(--color-background));
+	}
+
 	.working-illustration {
 		/* Peach wash behind the painter, softened toward the page background. */
 		--illustration-wash: color-mix(in srgb, var(--color-surface-accent) 45%, var(--color-background));
