@@ -1,0 +1,47 @@
+---
+/**
+ * A section divider: the usual hairline, interrupted by a small ball of yarn
+ * with a loose strand trailing off to the right.
+ */
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['relative my-12 md:my-16', className]} role="separator" aria-hidden="true">
+	<div class="border-t border-border"></div>
+	<svg
+		class="absolute left-1/2 top-1/2 h-11 w-auto -translate-x-1/2 -translate-y-1/2 bg-background px-3 box-content"
+		viewBox="0 0 132 44"
+		fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<defs>
+			<clipPath id="yarn-ball">
+				<circle cx="22" cy="22" r="16" />
+			</clipPath>
+		</defs>
+		<!-- ball -->
+		<circle cx="22" cy="22" r="16" fill="var(--color-heart)" />
+		<!-- windings: two sets of parallel bands wrapping the sphere -->
+		<g clip-path="url(#yarn-ball)" stroke="var(--color-heart-outline)" stroke-width="1.4">
+			<path d="M0 14 Q 22 26 44 10" />
+			<path d="M0 21 Q 22 33 44 17" />
+			<path d="M0 28 Q 22 40 44 24" />
+			<path d="M0 35 Q 22 47 44 31" />
+			<path d="M13 0 Q 30 22 10 44" />
+			<path d="M21 0 Q 38 22 18 44" />
+			<path d="M29 0 Q 46 22 26 44" />
+		</g>
+		<circle cx="22" cy="22" r="16" stroke="var(--color-heart-outline)" stroke-width="1.6" />
+		<!-- trailing strand -->
+		<path
+			d="M38 22c6 0 8-7 13-7s5 8 10 8 6-6 11-6 5 8 10 8 6-6 11-6 5 7 10 7 6-5 10-5"
+			stroke="var(--color-heart-outline)"
+			stroke-width="1.6"
+		/>
+	</svg>
+</div>

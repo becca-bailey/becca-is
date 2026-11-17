@@ -3,11 +3,18 @@ const writingTagline =
 
 export const site = {
   name: "Becca Bailey",
-  email: "beccanelsonbailey@gmail.com",
+  email: "hello@becca.is",
   url: "https://becca.is",
   /** Hero and about page tagline; also the about page meta description. */
   tagline:
     "I'm a software engineer, engineering leader, writer, and researcher. I use data, stories, and reporting to understand communities and the people inside them.",
+  /** Cal.com event links for /working. */
+  booking: {
+    discoveryCall: "https://cal.com/rebecca-bailey-xevm5o/20min",
+    techSupport: "https://cal.com/rebecca-bailey-xevm5o/60min",
+    /** Hourly rate for tech support sessions, paid at booking. */
+    techSupportRate: "$75/hour",
+  },
   links: {
     linkedin: "https://linkedin.com/in/beccamakesthings",
     github: "https://github.com/becca-bailey",

@@ -12,7 +12,6 @@ export default defineConfig({
   output: 'static',
 
   redirects: {
-    '/working': '/about',
     '/resumes': '/resume',
     '/resumes/developer-educator': '/resume',
     '/talks': '/speaking-and-writing',

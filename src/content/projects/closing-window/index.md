@@ -55,4 +55,4 @@ The interactive study presents the findings alongside the methods and checks beh
 
 ## Talk about this research
 
-I'm interested in expanding on this research, and in discussing the findings on podcasts or at conferences. If you'd like to commission a piece or talk about a possible project, [get in touch](mailto:beccanelsonbailey@gmail.com).
+I'm interested in expanding on this research, and in discussing the findings on podcasts or at conferences. If you'd like to commission a piece or talk about a possible project, [get in touch](mailto:hello@becca.is).
