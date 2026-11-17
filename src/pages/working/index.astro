@@ -18,7 +18,6 @@ const offerings = [
 		],
 		cta: 'Book a free discovery call',
 		href: site.booking.discoveryCall,
-		variant: 'secondary',
 	},
 	{
 		title: 'Tech support hotline',
@@ -30,7 +29,6 @@ const offerings = [
 		],
 		cta: 'Book a tech support session',
 		href: site.booking.techSupport,
-		variant: 'primary',
 	},
 	{
 		title: 'Projects & custom solutions',
@@ -39,11 +37,8 @@ const offerings = [
 			'Have something bigger in mind? I can help customize your online store, connect your business software, improve your website, or build something new.',
 			"We'll discuss what you need, agree on a scope and budget, and find a solution that makes sense for your business.",
 		],
-		cta: 'Book a free discovery call',
-		href: site.booking.discoveryCall,
-		variant: 'secondary',
 	},
-] as const;
+];
 
 const fieldClasses =
 	'w-full rounded-md border border-border-strong/40 bg-background px-3 py-2 font-sans text-base text-text placeholder:text-text-muted/70 focus-visible:border-focus-ring';
@@ -101,14 +96,20 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 								{offering.body.map((paragraph) => <p>{paragraph}</p>)}
 							</div>
 							<div class="mt-auto">
-								<Button
-									href={offering.href}
-									variant={offering.variant}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									{offering.cta}
-								</Button>
+								{
+									'cta' in offering ? (
+										<Button href={offering.href} target="_blank" rel="noopener noreferrer">
+											{offering.cta}
+										</Button>
+									) : (
+										<p class="font-sans text-sm leading-relaxed text-text-muted">
+											To get started, <a href="#ask">send me a message</a> or{' '}
+											<a href={site.booking.discoveryCall} target="_blank" rel="noopener noreferrer">
+												book a free discovery call
+											</a>.
+										</p>
+									)
+								}
 							</div>
 						</div>
 					</article>

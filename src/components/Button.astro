@@ -10,6 +10,8 @@ interface Props extends Omit<HTMLAttributes<'a'>, 'type'>, HTMLAttributes<'butto
 	size?: 'default' | 'sm';
 	href?: string;
 	disabled?: boolean;
+	/** Button behaviour when rendered as a <button>. */
+	type?: 'button' | 'submit' | 'reset';
 	/** Show trailing arrow. Defaults to true for primary and secondary. */
 	arrow?: boolean;
 	class?: string;
@@ -20,6 +22,7 @@ const {
 	size = 'default',
 	href,
 	disabled = false,
+	type = 'button',
 	arrow,
 	class: className,
 	...rest
@@ -36,7 +39,7 @@ const showArrow = arrow ?? (variant === 'primary' || variant === 'secondary');
 			{showArrow && <span aria-hidden="true">&rarr;</span>}
 		</a>
 	) : (
-		<button class={classes} disabled={disabled} type="button" {...rest}>
+		<button class={classes} disabled={disabled} type={type} {...rest}>
 			<slot />
 			{showArrow && <span aria-hidden="true">&rarr;</span>}
 		</button>

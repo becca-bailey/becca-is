@@ -33,11 +33,13 @@ export const site = {
   newsletterUrl:
     "https://beccabailey.substack.com/?utm_source=becca.is&utm_campaign=homepage",
   newsletterCta: "Subscribe on Substack",
-  contactHeading: "Work with me",
-  contactEngineering:
-    "I’m open to software engineering and technical leadership opportunities, too. If you have something in mind, I’d love to hear from you.",
+  contactHeading: "Get in touch",
   contactIntro:
-    "I’m interested in writing commissions and opportunities to expand on my existing research. I’m also available for talks and podcast interviews.",
+    "I’m interested in writing commissions and opportunities to expand on my existing research, and I’m available for talks and podcast interviews. I’m open to software engineering and technical leadership opportunities, too. If you have something in mind, I’d love to hear from you.",
+  /** Quiet pointer from the general contact panel to the tech-help page. */
+  contactTechHelp:
+    "Run a small creative business and need a hand with the technical side?",
+  contactTechHelpCta: "See how we can work together",
 } as const;
 
 export function mailto(email: string = site.email) {

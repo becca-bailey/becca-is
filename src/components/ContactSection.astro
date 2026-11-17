@@ -15,7 +15,15 @@ const { class: className } = Astro.props;
 	class={cn('reveal rounded-md border border-border bg-surface-accent/30 p-8 text-left shadow-soft', className)}
 >
 	<h2 class="mb-3">{site.contactHeading}</h2>
-	<p class="mb-4 max-w-prose text-text-muted">{site.contactIntro}</p>
-	<p class="mb-6 max-w-prose text-text-muted">{site.contactEngineering}</p>
+	<p class="mb-6 max-w-prose text-text-muted">{site.contactIntro}</p>
 	<Button href={mailto()}>Send an email</Button>
+	<p class="mt-8 max-w-prose font-sans text-sm text-text-muted">
+		{site.contactTechHelp}
+		<a
+			href="/working"
+			class="inline-block whitespace-nowrap font-medium text-text no-underline underline-offset-4 transition-colors hover:text-text-hover hover:underline"
+		>
+			{site.contactTechHelpCta} <span aria-hidden="true">&rarr;</span>
+		</a>
+	</p>
 </section>
