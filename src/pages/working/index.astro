@@ -1,0 +1,178 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import RevealScript from '../../components/RevealScript.astro';
+import { site } from '@/lib/site';
+import Illustration from '../../assets/working-home-office.svg';
+
+const description =
+	'Friendly, practical tech help for makers, artists, independent shops, and other creative small businesses, from a software engineer with over a decade of experience.';
+
+const offerings = [
+	{
+		title: "Let's talk",
+		meta: 'Free · 20-minute discovery call',
+		body: [
+			"Have a technical problem but aren't sure where to start? Let's talk about your business, what you're trying to accomplish, and whether I can help. No commitment, no sales pitch.",
+		],
+		cta: 'Book a free discovery call',
+		href: site.booking.discoveryCall,
+		variant: 'secondary',
+	},
+	{
+		title: 'Tech support hotline',
+		meta: `${site.booking.techSupportRate} · Video call or screen share`,
+		lead: 'Sometimes you just need a tech person to talk to.',
+		body: [
+			"Book a session and we'll work through your problem together. I can help troubleshoot an issue, walk you through a confusing setup, answer questions, or help you figure out your next steps.",
+			'No project proposal required. Just practical help when you need it.',
+		],
+		cta: 'Book a tech support session',
+		href: site.booking.techSupport,
+		variant: 'primary',
+	},
+	{
+		title: 'Projects & custom solutions',
+		meta: 'Flexible, project-based technical help',
+		body: [
+			'Have something bigger in mind? I can help customize your online store, connect your business software, improve your website, or build something new.',
+			"We'll discuss what you need, agree on a scope and budget, and find a solution that makes sense for your business.",
+		],
+		cta: 'Book a free discovery call',
+		href: site.booking.discoveryCall,
+		variant: 'secondary',
+	},
+] as const;
+
+const fieldClasses =
+	'w-full rounded-md border border-border-strong/40 bg-background px-3 py-2 font-sans text-base text-text placeholder:text-text-muted/70 focus-visible:border-focus-ring';
+const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
+---
+
+<Layout title="Work With Me — Becca Bailey" description={description}>
+	<section
+		class="mb-16 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
+	>
+		<div>
+			<h1 class="mb-6 text-balance md:mb-8">Friendly tech help for small creative businesses</h1>
+
+			<div class="reveal editorial-prose space-y-4 text-text-muted">
+				<p class="font-sans text-lg font-medium leading-relaxed text-text md:text-xl">
+					You have a business to run. You shouldn't have to become a software engineer to run it.
+				</p>
+				<p>
+					I help makers, artists, independent shops, and other creative small businesses solve
+					their everyday technology problems. Whether you're wrestling with an online store,
+					setting up a custom domain, connecting business tools, or trying to figure out why
+					something just stopped working, I'm here to help.
+				</p>
+				<p>
+					I'm a software engineer with over a decade of experience, and a maker myself. I offer
+					practical, approachable technical help without the big agency price tag.
+				</p>
+			</div>
+		</div>
+
+		<!-- Illustration by Katerina Limpitsouni, undraw.co -->
+		<div class="working-illustration hidden w-full justify-self-end md:block">
+			<Illustration class="h-auto w-full" role="img" aria-label="Illustration of a woman with pink hair working on a laptop at a desk, with a bookshelf and a potted plant" />
+		</div>
+	</section>
+
+
+	<section
+		class="reveal mb-16 border-t border-border pt-12 md:mb-24 md:pt-16"
+		aria-labelledby="offerings-heading"
+	>
+		<h2 id="offerings-heading" class="mb-8">How we can work together</h2>
+		<div class="grid gap-6 lg:grid-cols-3">
+			{
+				offerings.map((offering) => (
+					<article class="card">
+						<div class="card-body">
+							<h3 class="card-title text-xl">{offering.title}</h3>
+							<p class="card-meta">{offering.meta}</p>
+							{'lead' in offering && (
+								<p class="mb-3 font-sans text-base font-medium leading-relaxed text-text">
+									{offering.lead}
+								</p>
+							)}
+							<div class="mb-6 space-y-3 font-sans text-base leading-relaxed text-text-muted">
+								{offering.body.map((paragraph) => <p>{paragraph}</p>)}
+							</div>
+							<div class="mt-auto">
+								<Button
+									href={offering.href}
+									variant={offering.variant}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									{offering.cta}
+								</Button>
+							</div>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<section
+		id="ask"
+		class="reveal rounded-md border border-border bg-surface-accent/30 p-8 shadow-soft"
+		aria-labelledby="ask-heading"
+	>
+		<h2 id="ask-heading" class="mb-3">Not sure if your problem is something I can help with?</h2>
+		<p class="mb-6 max-w-prose text-text-muted">
+			Ask me! I'm happy to take a look and let you know whether I can help. And if I'm
+			not the right person, I'll do my best to point you in the right direction.
+		</p>
+
+		<form
+			name="working-contact"
+			method="POST"
+			action="/working/thanks"
+			data-netlify="true"
+			netlify-honeypot="bot-field"
+			class="max-w-[40rem] space-y-5"
+		>
+			<input type="hidden" name="form-name" value="working-contact" />
+			<p class="hidden">
+				<label>Don't fill this out if you're human: <input name="bot-field" /></label>
+			</p>
+
+			<div class="grid gap-5 sm:grid-cols-2">
+				<div>
+					<label for="contact-name" class={labelClasses}>Name</label>
+					<input id="contact-name" name="name" type="text" required autocomplete="name" class={fieldClasses} />
+				</div>
+				<div>
+					<label for="contact-email" class={labelClasses}>Email</label>
+					<input id="contact-email" name="email" type="email" required autocomplete="email" class={fieldClasses} />
+				</div>
+			</div>
+
+			<div>
+				<label for="contact-message" class={labelClasses}>What's going on?</label>
+				<textarea
+					id="contact-message"
+					name="message"
+					required
+					rows="5"
+					placeholder="Tell me a little about your business and the problem you're running into."
+					class={fieldClasses}></textarea>
+			</div>
+
+			<Button type="submit">Send</Button>
+		</form>
+	</section>
+
+	<RevealScript />
+</Layout>
+
+<style>
+	.working-illustration {
+		/* Peach wash behind the painter, softened toward the page background. */
+		--illustration-wash: color-mix(in srgb, var(--color-surface-accent) 45%, var(--color-background));
+	}
+</style>

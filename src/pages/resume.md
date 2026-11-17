@@ -9,7 +9,7 @@ Seattle, WA
 
 [becca.is](https://becca.is) · [linkedin.com/in/beccamakesthings](https://linkedin.com/in/beccamakesthings)
 
-beccanelsonbailey@gmail.com
+hello@becca.is
 
 ---
 

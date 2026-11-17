@@ -13,7 +13,7 @@ import {site} from "@/lib/site";
     <h1 class="mb-6 md:mb-8">About</h1>
 
     <section
-      class="reveal mb-12 grid gap-8 md:mb-16 md:grid-cols-[minmax(0,1fr)_min(380px,38%)] md:items-start md:gap-10 lg:gap-12"
+      class="reveal mb-16 grid gap-8 md:mb-20 md:grid-cols-[minmax(0,1fr)_min(380px,38%)] md:items-start md:gap-10 lg:gap-12"
     >
       <div class="max-w-prose editorial-prose space-y-4 text-text-muted">
         <p
@@ -61,8 +61,8 @@ import {site} from "@/lib/site";
       </figure>
     </section>
 
-    <div class="max-w-prose">
-      <section class="reveal mb-12">
+    <div class="mb-16 border-t border-border pt-12 md:mb-24 md:pt-16">
+      <section class="reveal max-w-prose">
         <h2 class="mb-6">Writing &amp; research</h2>
         <div class="editorial-prose space-y-4 text-text-muted">
           <p>
@@ -98,6 +98,6 @@ import {site} from "@/lib/site";
       </section>
     </div>
   </div>
-  <ContactSection class="mt-12 md:mt-16" />
+  <ContactSection />
   <RevealScript />
 </Layout>
