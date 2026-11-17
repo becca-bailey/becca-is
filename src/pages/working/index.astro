@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import RevealScript from '../../components/RevealScript.astro';
+import YarnDivider from '../../components/YarnDivider.astro';
 import { site } from '@/lib/site';
 import Illustration from '../../assets/working-home-office.svg';
 
@@ -51,7 +52,7 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 
 <Layout title="Work With Me — Becca Bailey" description={description}>
 	<section
-		class="mb-16 grid gap-6 md:mb-20 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
+		class="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 lg:gap-12"
 	>
 		<div>
 			<h1 class="mb-6 text-balance md:mb-8">Friendly tech help for small creative businesses</h1>
@@ -80,10 +81,9 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 	</section>
 
 
-	<section
-		class="reveal mb-16 border-t border-border pt-12 md:mb-24 md:pt-16"
-		aria-labelledby="offerings-heading"
-	>
+	<YarnDivider />
+
+	<section class="reveal mb-16 md:mb-24" aria-labelledby="offerings-heading">
 		<h2 id="offerings-heading" class="mb-8">How we can work together</h2>
 		<div class="grid gap-6 lg:grid-cols-3">
 			{
@@ -129,14 +129,14 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 		</p>
 
 		<form
-			name="working-contact"
+			name="contact"
 			method="POST"
 			action="/working/thanks"
 			data-netlify="true"
 			netlify-honeypot="bot-field"
 			class="max-w-[40rem] space-y-5"
 		>
-			<input type="hidden" name="form-name" value="working-contact" />
+			<input type="hidden" name="form-name" value="contact" />
 			<p class="hidden">
 				<label>Don't fill this out if you're human: <input name="bot-field" /></label>
 			</p>
