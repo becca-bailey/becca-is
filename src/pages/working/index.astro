@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import RevealScript from '../../components/RevealScript.astro';
 import YarnDivider from '../../components/YarnDivider.astro';
-import { site } from '@/lib/site';
+import { mailto, site } from '@/lib/site';
 import Illustration from '../../assets/working-home-office.svg';
 import DeskIllustration from '../../assets/working-desk.svg';
 
@@ -128,14 +128,19 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 
 	<section
 		id="ask"
-		class="reveal rounded-md border border-border bg-surface-accent/30 p-8 shadow-soft"
+		class="reveal grid gap-8 rounded-md border border-border bg-surface-accent/30 p-6 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12"
 		aria-labelledby="ask-heading"
 	>
-		<h2 id="ask-heading" class="mb-3">Not sure if your problem is something I can help with?</h2>
-		<p class="mb-6 max-w-prose text-text-muted">
-			Ask me! I'm happy to take a look and let you know whether I can help. And if I'm
-			not the right person, I'll do my best to point you in the right direction.
-		</p>
+		<div>
+			<h2 id="ask-heading" class="mb-3 text-balance">Not sure if your problem is something I can help with?</h2>
+			<p class="mb-6 text-text-muted">
+				Ask me! I'm happy to take a look and let you know whether I can help. And if I'm
+				not the right person, I'll do my best to point you in the right direction.
+			</p>
+			<p class="font-sans text-sm leading-relaxed text-text-muted">
+				Prefer email? Write to <a href={mailto()}>{site.email}</a>.
+			</p>
+		</div>
 
 		<form
 			name="contact"
@@ -143,7 +148,7 @@ const labelClasses = 'mb-1.5 block font-sans text-sm font-medium text-text';
 			action="/working/thanks"
 			data-netlify="true"
 			netlify-honeypot="bot-field"
-			class="max-w-[40rem] space-y-5"
+			class="space-y-5"
 		>
 			<input type="hidden" name="form-name" value="contact" />
 			<p class="hidden">
